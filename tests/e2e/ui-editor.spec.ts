@@ -257,7 +257,7 @@ test.describe('editor', () => {
     await page.keyboard.press('Enter');
     await expect(page.locator('.eg-group')).toHaveCount(2);
     await expect(page.getByRole('separator', { name: 'Resize editor groups' })).toBeVisible();
-    await page.locator('.eg-group').nth(1).locator('[aria-label="Close server.ts"]').click();
+    await page.locator('.eg-group').nth(1).getByTestId('tab-close-server.ts').click();
     await expect(page.locator('.eg-group').nth(1).locator('[role="tab"]')).toHaveCount(0);
     await expect(tab(page, 'server.ts')).toHaveCount(1);
   });

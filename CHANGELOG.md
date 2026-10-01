@@ -17,4 +17,6 @@ First public version. The release date is set when the version is tagged.
 - Workspace trust with Restricted Mode, layered settings (defaults, user, workspace, administrator policy) and an administrator policy file that can lock settings and switch features off.
 - Four colour themes built on one design token system, with keyboard access and visible focus throughout, targeting WCAG 2.2 AA.
 - No telemetry and no network access: all `http`, `https`, `ws`, `wss` and `ftp` requests from web content are blocked.
+- Accessibility checks with axe-core across the main views in all four themes, run as part of the end-to-end suite.
+- Reference documentation: README, administrator guide, packaging and release guides, and generated settings and keyboard shortcut references (`npm run docs`).
 - Release engineering: a watch-mode development runner, a production packaging script with a smoke test of the packaged app, a third-party license inventory that generates `THIRD_PARTY_NOTICES.md`, an icon generator, continuous integration on Windows, macOS and Linux, and a tag-triggered release workflow that publishes archives, SHA-256 checksums and a CycloneDX SBOM.

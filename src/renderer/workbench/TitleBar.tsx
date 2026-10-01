@@ -30,10 +30,10 @@ export function TitleBar() {
 
   return (
     <header className="wb-titlebar" data-platform={isMac ? 'mac' : 'other'}>
-      <div className="wb-brand" aria-label=".inc">
+      <h1 className="wb-brand">
         <span className="wb-brand-dot" aria-hidden="true" />
         <span className="wb-brand-name">.inc</span>
-      </div>
+      </h1>
 
       {!isMac && (
         <div

@@ -71,7 +71,7 @@ const SettingRow = memo(function SettingRow({ row, scope, policyNotice }: RowPro
       data-key={def.key}
     >
       <div className="srow-text">
-        <h3 className="srow-title">
+        <h2 className="srow-title">
           {row.locked && <Icon name="lock" size={14} className="srow-lock" label="Managed" />}
           <span className="srow-prefix">{prefix}:</span>
           <span className="srow-name">{name}</span>
@@ -86,7 +86,7 @@ const SettingRow = memo(function SettingRow({ row, scope, policyNotice }: RowPro
               />
             </span>
           )}
-        </h3>
+        </h2>
         <p className="srow-description">{def.description}</p>
         {row.locked && (
           <p className="srow-managed">

@@ -447,3 +447,7 @@
 .trust-list li {
   margin-top: 2px;
 }
+
+.settings-nav-item.is-selected .settings-nav-count {
+  color: var(--text-secondary);
+}

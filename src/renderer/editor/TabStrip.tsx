@@ -245,21 +245,24 @@ export function TabStrip({ group, groupActive }: { group: Group; groupActive: bo
                 <Icon name={view.icon} size={14} className="eg-tab-icon" />
               )}
               <span className="eg-tab-label">{view.label}</span>
+              {view.dirty && <span className="sr-only">(unsaved changes)</span>}
               {view.description && <span className="eg-tab-dir">{view.description}</span>}
-              <button
-                type="button"
+              {/* A mouse affordance only: a button inside a tab is nested interactive content.
+                  Keyboard users close with Delete or the close commands. */}
+              <span
+                role="presentation"
+                aria-hidden="true"
                 className="eg-tab-close"
-                tabIndex={-1}
-                aria-label={`Close ${view.label}${view.dirty ? ' (unsaved changes)' : ''}`}
+                data-testid={`tab-close-${view.label}`}
                 onClick={(e) => {
                   e.stopPropagation();
                   void runtime().closeTab(group.id, view.tab.id);
                 }}
                 onDoubleClick={(e) => e.stopPropagation()}
               >
-                <span className="eg-tab-dot" aria-hidden="true" />
+                <span className="eg-tab-dot" />
                 <Icon name="close" size={14} className="eg-tab-x" />
-              </button>
+              </span>
             </div>
           );
           return view.fullPath ? (

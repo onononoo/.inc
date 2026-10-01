@@ -109,7 +109,14 @@ export async function launchInc(options: LaunchOptions = {}): Promise<IncInstanc
         new Promise<boolean>((resolve) => setTimeout(() => resolve(false), 15_000)),
       ]);
       if (!exited) app.process().kill();
-      if (!options.userDataDir) rmSync(userDataDir, { recursive: true, force: true });
+      if (!options.userDataDir) {
+        // Windows keeps a lock on a few files for a moment after the processes exit.
+        try {
+          rmSync(userDataDir, { recursive: true, force: true, maxRetries: 20, retryDelay: 250 });
+        } catch {
+          /* a leftover temporary folder must not fail the test */
+        }
+      }
     },
   };
 }
