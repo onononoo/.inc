@@ -59,7 +59,7 @@
     "prettier": "^3.9.9",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "typescript": "~5.9.3",
+    "typescript": "~7.0.2",
     "typescript-eslint": "^8.71.0",
     "vitest": "^5.0.2",
     "zustand": "^5.0.15"
