@@ -1,0 +1,566 @@
+/*
+  .inc design tokens - "Graphite"
+  ---------------------------------------------------------------------------
+  Cool slate neutrals, one cobalt accent, 2px control radii, 1px hairlines.
+  Four themes: light (default), dark, hc-light, hc-dark. Select with
+  <html data-theme="light|dark|hc-light|hc-dark">. Without the attribute the
+  light theme applies.
+
+  Rules of use
+    - Components consume tokens only. No raw hex, rgb() or px colours in
+      component CSS.
+    - Every colour pairing is measured by the contrast script and recorded in
+      docs/contrast-report.md. Change a value, re-run the script.
+    - src/renderer/monaco/themes.ts mirrors these values as hex because Monaco
+      cannot read custom properties. Keep the two in sync.
+    - Translucent fills (--state-*, --editor-selection ...) are designed to sit
+      on the named surface for that area. Do not stack them on unrelated
+      surfaces.
+*/
+
+/* ========================================================================
+   Shared, theme-independent tokens
+   ======================================================================== */
+:root,
+:root[data-theme="light"],
+:root[data-theme="dark"],
+:root[data-theme="hc-light"],
+:root[data-theme="hc-dark"] {
+  /* Type */
+  --font-ui: "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", sans-serif;
+  --font-mono: "Cascadia Code", "SF Mono", Consolas, Menlo, monospace;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-md: 13px;
+  --font-size-lg: 15px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --line-height-ui: 20px;
+
+  /* Space: strict 4px grid */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+
+  /* Shape */
+  --radius-sm: 2px; /* controls: buttons, inputs, tabs, badges, list rows */
+  --radius-md: 4px; /* floating surfaces: menus, toasts, palette */
+  --radius-lg: 6px; /* modal dialogs only */
+
+  /* Motion */
+  --motion-fast: 80ms;
+  --motion-base: 140ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0.38, 0.9);
+
+  /* Layout metrics */
+  --titlebar-height: 36px;
+  --activitybar-width: 48px;
+  --sidebar-width: 264px;
+  --tab-height: 36px;
+  --breadcrumb-height: 24px;
+  --panel-header-height: 32px;
+  --statusbar-height: 24px;
+  --row-height: 24px;
+  --editor-line-height: 20px;
+
+  /* ---- Extended tokens (not part of the base contract) ---- */
+  --icon-size: 16px;
+  --icon-stroke: 1.5;
+  --scrollbar-size: 10px;
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root,
+  :root[data-theme="light"],
+  :root[data-theme="dark"],
+  :root[data-theme="hc-light"],
+  :root[data-theme="hc-dark"] {
+    --motion-fast: 0ms;
+    --motion-base: 0ms;
+  }
+}
+
+/* ========================================================================
+   Light
+   ======================================================================== */
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  /* Surfaces: chrome < sidebar < editor, raised on top */
+  --surface-app: #dde2e8;
+  --surface-titlebar: #e9ecf0;
+  --surface-activitybar: #e9ecf0;
+  --surface-sidebar: #f1f3f6;
+  --surface-editor: #f8f9fb;
+  --surface-panel: #f8f9fb;
+  --surface-statusbar: #e9ecf0;
+  --surface-raised: #ffffff;
+  --surface-input: #ffffff;
+  --surface-scrim: rgba(20, 28, 40, 0.38);
+
+  /* Interaction fills (translucent, valid on any surface) */
+  --state-hover: rgba(27, 35, 48, 0.055);
+  --state-active: rgba(27, 35, 48, 0.1);
+  --state-selected: rgba(27, 35, 48, 0.09);
+  --state-selected-focus: rgba(31, 95, 209, 0.14);
+
+  /* Borders: subtle = structure (decorative), default/strong = component edges (3:1+) */
+  --border-subtle: #dbe0e6;
+  --border-default: #788393;
+  --border-strong: #525d6e;
+  --border-focus: #1f5fd1;
+
+  /* Text */
+  --text-primary: #1b2330;
+  --text-secondary: #445062;
+  --text-tertiary: #5a6677;
+  --text-inverse: #f8f9fb;
+  --text-link: #1a56c0;
+  --text-on-accent: #ffffff;
+
+  /* Accent: cobalt */
+  --accent: #1f5fd1;
+  --accent-hover: #184fb3;
+  --accent-active: #124095;
+  --accent-subtle: #e2ebfb;
+
+  /* Status */
+  --status-error: #b3261e;
+  --status-warning: #8a5a00;
+  --status-info: #1a5bb8;
+  --status-success: #1b7a43;
+  --status-error-bg: #fbe8e7;
+  --status-warning-bg: #fbf0d9;
+  --status-info-bg: #e3edfb;
+  --status-success-bg: #e1f3e8;
+
+  /* Git decorations (muted) */
+  --git-added: #23703f;
+  --git-modified: #7d5c0e;
+  --git-deleted: #ab3b3d;
+  --git-untracked: #196d62;
+  --git-conflict: #9d491d;
+  --git-ignored: #59626f;
+
+  /* Editor */
+  --editor-line-highlight: rgba(27, 35, 48, 0.045);
+  --editor-selection: rgba(31, 95, 209, 0.2);
+  --editor-selection-inactive: rgba(27, 35, 48, 0.1);
+  --editor-cursor: #1b2330;
+  --editor-gutter-fg: #66727f;
+  --editor-gutter-fg-active: #1b2330;
+  --editor-indent-guide: rgba(27, 35, 48, 0.1);
+  --editor-indent-guide-active: rgba(27, 35, 48, 0.3);
+  --editor-find-match: rgba(214, 150, 20, 0.34);
+  --editor-bracket-match: rgba(31, 95, 209, 0.2);
+
+  /* Syntax */
+  --syntax-comment: #535f6d;
+  --syntax-keyword: #1f4fc0;
+  --syntax-string: #1a6c3f;
+  --syntax-number: #8f4d0f;
+  --syntax-function: #0b667d;
+  --syntax-type: #6a44b0;
+  --syntax-variable: #263041;
+  --syntax-constant: #a0401d;
+  --syntax-operator: #465264;
+  --syntax-punctuation: #535f70;
+  --syntax-tag: #1a5bb8;
+  --syntax-attribute: #81550a;
+
+  /* Terminal */
+  --terminal-bg: #f8f9fb;
+  --terminal-fg: #263041;
+  --terminal-cursor: #1b2330;
+  --terminal-selection: rgba(31, 95, 209, 0.2);
+  --ansi-black: #263041;
+  --ansi-red: #b3261e;
+  --ansi-green: #1b7042;
+  --ansi-yellow: #85600a;
+  --ansi-blue: #1f55c4;
+  --ansi-magenta: #8a3fb0;
+  --ansi-cyan: #0b6a82;
+  --ansi-white: #5b6677;
+  --ansi-bright-black: #566173;
+  --ansi-bright-red: #c23a33;
+  --ansi-bright-green: #237a4b;
+  --ansi-bright-yellow: #96690a;
+  --ansi-bright-blue: #2f63d6;
+  --ansi-bright-magenta: #9a4cc2;
+  --ansi-bright-cyan: #14778f;
+  --ansi-bright-white: #3d4858;
+
+  /* Elevation: flat surfaces, borders do the work, shadows stay small */
+  --shadow-raised: 0 1px 2px rgba(20, 28, 40, 0.1), 0 2px 6px rgba(20, 28, 40, 0.08);
+  --shadow-modal: 0 4px 16px rgba(20, 28, 40, 0.16), 0 1px 3px rgba(20, 28, 40, 0.12);
+
+  /* ---- Extended tokens ---- */
+  --scrollbar-thumb: rgba(27, 35, 48, 0.5);
+  --scrollbar-thumb-hover: rgba(27, 35, 48, 0.62);
+  --scrollbar-thumb-active: rgba(27, 35, 48, 0.76);
+  --scrollbar-track: transparent;
+  --diff-added-bg: rgba(35, 112, 63, 0.12);
+  --diff-removed-bg: rgba(171, 59, 61, 0.12);
+  --minimap-slider: rgba(27, 35, 48, 0.1);
+  --toggle-off: #788393;
+}
+
+/* ========================================================================
+   Dark
+   ======================================================================== */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --surface-app: #0e1114;
+  --surface-titlebar: #121519;
+  --surface-activitybar: #121519;
+  --surface-sidebar: #171b20;
+  --surface-editor: #1b2026;
+  --surface-panel: #1b2026;
+  --surface-statusbar: #121519;
+  --surface-raised: #232a32;
+  --surface-input: #12161a;
+  --surface-scrim: rgba(6, 8, 11, 0.62);
+
+  --state-hover: rgba(255, 255, 255, 0.05);
+  --state-active: rgba(255, 255, 255, 0.09);
+  --state-selected: rgba(148, 163, 184, 0.16);
+  --state-selected-focus: rgba(76, 141, 255, 0.24);
+
+  --border-subtle: #272e36;
+  --border-default: #6b7583;
+  --border-strong: #8994a3;
+  --border-focus: #6aa3ff;
+
+  --text-primary: #e6eaf0;
+  --text-secondary: #aab4c1;
+  --text-tertiary: #8b96a5;
+  --text-inverse: #12161a;
+  --text-link: #7fb0ff;
+  --text-on-accent: #0a111c;
+
+  --accent: #4c8dff;
+  --accent-hover: #6aa3ff;
+  --accent-active: #3d7ae6;
+  --accent-subtle: #1b2e4f;
+
+  --status-error: #f28083;
+  --status-warning: #e0b45a;
+  --status-info: #7db4f2;
+  --status-success: #5ec08c;
+  --status-error-bg: #3b2226;
+  --status-warning-bg: #392f1c;
+  --status-info-bg: #1b2d45;
+  --status-success-bg: #1c3527;
+
+  --git-added: #74b98b;
+  --git-modified: #cbaa6a;
+  --git-deleted: #d48586;
+  --git-untracked: #62b5a5;
+  --git-conflict: #dc8b5d;
+  --git-ignored: #929ba8;
+
+  --editor-line-highlight: rgba(255, 255, 255, 0.04);
+  --editor-selection: rgba(76, 141, 255, 0.2);
+  --editor-selection-inactive: rgba(255, 255, 255, 0.1);
+  --editor-cursor: #e6eaf0;
+  --editor-gutter-fg: #7f8b9b;
+  --editor-gutter-fg-active: #d0d6de;
+  --editor-indent-guide: rgba(255, 255, 255, 0.08);
+  --editor-indent-guide-active: rgba(255, 255, 255, 0.24);
+  --editor-find-match: rgba(224, 176, 84, 0.36);
+  --editor-bracket-match: rgba(76, 141, 255, 0.3);
+
+  --syntax-comment: #94a1b0;
+  --syntax-keyword: #8fb0f5;
+  --syntax-string: #8dc9a3;
+  --syntax-number: #d9a877;
+  --syntax-function: #7fc4d6;
+  --syntax-type: #b8a4e3;
+  --syntax-variable: #d5dbe3;
+  --syntax-constant: #e3a98c;
+  --syntax-operator: #aab4c1;
+  --syntax-punctuation: #9aa5b3;
+  --syntax-tag: #79b0f2;
+  --syntax-attribute: #d8b878;
+
+  --terminal-bg: #1b2026;
+  --terminal-fg: #d0d6de;
+  --terminal-cursor: #e6eaf0;
+  --terminal-selection: rgba(76, 141, 255, 0.2);
+  --ansi-black: #38414b;
+  --ansi-red: #f0787c;
+  --ansi-green: #7fc79a;
+  --ansi-yellow: #e0b865;
+  --ansi-blue: #6fa5f5;
+  --ansi-magenta: #c39ae8;
+  --ansi-cyan: #63c3d3;
+  --ansi-white: #c8cfd8;
+  --ansi-bright-black: #8792a1;
+  --ansi-bright-red: #ff9a9e;
+  --ansi-bright-green: #9bddb2;
+  --ansi-bright-yellow: #f2ce85;
+  --ansi-bright-blue: #92bdff;
+  --ansi-bright-magenta: #d9b8f5;
+  --ansi-bright-cyan: #86d9e6;
+  --ansi-bright-white: #f0f3f7;
+
+  --shadow-raised: 0 1px 2px rgba(0, 0, 0, 0.32), 0 2px 6px rgba(0, 0, 0, 0.24);
+  --shadow-modal: 0 4px 16px rgba(0, 0, 0, 0.44), 0 1px 3px rgba(0, 0, 0, 0.32);
+
+  /* ---- Extended tokens ---- */
+  --scrollbar-thumb: rgba(255, 255, 255, 0.36);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.5);
+  --scrollbar-thumb-active: rgba(255, 255, 255, 0.66);
+  --scrollbar-track: transparent;
+  --diff-added-bg: rgba(116, 185, 139, 0.14);
+  --diff-removed-bg: rgba(212, 133, 134, 0.14);
+  --minimap-slider: rgba(255, 255, 255, 0.1);
+  --toggle-off: #66717f;
+}
+
+/* ========================================================================
+   High contrast light
+   Pure white surfaces, solid 1px strong borders, text >= 7:1, 2px focus ring.
+   ======================================================================== */
+:root[data-theme="hc-light"] {
+  color-scheme: light;
+
+  --surface-app: #ffffff;
+  --surface-titlebar: #ffffff;
+  --surface-activitybar: #ffffff;
+  --surface-sidebar: #ffffff;
+  --surface-editor: #ffffff;
+  --surface-panel: #ffffff;
+  --surface-statusbar: #ffffff;
+  --surface-raised: #ffffff;
+  --surface-input: #ffffff;
+  --surface-scrim: rgba(0, 0, 0, 0.6);
+
+  --state-hover: rgba(0, 0, 0, 0.06);
+  --state-active: rgba(0, 0, 0, 0.16);
+  --state-selected: rgba(0, 0, 0, 0.09);
+  --state-selected-focus: rgba(11, 63, 168, 0.18);
+
+  --border-subtle: #6b7380;
+  --border-default: #3d4652;
+  --border-strong: #000000;
+  --border-focus: #0b3fa8;
+
+  --text-primary: #000000;
+  --text-secondary: #1a1f27;
+  --text-tertiary: #3a424e;
+  --text-inverse: #ffffff;
+  --text-link: #0a3690;
+  --text-on-accent: #ffffff;
+
+  --accent: #0b3fa8;
+  --accent-hover: #082f80;
+  --accent-active: #062266;
+  --accent-subtle: #dbe6fb;
+
+  --status-error: #9e0d0d;
+  --status-warning: #6b4400;
+  --status-info: #0a3f9e;
+  --status-success: #0d5b2d;
+  --status-error-bg: #fde8e8;
+  --status-warning-bg: #fdf1d6;
+  --status-info-bg: #e1ecfc;
+  --status-success-bg: #dff3e6;
+
+  --git-added: #13562e;
+  --git-modified: #634600;
+  --git-deleted: #911d20;
+  --git-untracked: #0c554b;
+  --git-conflict: #7e350f;
+  --git-ignored: #434c58;
+
+  --editor-line-highlight: rgba(0, 0, 0, 0.06);
+  --editor-selection: rgba(11, 63, 168, 0.24);
+  --editor-selection-inactive: rgba(0, 0, 0, 0.14);
+  --editor-cursor: #000000;
+  --editor-gutter-fg: #3a424e;
+  --editor-gutter-fg-active: #000000;
+  --editor-indent-guide: rgba(0, 0, 0, 0.25);
+  --editor-indent-guide-active: rgba(0, 0, 0, 0.6);
+  --editor-find-match: rgba(255, 190, 0, 0.45);
+  --editor-bracket-match: rgba(11, 63, 168, 0.24);
+
+  --syntax-comment: #46505e;
+  --syntax-keyword: #0a3694;
+  --syntax-string: #0d5c2e;
+  --syntax-number: #7a3a00;
+  --syntax-function: #005669;
+  --syntax-type: #55309a;
+  --syntax-variable: #0b0f16;
+  --syntax-constant: #8a2e0d;
+  --syntax-operator: #2a323e;
+  --syntax-punctuation: #3a424e;
+  --syntax-tag: #0a3694;
+  --syntax-attribute: #6b4400;
+
+  --terminal-bg: #ffffff;
+  --terminal-fg: #000000;
+  --terminal-cursor: #000000;
+  --terminal-selection: rgba(11, 63, 168, 0.24);
+  --ansi-black: #000000;
+  --ansi-red: #a10d0d;
+  --ansi-green: #0d5c2e;
+  --ansi-yellow: #6b4400;
+  --ansi-blue: #0a3694;
+  --ansi-magenta: #7a1f99;
+  --ansi-cyan: #005669;
+  --ansi-white: #4a5563;
+  --ansi-bright-black: #3f4855;
+  --ansi-bright-red: #a80f0f;
+  --ansi-bright-green: #0f6231;
+  --ansi-bright-yellow: #704800;
+  --ansi-bright-blue: #0c3c9c;
+  --ansi-bright-magenta: #8020a0;
+  --ansi-bright-cyan: #005c72;
+  --ansi-bright-white: #262d38;
+
+  --shadow-raised: none;
+  --shadow-modal: none;
+
+  /* ---- Extended tokens ---- */
+  --scrollbar-thumb: rgba(0, 0, 0, 0.62);
+  --scrollbar-thumb-hover: rgba(0, 0, 0, 0.78);
+  --scrollbar-thumb-active: rgba(0, 0, 0, 0.92);
+  --scrollbar-track: transparent;
+  --diff-added-bg: rgba(20, 89, 47, 0.16);
+  --diff-removed-bg: rgba(156, 31, 34, 0.16);
+  --minimap-slider: rgba(0, 0, 0, 0.14);
+  --toggle-off: #3d4652;
+}
+
+/* ========================================================================
+   High contrast dark
+   Pure black surfaces, solid 1px strong borders, text >= 7:1, 2px focus ring.
+   ======================================================================== */
+:root[data-theme="hc-dark"] {
+  color-scheme: dark;
+
+  --surface-app: #000000;
+  --surface-titlebar: #000000;
+  --surface-activitybar: #000000;
+  --surface-sidebar: #000000;
+  --surface-editor: #000000;
+  --surface-panel: #000000;
+  --surface-statusbar: #000000;
+  --surface-raised: #000000;
+  --surface-input: #000000;
+  --surface-scrim: rgba(0, 0, 0, 0.75);
+
+  --state-hover: rgba(255, 255, 255, 0.14);
+  --state-active: rgba(255, 255, 255, 0.24);
+  --state-selected: rgba(255, 255, 255, 0.18);
+  --state-selected-focus: rgba(111, 168, 255, 0.32);
+
+  --border-subtle: #6b7380;
+  --border-default: #b4bcc8;
+  --border-strong: #ffffff;
+  --border-focus: #8ab8ff;
+
+  --text-primary: #ffffff;
+  --text-secondary: #e4e8ee;
+  --text-tertiary: #c5ccd6;
+  --text-inverse: #000000;
+  --text-link: #a3c7ff;
+  --text-on-accent: #000000;
+
+  --accent: #6fa8ff;
+  --accent-hover: #8ab8ff;
+  --accent-active: #a5c8ff;
+  --accent-subtle: #0d2247;
+
+  --status-error: #ff9a9e;
+  --status-warning: #f2c96a;
+  --status-info: #8ab8ff;
+  --status-success: #7fdca0;
+  --status-error-bg: #2b0a0c;
+  --status-warning-bg: #2a1f00;
+  --status-info-bg: #06183a;
+  --status-success-bg: #04240f;
+
+  --git-added: #8fd6a5;
+  --git-modified: #e6c27a;
+  --git-deleted: #f1a9aa;
+  --git-untracked: #7fd2c2;
+  --git-conflict: #f3ab80;
+  --git-ignored: #b4bdc9;
+
+  --editor-line-highlight: rgba(255, 255, 255, 0.08);
+  --editor-selection: rgba(111, 168, 255, 0.32);
+  --editor-selection-inactive: rgba(255, 255, 255, 0.22);
+  --editor-cursor: #ffffff;
+  --editor-gutter-fg: #c5ccd6;
+  --editor-gutter-fg-active: #ffffff;
+  --editor-indent-guide: rgba(255, 255, 255, 0.25);
+  --editor-indent-guide-active: rgba(255, 255, 255, 0.6);
+  --editor-find-match: rgba(255, 213, 74, 0.4);
+  --editor-bracket-match: rgba(111, 168, 255, 0.4);
+
+  --syntax-comment: #b4bdc9;
+  --syntax-keyword: #a9c6ff;
+  --syntax-string: #a5e0b8;
+  --syntax-number: #f0c090;
+  --syntax-function: #90d8ea;
+  --syntax-type: #d2c2f5;
+  --syntax-variable: #f0f3f7;
+  --syntax-constant: #f5b89c;
+  --syntax-operator: #d0d6de;
+  --syntax-punctuation: #c5ccd6;
+  --syntax-tag: #8ab8ff;
+  --syntax-attribute: #ecd08c;
+
+  --terminal-bg: #000000;
+  --terminal-fg: #ffffff;
+  --terminal-cursor: #ffffff;
+  --terminal-selection: rgba(111, 168, 255, 0.32);
+  --ansi-black: #2b323b;
+  --ansi-red: #ff9a9e;
+  --ansi-green: #9bddb2;
+  --ansi-yellow: #f2ce85;
+  --ansi-blue: #92bdff;
+  --ansi-magenta: #d9b8f5;
+  --ansi-cyan: #86d9e6;
+  --ansi-white: #e4e8ee;
+  --ansi-bright-black: #b4bdc9;
+  --ansi-bright-red: #ffb3b6;
+  --ansi-bright-green: #b4ecc6;
+  --ansi-bright-yellow: #f8dea2;
+  --ansi-bright-blue: #b0d0ff;
+  --ansi-bright-magenta: #e6ccf9;
+  --ansi-bright-cyan: #a6e6f0;
+  --ansi-bright-white: #ffffff;
+
+  --shadow-raised: none;
+  --shadow-modal: none;
+
+  /* ---- Extended tokens ---- */
+  --scrollbar-thumb: rgba(255, 255, 255, 0.6);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.76);
+  --scrollbar-thumb-active: rgba(255, 255, 255, 0.92);
+  --scrollbar-track: transparent;
+  --diff-added-bg: rgba(143, 214, 165, 0.2);
+  --diff-removed-bg: rgba(240, 160, 162, 0.2);
+  --minimap-slider: rgba(255, 255, 255, 0.2);
+  --toggle-off: #b4bcc8;
+}
+
+/* Focus ring rule (shared): 2px solid var(--border-focus), offset 1px on
+   surfaces, 2px offset in high contrast. Components apply it via :focus-visible. */
+:root[data-theme="hc-light"],
+:root[data-theme="hc-dark"] {
+  --focus-ring-offset: 2px;
+}

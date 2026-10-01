@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 64" width="108" height="64" role="img" aria-label=".inc">
+  <circle cx="8" cy="50.5" r="5.5" fill="#3574f0"/>
+  <path fill="currentColor" d="M21 24h6.6v32H21zM24.3 8.6a4.3 4.3 0 1 1 0 8.6a4.3 4.3 0 0 1 0-8.6z"/>
+  <path fill="none" stroke="currentColor" stroke-width="6.6" d="M41 56V24M41 37C41 30.5 46 27 52 27C59 27 63 30.5 63 37V56"/>
+  <path fill="none" stroke="currentColor" stroke-width="6.6" d="M99 31.6A13 13 0 1 0 99 48.4"/>
+</svg>

@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+out/
+release/
+.tmp/
+
+# Test output
+coverage/
+test-results/
+playwright-report/
+
+# Logs and OS files
+*.log
+.DS_Store
+Thumbs.db
+
+# Editor local state
+.vscode/*
+!.vscode/extensions.json
