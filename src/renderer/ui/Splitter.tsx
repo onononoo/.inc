@@ -58,7 +58,11 @@ export function Splitter({
     if (e.button !== 0) return;
     e.preventDefault();
     e.currentTarget.setPointerCapture(e.pointerId);
-    drag.current = { startPointer: vertical ? e.clientX : e.clientY, startSize: size, latest: size };
+    drag.current = {
+      startPointer: vertical ? e.clientX : e.clientY,
+      startSize: size,
+      latest: size,
+    };
     setDragging(true);
     document.body.classList.add(vertical ? 'ui-resizing-col' : 'ui-resizing-row');
   };

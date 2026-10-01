@@ -64,6 +64,8 @@ export interface QuickPickOptions {
   activeIds?: string[];
   /** Initial text in the input. */
   initialValue?: string;
+  /** Called when the highlighted item changes, for live previews (a theme, a font size). */
+  onActiveChange?: (item: QuickPickItem | undefined) => void;
 }
 
 export interface InputBoxOptions {

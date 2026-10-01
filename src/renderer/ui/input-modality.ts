@@ -13,7 +13,12 @@ export function installInputModality(): void {
     'keydown',
     (event) => {
       // Modifier presses alone do not count: they happen during mouse gestures too.
-      if (event.key === 'Shift' || event.key === 'Control' || event.key === 'Alt' || event.key === 'Meta') {
+      if (
+        event.key === 'Shift' ||
+        event.key === 'Control' ||
+        event.key === 'Alt' ||
+        event.key === 'Meta'
+      ) {
         return;
       }
       keyboard = true;

@@ -44,12 +44,10 @@ export function keySize(
   const step = shift ? KEY_STEP_LARGE : KEY_STEP;
   const grow = orientation === 'vertical' ? 'ArrowRight' : 'ArrowDown';
   const shrink = orientation === 'vertical' ? 'ArrowLeft' : 'ArrowUp';
-  let direction = 0;
-  if (key === grow) direction = 1;
-  else if (key === shrink) direction = -1;
-  else if (key === 'Home') return clampSize(min, min, max);
-  else if (key === 'End') return clampSize(max, min, max);
-  else if (key === 'Enter') return clampSize(defaultSize, min, max);
-  else return null;
+  if (key === 'Home') return clampSize(min, min, max);
+  if (key === 'End') return clampSize(max, min, max);
+  if (key === 'Enter') return clampSize(defaultSize, min, max);
+  if (key !== grow && key !== shrink) return null;
+  const direction = key === grow ? 1 : -1;
   return clampSize(size + (invert ? -direction : direction) * step, min, max);
 }

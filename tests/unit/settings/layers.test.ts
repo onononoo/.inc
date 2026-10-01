@@ -2,11 +2,7 @@ import { describe, expect, it } from 'vitest';
 import type { SettingsSnapshot } from '@shared/api/settings';
 import { EMPTY_POLICY, type PolicyState } from '@shared/policy';
 import { SETTINGS, defaultSettings } from '@shared/settings';
-import {
-  changedKeys,
-  parseSettingsFile,
-  resolveSettings,
-} from '../../../src/main/settings/layers';
+import { changedKeys, parseSettingsFile, resolveSettings } from '../../../src/main/settings/layers';
 import { parsePolicy } from '../../../src/main/settings/policy-service';
 
 const USER = '/u/settings.json';
@@ -127,7 +123,10 @@ describe('record settings', () => {
   });
 
   it('does not let a workspace shadow keys with prototype names', () => {
-    const snapshot = resolve(null, '{ "files.exclude": { "__proto__": true, "constructor": true } }');
+    const snapshot = resolve(
+      null,
+      '{ "files.exclude": { "__proto__": true, "constructor": true } }',
+    );
     const exclude = snapshot.effective['files.exclude'];
     expect(Object.getPrototypeOf(exclude)).toBe(Object.prototype);
     expect(Object.keys(exclude)).toContain('__proto__');

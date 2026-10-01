@@ -155,6 +155,8 @@ export function Tooltip({
   if (!hasContent || !isValidElement<TriggerProps>(child)) return child;
   const original = child.props;
 
+  // The compiler lint takes `child.props` for a ref; the handlers below only run on events.
+  // eslint-disable-next-line react-hooks/refs
   const trigger = cloneElement(child, {
     onPointerEnter: (e) => {
       original.onPointerEnter?.(e);

@@ -46,10 +46,18 @@ export function buildPreview(
   }
   let from = Math.max(0, matchStart - PREVIEW_CONTEXT_BEFORE);
   let to = Math.min(line.length, from + PREVIEW_MAX_CHARS);
-  if (from > 0 && isLowSurrogate(line.charCodeAt(from)) && isHighSurrogate(line.charCodeAt(from - 1))) {
+  if (
+    from > 0 &&
+    isLowSurrogate(line.charCodeAt(from)) &&
+    isHighSurrogate(line.charCodeAt(from - 1))
+  ) {
     from--;
   }
-  if (to < line.length && isHighSurrogate(line.charCodeAt(to - 1)) && isLowSurrogate(line.charCodeAt(to))) {
+  if (
+    to < line.length &&
+    isHighSurrogate(line.charCodeAt(to - 1)) &&
+    isLowSurrogate(line.charCodeAt(to))
+  ) {
     to--;
   }
   return {
@@ -61,7 +69,11 @@ export function buildPreview(
 
 /** Index to continue from after an empty match, stepping over a whole surrogate pair. */
 function stepPastEmpty(line: string, index: number, unicode: boolean): number {
-  if (unicode && isHighSurrogate(line.charCodeAt(index)) && isLowSurrogate(line.charCodeAt(index + 1))) {
+  if (
+    unicode &&
+    isHighSurrogate(line.charCodeAt(index)) &&
+    isLowSurrogate(line.charCodeAt(index + 1))
+  ) {
     return index + 2;
   }
   return index + 1;

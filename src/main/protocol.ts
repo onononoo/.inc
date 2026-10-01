@@ -56,12 +56,10 @@ export function registerAppProtocol(rendererDir: string, logger: Logger): void {
       logger.warn(`Refused app request (${resolved.reason}): ${request.url}`);
       return plain(resolved.status, resolved.reason);
     }
-    let isFile = false;
-    try {
-      isFile = (await fs.promises.stat(resolved.file)).isFile();
-    } catch {
-      isFile = false;
-    }
+    const isFile = await fs.promises.stat(resolved.file).then(
+      (info) => info.isFile(),
+      () => false,
+    );
     if (!isFile) return plain(404, 'Not found');
 
     const upstream = await net.fetch(pathToFileURL(resolved.file).toString(), {
@@ -77,10 +75,13 @@ export function registerAppProtocol(rendererDir: string, logger: Logger): void {
 }
 
 /** Permissions the app page may use. Everything else (camera, location, notifications...) is denied. */
-const ALLOWED_PERMISSIONS: ReadonlySet<string> = new Set(['clipboard-read', 'clipboard-sanitized-write']);
+const ALLOWED_PERMISSIONS: ReadonlySet<string> = new Set([
+  'clipboard-read',
+  'clipboard-sanitized-write',
+]);
 
 function isAppRequester(origin: string | undefined): boolean {
-  return origin === APP_ORIGIN || origin === `${APP_ORIGIN}/`;
+  return origin === APP_ORIGIN || (origin?.startsWith(`${APP_ORIGIN}/`) ?? false);
 }
 
 /**
@@ -92,7 +93,7 @@ function isAppRequester(origin: string | undefined): boolean {
 export function lockDownSession(logger: Logger): void {
   const ses = session.defaultSession;
   ses.setPermissionRequestHandler((wc, permission, callback, details) => {
-    const allowed = ALLOWED_PERMISSIONS.has(permission) && isAppRequester(details.securityOrigin);
+    const allowed = ALLOWED_PERMISSIONS.has(permission) && isAppRequester(details.requestingUrl);
     if (!allowed) logger.warn(`Denied permission request: ${permission}`);
     callback(allowed);
   });

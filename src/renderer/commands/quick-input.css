@@ -1,0 +1,134 @@
+/* Quick input surface: command palette, quick open, go to line, pickers (docs/DESIGN.md "Command palette"). */
+
+.qi-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 700;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: calc(var(--titlebar-height) + 6px);
+}
+
+.qi-panel {
+  display: flex;
+  flex-direction: column;
+  width: 560px;
+  max-width: calc(100vw - var(--space-4));
+  max-height: 60vh;
+  border: 1px solid var(--float-border);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-raised);
+  overflow: hidden;
+}
+
+.qi-title {
+  padding: var(--space-2) var(--space-3) 0;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+}
+
+.qi-prompt {
+  padding: var(--space-2) var(--space-3) 0;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+.qi-field {
+  position: relative;
+  padding: var(--space-2);
+}
+
+.qi-input {
+  padding-right: var(--space-7);
+}
+
+.qi-spinner {
+  position: absolute;
+  top: 50%;
+  right: var(--space-4);
+  margin-top: -7px;
+}
+
+.qi-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0 var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+.qi-status:empty {
+  display: none;
+}
+.qi-status.is-error {
+  padding-bottom: var(--space-2);
+  color: var(--status-error);
+}
+
+.qi-list {
+  min-height: 0;
+  overflow-y: auto;
+  padding-bottom: var(--space-1);
+}
+
+.qi-row {
+  cursor: default;
+}
+.qi-row.is-active {
+  outline: none;
+  background: var(--state-selected-focus);
+}
+.qi-row.is-active::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 2px;
+  background: var(--accent);
+}
+.qi-row .row-label {
+  flex: none;
+  max-width: 70%;
+}
+.qi-row .row-description {
+  flex: 1;
+}
+.qi-keys {
+  display: inline-flex;
+  flex: none;
+  margin-left: auto;
+}
+.qi-current {
+  flex: none;
+  margin-left: auto;
+  color: var(--text-secondary);
+}
+.qi-match {
+  background: transparent;
+  color: var(--text-link);
+  font-weight: var(--font-weight-semibold);
+}
+
+.qi-empty,
+.qi-more {
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+/* Shown while the first key of a two-step chord waits for its partner. */
+.chord-hint {
+  position: fixed;
+  left: var(--space-4);
+  bottom: calc(var(--statusbar-height) + var(--space-3));
+  z-index: 700;
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--float-border);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-raised);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+}

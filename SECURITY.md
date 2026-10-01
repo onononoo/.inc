@@ -5,9 +5,9 @@
 Security fixes are made on the latest minor release and on the `main` branch. Older minor releases are not patched; upgrade to the latest release.
 
 | Version | Supported |
-| --- | --- |
-| 0.1.x | Yes |
-| Earlier | No |
+| ------- | --------- |
+| 0.1.x   | Yes       |
+| Earlier | No        |
 
 ## Reporting a vulnerability
 

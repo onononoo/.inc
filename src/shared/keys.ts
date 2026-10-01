@@ -6,7 +6,7 @@
  * modifiers joined with "+", chords separated by a space, "Mod" = Ctrl on Windows and Linux
  * and Cmd on macOS.
  */
-import type { Platform } from '@shared/paths';
+import type { Platform } from './paths';
 
 /** A single key press with its modifiers, already resolved for one platform (Mod is gone). */
 export interface Stroke {
@@ -192,10 +192,7 @@ const PC_KEY_LABELS: Record<string, string> = {
 function strokeLabel(s: Stroke, platform: Platform): string {
   if (platform === 'darwin') {
     const mods =
-      (s.ctrl ? '⌃' : '') +
-      (s.alt ? '⌥' : '') +
-      (s.shift ? '⇧' : '') +
-      (s.meta ? '⌘' : '');
+      (s.ctrl ? '⌃' : '') + (s.alt ? '⌥' : '') + (s.shift ? '⇧' : '') + (s.meta ? '⌘' : '');
     return mods + (MAC_KEY_LABELS[s.key] ?? s.key);
   }
   const out: string[] = [];
@@ -237,7 +234,11 @@ export function splitLabel(label: string): string[][] {
     if (rest.includes('+') && rest !== '+') {
       const pieces = rest.split('+');
       // "Ctrl++" splits to ["Ctrl", "", ""]: the trailing pair is the plus key itself.
-      if (pieces.length >= 2 && pieces[pieces.length - 1] === '' && pieces[pieces.length - 2] === '') {
+      if (
+        pieces.length >= 2 &&
+        pieces[pieces.length - 1] === '' &&
+        pieces[pieces.length - 2] === ''
+      ) {
         pieces.splice(pieces.length - 2, 2, '+');
       }
       keys.push(...pieces.filter((p) => p !== ''));

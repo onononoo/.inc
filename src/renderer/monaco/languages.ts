@@ -41,7 +41,14 @@ export const EXTRA_LANGUAGES: readonly LanguageAssociation[] = [
     name: 'JSON with Comments',
     aliases: ['JSON with Comments', 'jsonc'],
     extensions: ['.jsonc', '.code-workspace', '.code-snippets', '.babelrc', '.jshintrc', '.swcrc'],
-    filenames: ['.eslintrc', '.eslintrc.json', '.babelrc', '.jshintrc', '.swcrc', 'devcontainer.json'],
+    filenames: [
+      '.eslintrc',
+      '.eslintrc.json',
+      '.babelrc',
+      '.jshintrc',
+      '.swcrc',
+      'devcontainer.json',
+    ],
     filenamePatterns: ['tsconfig*.json', 'jsconfig*.json'],
   },
   {
@@ -336,10 +343,7 @@ export const TOML_TOKENIZER: Monaco.languages.IMonarchLanguage = {
       [/'''/, { token: 'string', next: '@multilineLiteral' }],
       [/"/, { token: 'string', next: '@basic' }],
       [/'[^']*'/, 'string'],
-      [
-        /\d{4}-\d{2}-\d{2}(?:[Tt ]\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:[Zz]|[+-]\d{2}:\d{2})?)?/,
-        'number',
-      ],
+      [/\d{4}-\d{2}-\d{2}(?:[Tt ]\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:[Zz]|[+-]\d{2}:\d{2})?)?/, 'number'],
       [/\d{2}:\d{2}:\d{2}(?:\.\d+)?/, 'number'],
       [/[+-]?(?:inf|nan)\b/, 'number'],
       [/[+-]?0x[0-9A-Fa-f_]+/, 'number.hex'],

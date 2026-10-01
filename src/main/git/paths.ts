@@ -71,7 +71,10 @@ export function toRepoRelativeList(inputs: unknown, check: PathCheck): string[] 
 }
 
 /** Split pathspecs into batches that fit the command-line limit. */
-export function chunkPathspecs(specs: readonly string[], budget = ARGUMENT_BUDGET_CHARS): string[][] {
+export function chunkPathspecs(
+  specs: readonly string[],
+  budget = ARGUMENT_BUDGET_CHARS,
+): string[][] {
   const chunks: string[][] = [];
   let current: string[] = [];
   let size = 0;

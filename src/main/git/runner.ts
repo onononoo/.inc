@@ -46,10 +46,7 @@ export interface EnvOptions {
  * and proxies keep working) minus anything that retargets Git or could open an editor or pager,
  * with prompts disabled and output in the C locale so it can be parsed.
  */
-export function buildGitEnv(
-  base: NodeJS.ProcessEnv,
-  options: EnvOptions,
-): Record<string, string> {
+export function buildGitEnv(base: NodeJS.ProcessEnv, options: EnvOptions): Record<string, string> {
   const env: Record<string, string> = {};
   for (const [name, value] of Object.entries(base)) {
     if (typeof value !== 'string' || STRIPPED_VARIABLES.has(name.toUpperCase())) continue;
@@ -313,9 +310,13 @@ export class GitRunner {
       );
     }
     if (code === 'EACCES' || code === 'EPERM') {
-      return new IncError('E_GIT_MISSING', `Git at ${opts.gitPath} cannot be run: permission denied.`, {
-        path: opts.gitPath,
-      });
+      return new IncError(
+        'E_GIT_MISSING',
+        `Git at ${opts.gitPath} cannot be run: permission denied.`,
+        {
+          path: opts.gitPath,
+        },
+      );
     }
     return new IncError('E_GIT', `Git could not be started: ${(error as Error).message}`);
   }

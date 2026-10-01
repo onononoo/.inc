@@ -1,0 +1,178 @@
+/* Explorer (docs/DESIGN.md "Tree rows"). */
+
+.explorer {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.explorer-header {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--row-height);
+  padding: 0 var(--space-2) 0 var(--space-3);
+}
+.explorer-root {
+  min-width: 0;
+  overflow: hidden;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-tertiary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.explorer-actions {
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+}
+.explorer:hover .explorer-actions,
+.explorer:focus-within .explorer-actions {
+  opacity: 1;
+}
+
+.explorer-tree {
+  flex: 1;
+}
+
+.explorer-empty {
+  display: flex;
+  flex: 1;
+}
+.explorer-empty-actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.explorer-loading {
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+
+/* ---- Rows -------------------------------------------------------------------------------- */
+
+.tree-row {
+  padding-right: var(--space-3);
+}
+.tree-row.is-cut {
+  opacity: 0.55;
+}
+.tree-row.is-drop-target {
+  background: var(--state-selected-focus);
+  outline: 1px dashed var(--border-focus);
+  outline-offset: -1px;
+}
+.tree-chevron {
+  flex: none;
+  color: var(--text-tertiary);
+}
+.tree-chevron-space {
+  flex: none;
+  width: 16px;
+}
+
+/* Indent guides: one hairline per level, centred under the parent's chevron. */
+.tree-guides {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--space-2);
+  pointer-events: none;
+  background-image: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--border-default) 45%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 16px 100%;
+  background-position: 7px 0;
+}
+
+.tree-git {
+  flex: none;
+  min-width: 12px;
+  margin-left: auto;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-align: center;
+}
+.tree-git-dot {
+  flex: none;
+  width: 6px;
+  height: 6px;
+  margin-left: auto;
+  border-radius: 50%;
+  background: var(--git-modified);
+}
+.tree-row.tone-added {
+  color: var(--git-added);
+}
+.tree-row.tone-modified {
+  color: var(--git-modified);
+}
+.tree-row.tone-deleted {
+  color: var(--git-deleted);
+}
+.tree-row.tone-untracked {
+  color: var(--git-untracked);
+}
+.tree-row.tone-conflict {
+  color: var(--git-conflict);
+}
+.tree-row.tone-ignored {
+  color: var(--git-ignored);
+}
+.tree-row[class*='tone-'] .row-icon {
+  color: inherit;
+}
+.row-label.is-deleted {
+  text-decoration: line-through;
+}
+
+/* ---- Inline editing ---------------------------------------------------------------------- */
+
+.tree-edit {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+.tree-input {
+  width: 100%;
+  height: 20px;
+  padding: 0 var(--space-1);
+  border: 1px solid var(--border-focus);
+  border-radius: var(--radius-sm);
+  background: var(--surface-input);
+  color: var(--text-primary);
+  font-size: var(--font-size-md);
+}
+.tree-input:focus-visible {
+  outline: none;
+}
+.tree-input.is-invalid {
+  border-color: var(--status-error);
+}
+.tree-edit-error {
+  position: absolute;
+  top: 22px;
+  left: 0;
+  z-index: 5;
+  max-width: 260px;
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--status-error);
+  border-radius: var(--radius-sm);
+  background: var(--status-error-bg);
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  white-space: normal;
+}
+
+.tree-error {
+  color: var(--text-secondary);
+}
+.tree-error-icon {
+  color: var(--status-error);
+}

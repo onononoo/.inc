@@ -42,7 +42,8 @@ function normalise(folder: string, caseInsensitive: boolean): string {
 
 export function planLaunch(request: LaunchRequest, context: LaunchContext): LaunchPlan {
   const { windows, restoreFolder, caseInsensitive } = context;
-  const same = (a: string, b: string) => normalise(a, caseInsensitive) === normalise(b, caseInsensitive);
+  const same = (a: string, b: string) =>
+    normalise(a, caseInsensitive) === normalise(b, caseInsensitive);
   const focusedFirst = [...windows].sort((a, b) => Number(b.focused) - Number(a.focused));
   const targets: LaunchTarget[] = [];
   const claimed = new Set<number>();

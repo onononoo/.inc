@@ -1,0 +1,169 @@
+/* Source control view and the editor's change gutter. */
+
+.scm {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+.scm-empty {
+  display: flex;
+  flex: 1;
+}
+
+.scm-header {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--row-height);
+  padding: 0 var(--space-2) 0 var(--space-3);
+}
+.scm-branch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-width: 0;
+  color: var(--text-primary);
+}
+.scm-branch-name {
+  min-width: 0;
+  overflow: hidden;
+  font-weight: var(--font-weight-medium);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.scm-sync {
+  flex: none;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+}
+.scm-header-actions {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.scm-note {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0 var(--space-3) var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--status-warning);
+  border-radius: var(--radius-sm);
+  background: var(--status-warning-bg);
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+}
+.scm-note > span {
+  flex: 1;
+}
+.scm-note-icon {
+  color: var(--status-warning);
+}
+
+.scm-commit {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: 0 var(--space-3) var(--space-2);
+}
+.scm-message {
+  height: auto;
+  min-height: 28px;
+  padding: 5px var(--space-2);
+  line-height: 18px;
+  resize: none;
+}
+.scm-commit-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.scm-list {
+  flex: 1;
+}
+.scm-group .row-label {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+}
+.scm-count {
+  margin-left: auto;
+  padding: 0 var(--space-1);
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.scm-item {
+  padding-left: calc(var(--space-3) + 16px);
+}
+.scm-item .row-description {
+  flex: 1;
+}
+.scm-letter {
+  flex: none;
+  min-width: 12px;
+  margin-left: var(--space-1);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-align: center;
+}
+.scm-item.tone-added .scm-letter,
+.scm-item.tone-added .row-label {
+  color: var(--git-added);
+}
+.scm-item.tone-modified .scm-letter,
+.scm-item.tone-modified .row-label {
+  color: var(--git-modified);
+}
+.scm-item.tone-deleted .scm-letter,
+.scm-item.tone-deleted .row-label {
+  color: var(--git-deleted);
+}
+.scm-item.tone-untracked .scm-letter,
+.scm-item.tone-untracked .row-label {
+  color: var(--git-untracked);
+}
+.scm-item.tone-conflict .scm-letter,
+.scm-item.tone-conflict .row-label {
+  color: var(--git-conflict);
+}
+.scm-row-actions {
+  display: none;
+  margin-left: auto;
+  gap: 2px;
+}
+.row:hover .scm-row-actions,
+.row.is-active .scm-row-actions,
+.row:focus-within .scm-row-actions {
+  display: inline-flex;
+}
+.row:hover .scm-count,
+.row.is-active .scm-count {
+  margin-left: 0;
+}
+
+/* ---- Editor change gutter ---------------------------------------------------------------- */
+
+.git-gutter-added,
+.git-gutter-modified {
+  width: 3px !important;
+  margin-left: 3px;
+}
+.git-gutter-added {
+  background: var(--git-added);
+}
+.git-gutter-modified {
+  background: var(--git-modified);
+}
+.git-gutter-deleted {
+  width: 0 !important;
+  height: 0 !important;
+  margin-left: 3px;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 6px solid var(--git-deleted);
+}

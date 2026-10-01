@@ -2,6 +2,17 @@ import type { Platform } from '../paths';
 
 export type MenuName = 'File' | 'Edit' | 'Selection' | 'View' | 'Go' | 'Terminal' | 'Help';
 
+/** Top-level order of the application menus, in both the native and the in-window menu bar. */
+export const MENU_NAMES: readonly MenuName[] = [
+  'File',
+  'Edit',
+  'Selection',
+  'View',
+  'Go',
+  'Terminal',
+  'Help',
+];
+
 export interface WindowState {
   maximized: boolean;
   fullscreen: boolean;

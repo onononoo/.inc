@@ -22,8 +22,10 @@
     "test:e2e": "node scripts/build.mjs && playwright test",
     "package": "node scripts/package.mjs",
     "licenses": "node scripts/licenses.mjs",
+    "docs": "node scripts/gen-docs.mjs",
+    "docs:check": "node scripts/gen-docs.mjs --check",
     "check:hygiene": "node scripts/check-hygiene.mjs",
-    "verify": "npm run typecheck && npm run lint && npm run test && npm run check:hygiene"
+    "verify": "npm run typecheck && npm run lint && npm run test && npm run docs:check && npm run check:hygiene"
   },
   "dependencies": {
     "@parcel/watcher": "^2.6.0",

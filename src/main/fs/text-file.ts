@@ -59,7 +59,10 @@ function placeholder(
  * 8 KB, unless the file starts with a UTF-16 byte order mark) and files above `maxBytes` are
  * classified from metadata and the first block only: the rest of the file is never read.
  */
-export async function readTextFile(file: string, options: ReadTextOptions): Promise<ReadFileResult> {
+export async function readTextFile(
+  file: string,
+  options: ReadTextOptions,
+): Promise<ReadFileResult> {
   let before: Stats;
   try {
     before = await fsp.stat(file);
@@ -78,7 +81,8 @@ export async function readTextFile(file: string, options: ReadTextOptions): Prom
       { path: file },
     );
   }
-  if (before.size > options.maxBytes) return placeholder(file, 'tooLarge', before, options.encoding);
+  if (before.size > options.maxBytes)
+    return placeholder(file, 'tooLarge', before, options.encoding);
 
   let handle: FileHandle;
   try {
@@ -146,9 +150,13 @@ export async function readFileBytes(file: string, maxBytes: number): Promise<Uin
   try {
     const info = await handle.stat();
     if (info.isDirectory()) {
-      throw new IncError('E_IS_DIRECTORY', `Could not open "${displayName(file)}": it is a folder.`, {
-        path: file,
-      });
+      throw new IncError(
+        'E_IS_DIRECTORY',
+        `Could not open "${displayName(file)}": it is a folder.`,
+        {
+          path: file,
+        },
+      );
     }
     if (info.size > maxBytes) {
       throw new IncError(
@@ -197,9 +205,13 @@ export async function resolveWriteTarget(file: string): Promise<string> {
     const link = await fsp.readlink(current);
     current = path.resolve(path.dirname(current), link);
   }
-  throw new IncError('E_IO', `Could not save "${displayName(file)}": too many levels of symbolic links.`, {
-    path: file,
-  });
+  throw new IncError(
+    'E_IO',
+    `Could not save "${displayName(file)}": too many levels of symbolic links.`,
+    {
+      path: file,
+    },
+  );
 }
 
 async function statIfExists(target: string): Promise<Stats | null> {
@@ -238,7 +250,12 @@ function assertUnchanged(target: string, current: Stats | null, expected: number
     throw new IncError(
       'E_MODIFIED_SINCE',
       `"${displayName(target)}" was changed by another program after it was opened here.`,
-      { path: target, reason: 'modified', expectedMtimeMs: expected, actualMtimeMs: current.mtimeMs },
+      {
+        path: target,
+        reason: 'modified',
+        expectedMtimeMs: expected,
+        actualMtimeMs: current.mtimeMs,
+      },
     );
   }
 }
@@ -281,7 +298,10 @@ async function writeInPlace(target: string, data: Buffer): Promise<void> {
 
 function tempNameFor(target: string): string {
   const base = displayName(target).slice(0, 64);
-  return path.join(path.dirname(target), `.${base}.${randomBytes(6).toString('hex')}${TEMP_SUFFIX}`);
+  return path.join(
+    path.dirname(target),
+    `.${base}.${randomBytes(6).toString('hex')}${TEMP_SUFFIX}`,
+  );
 }
 
 function isRenameLock(code: string | undefined): boolean {

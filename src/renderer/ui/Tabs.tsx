@@ -43,7 +43,9 @@ export function Tabs({ items, value, onChange, label, idPrefix, className }: Tab
     const target = enabled[next];
     if (!target) return;
     onChange(target.id);
-    const el = event.currentTarget.querySelector<HTMLElement>(`#${CSS.escape(tabId(idPrefix, target.id))}`);
+    const el = event.currentTarget.querySelector<HTMLElement>(
+      `#${CSS.escape(tabId(idPrefix, target.id))}`,
+    );
     el?.focus();
   };
 

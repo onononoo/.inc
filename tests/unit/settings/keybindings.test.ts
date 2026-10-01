@@ -3,10 +3,7 @@ import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import type { KeybindingsSnapshot } from '@shared/api/settings';
 import { COMMANDS } from '@shared/commands/catalog';
-import {
-  normalizeChord,
-  parseKeybindings,
-} from '../../../src/main/settings/keybindings';
+import { normalizeChord, parseKeybindings } from '../../../src/main/settings/keybindings';
 import { KeybindingsService } from '../../../src/main/settings/keybindings-service';
 import { KEYBINDINGS_TEMPLATE } from '../../../src/main/settings/templates';
 import { recordingLogger, tempDir, waitFor } from './helpers';
@@ -69,7 +66,8 @@ describe('normalizeChord', () => {
   it('accepts every default chord in the command catalog', () => {
     const chords: string[] = [];
     for (const c of COMMANDS) {
-      if (c.keybinding) chords.push(c.keybinding.key, ...(c.keybinding.mac ? [c.keybinding.mac] : []));
+      if (c.keybinding)
+        chords.push(c.keybinding.key, ...(c.keybinding.mac ? [c.keybinding.mac] : []));
       if (c.keybindingHint) chords.push(c.keybindingHint);
     }
     expect(chords.length).toBeGreaterThan(20);
@@ -159,7 +157,9 @@ describe('parseKeybindings', () => {
   });
 
   it('reports unknown fields but keeps the entry', () => {
-    const result = parse('[{ "key": "Mod+Alt+L", "command": "edit.formatDocument", "color": "red" }]');
+    const result = parse(
+      '[{ "key": "Mod+Alt+L", "command": "edit.formatDocument", "color": "red" }]',
+    );
     expect(result.entries).toEqual([{ key: 'Mod+Alt+L', command: 'edit.formatDocument' }]);
     expect(result.issues).toHaveLength(1);
     expect(result.issues[0]?.message).toContain('"color"');

@@ -33,27 +33,27 @@
 
 The **kernel** (`src/main/kernel.ts`) is the only thing slices share:
 
-| Facility | Purpose |
-| --- | --- |
-| `handle(channel, fn)` | Register an IPC handler. Throwing rejects the renderer call with an `IncError`. |
-| `send`, `broadcast` | Push typed events to one window or all. |
-| `settings` | Read effective settings for a window (defaults, user, workspace, policy). |
-| `policy` | Enterprise policy state and feature switches. |
-| `workspaces` | Per-window root folder, trust state, last opened folder. |
-| `fsChanges` | Debounced file system change batches, emitted by the fs slice for others (Git) to consume. |
-| `onWindowClosed` | Release per-window resources. |
+| Facility              | Purpose                                                                                    |
+| --------------------- | ------------------------------------------------------------------------------------------ |
+| `handle(channel, fn)` | Register an IPC handler. Throwing rejects the renderer call with an `IncError`.            |
+| `send`, `broadcast`   | Push typed events to one window or all.                                                    |
+| `settings`            | Read effective settings for a window (defaults, user, workspace, policy).                  |
+| `policy`              | Enterprise policy state and feature switches.                                              |
+| `workspaces`          | Per-window root folder, trust state, last opened folder.                                   |
+| `fsChanges`           | Debounced file system change batches, emitted by the fs slice for others (Git) to consume. |
+| `onWindowClosed`      | Release per-window resources.                                                              |
 
 Each slice exports `register(kernel)` from `src/main/<slice>/index.ts`; `src/main/register-all.ts` calls them in dependency order. Slices read `kernel.settings`, `kernel.policy` and `kernel.workspaces` at call time, never caching them, because the settings and workspace slices replace the default implementations.
 
-| Slice | Responsibility |
-| --- | --- |
-| `shell` | Application menu, window management, dialogs, safe-close handshake, launch arguments, external links, diagnostics, hardening. |
-| `settings` | Layered settings, JSONC editing that preserves comments, enterprise policy, keybindings file. |
-| `workspace` | Open and close folders, workspace trust, recent folders, per-workspace session blobs. |
-| `fs` | File read and write with encoding detection, atomic saves, native watching, quick-open file index, EditorConfig. |
-| `search` | Worker-thread text search and replace with ignore-file support. |
-| `git` | Git CLI integration: status, diff content, stage, commit, branches, remote operations. |
-| `terminal` | Pseudo-terminal sessions, shell profiles, tasks. |
+| Slice       | Responsibility                                                                                                                |
+| ----------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `shell`     | Application menu, window management, dialogs, safe-close handshake, launch arguments, external links, diagnostics, hardening. |
+| `settings`  | Layered settings, JSONC editing that preserves comments, enterprise policy, keybindings file.                                 |
+| `workspace` | Open and close folders, workspace trust, recent folders, per-workspace session blobs.                                         |
+| `fs`        | File read and write with encoding detection, atomic saves, native watching, quick-open file index, EditorConfig.              |
+| `search`    | Worker-thread text search and replace with ignore-file support.                                                               |
+| `git`       | Git CLI integration: status, diff content, stage, commit, branches, remote operations.                                        |
+| `terminal`  | Pseudo-terminal sessions, shell profiles, tasks.                                                                              |
 
 ### Preload
 
@@ -78,14 +78,14 @@ The renderer is React with small zustand stores. Slices live in `src/renderer/<s
 
 ## Security model
 
-| Layer | Control |
-| --- | --- |
-| Renderer | `sandbox`, `contextIsolation`, no `nodeIntegration`, no `webview`, navigation and `window.open` denied. |
-| Content | Served from the privileged `inc://app` scheme with a strict CSP (no remote origins, no `eval`, no inline script). Path traversal outside the renderer root is refused. |
-| Network | Every `http`, `https`, `ws`, `wss` and `ftp` request from web content is cancelled and counted; permission requests are denied. Diagnostics report the blocked count. There is no telemetry and no update check. |
-| IPC | Arguments validated in main; absolute paths required; no shell strings, only argument arrays. |
-| Workspace trust | Untrusted folders open in Restricted Mode: no terminal, no tasks, restricted settings ignored, Git limited to hardened read operations. |
-| Policy | An administrator file can lock settings and switch features off; a malformed policy fails safe. See [ADMIN.md](ADMIN.md). |
+| Layer           | Control                                                                                                                                                                                                          |
+| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Renderer        | `sandbox`, `contextIsolation`, no `nodeIntegration`, no `webview`, navigation and `window.open` denied.                                                                                                          |
+| Content         | Served from the privileged `inc://app` scheme with a strict CSP (no remote origins, no `eval`, no inline script). Path traversal outside the renderer root is refused.                                           |
+| Network         | Every `http`, `https`, `ws`, `wss` and `ftp` request from web content is cancelled and counted; permission requests are denied. Diagnostics report the blocked count. There is no telemetry and no update check. |
+| IPC             | Arguments validated in main; absolute paths required; no shell strings, only argument arrays.                                                                                                                    |
+| Workspace trust | Untrusted folders open in Restricted Mode: no terminal, no tasks, restricted settings ignored, Git limited to hardened read operations.                                                                          |
+| Policy          | An administrator file can lock settings and switch features off; a malformed policy fails safe. See [ADMIN.md](ADMIN.md).                                                                                        |
 
 ## Settings, policy and trust
 

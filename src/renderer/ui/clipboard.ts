@@ -22,14 +22,12 @@ function legacyCopy(text: string): boolean {
   const previous = document.activeElement;
   document.body.appendChild(field);
   field.select();
-  let copied = false;
   try {
-    copied = document.execCommand('copy');
+    return document.execCommand('copy');
   } catch {
-    copied = false;
+    return false;
   } finally {
     field.remove();
     if (previous instanceof HTMLElement) previous.focus({ preventScroll: true });
   }
-  return copied;
 }

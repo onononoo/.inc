@@ -1,4 +1,4 @@
-import { Buffer, isUtf8 } from 'node:buffer';
+import { isUtf8, type Buffer } from 'node:buffer';
 import iconv from 'iconv-lite';
 import { detect as detectCharset } from 'jschardet';
 
@@ -39,9 +39,10 @@ export function decodeBlobText(buf: Buffer): string {
   if (isUtf8(body)) return body.toString('utf8');
 
   const guess = detectCharset(body.subarray(0, DETECT_SAMPLE_BYTES));
+  const detected = guess?.encoding;
   const encoding =
-    guess && guess.confidence >= MIN_CONFIDENCE && iconv.encodingExists(guess.encoding)
-      ? guess.encoding
+    guess && detected && guess.confidence >= MIN_CONFIDENCE && iconv.encodingExists(detected)
+      ? detected
       : 'windows-1252';
   return iconv.decode(body, encoding);
 }

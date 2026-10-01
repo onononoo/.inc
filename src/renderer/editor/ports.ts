@@ -10,12 +10,9 @@ import type { EventChannel, EventMap, InvokeArgs, InvokeChannel, InvokeResult } 
 import type { Platform } from '@shared/paths';
 import type { KnownLanguage } from '../monaco/languages';
 import type { DiffInput } from '../contracts/editor';
+import type { Document } from './document';
 import type { DocumentSettings } from './document-policy';
-import type {
-  ChoiceOptions,
-  ConfirmOptions,
-  NotificationOptions,
-} from '../contracts/layout';
+import type { ChoiceOptions, ConfirmOptions, NotificationOptions } from '../contracts/layout';
 
 export type TextModel = MonacoEditor.ITextModel;
 
@@ -61,4 +58,8 @@ export interface DocumentsDeps {
   /** Show a diff tab (conflict resolution). */
   compare: (input: DiffInput) => Promise<void>;
   log: (level: LogLevel, message: string) => void;
+  /** Rulers the person configured; EditorConfig's line length only adds one when there are none. */
+  baseRulers?: () => readonly number[];
+  /** Format the document with its language's formatter (format on save). */
+  format?: (doc: Document) => Promise<void>;
 }

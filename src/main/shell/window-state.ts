@@ -174,7 +174,8 @@ export function resolvePlacement(input: PlacementInput): Placement {
 
   if (saved) {
     const area = bestDisplay(saved, areas);
-    if (area) return { ...fit(saved, area), maximized: saved.maximized, fullscreen: saved.fullscreen };
+    if (area)
+      return { ...fit(saved, area), maximized: saved.maximized, fullscreen: saved.fullscreen };
     return {
       ...centered(saved, primary),
       maximized: saved.maximized,

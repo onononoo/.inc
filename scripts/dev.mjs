@@ -36,7 +36,12 @@ const STARTUP_SETTLE_MS = 1000;
  * @returns {{ out: string, userDataDir: string, debugPort: number | undefined, appArgs: string[] }}
  */
 export function parseDevArgs(argv) {
-  const options = { out: '.tmp/dev', userDataDir: '.tmp/dev-user-data', debugPort: undefined, appArgs: [] };
+  const options = {
+    out: '.tmp/dev',
+    userDataDir: '.tmp/dev-user-data',
+    debugPort: undefined,
+    appArgs: [],
+  };
   const separator = argv.indexOf('--');
   const own = separator === -1 ? argv : argv.slice(0, separator);
   options.appArgs = separator === -1 ? [] : argv.slice(separator + 1);
@@ -145,7 +150,9 @@ async function listTargets(port) {
 }
 
 async function reloadWindows(port) {
-  const targets = (await listTargets(port)).filter((t) => t.type === 'page' && t.webSocketDebuggerUrl);
+  const targets = (await listTargets(port)).filter(
+    (t) => t.type === 'page' && t.webSocketDebuggerUrl,
+  );
   if (targets.length === 0) throw new Error('no window is open');
   await Promise.all(targets.map((t) => reloadTarget(t.webSocketDebuggerUrl)));
 }
@@ -195,11 +202,15 @@ async function main() {
   }
 
   // 1. The bundler in watch mode. It prints "Watching." once the first build has finished.
-  builder = spawn(process.execPath, [path.join(root, 'scripts', 'build.mjs'), '--watch', '--out', outDir], {
-    cwd: root,
-    stdio: ['ignore', 'pipe', 'pipe'],
-    windowsHide: true,
-  });
+  builder = spawn(
+    process.execPath,
+    [path.join(root, 'scripts', 'build.mjs'), '--watch', '--out', outDir],
+    {
+      cwd: root,
+      stdio: ['ignore', 'pipe', 'pipe'],
+      windowsHide: true,
+    },
+  );
   pipeWithPrefix(builder.stderr, '[build]', process.stderr);
   const firstBuild = new Promise((resolve, reject) => {
     pipeWithPrefix(builder.stdout, '[build]', process.stdout);
@@ -207,12 +218,15 @@ async function main() {
       if (String(chunk).includes('Watching.')) resolve();
     });
     builder.once('error', reject);
-    builder.once('exit', (code) => reject(new Error(`the build exited with code ${code} before the first build finished`)));
+    builder.once('exit', (code) =>
+      reject(new Error(`the build exited with code ${code} before the first build finished`)),
+    );
   });
   builder.once('exit', (code) => {
     // Ctrl+C reaches the builder and this process at the same time; let the signal handler win.
     setTimeout(() => {
-      if (!stopping) void shutdown(1, `The build process stopped unexpectedly (exit code ${code}).`);
+      if (!stopping)
+        void shutdown(1, `The build process stopped unexpectedly (exit code ${code}).`);
     }, 300);
   });
   await firstBuild;
@@ -268,7 +282,9 @@ async function main() {
       await reloadWindows(debugPort);
       log('Renderer changed: window reloaded.');
     } catch (error) {
-      log(`Renderer changed but the window could not be reloaded (${error.message}). Restart with Ctrl+C.`);
+      log(
+        `Renderer changed but the window could not be reloaded (${error.message}). Restart with Ctrl+C.`,
+      );
     }
   }
 
@@ -287,7 +303,8 @@ async function main() {
   timer = setTimeout(() => void react(), STARTUP_SETTLE_MS);
 }
 
-const isEntry = process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href;
+const isEntry =
+  process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href;
 if (isEntry) {
   main().catch((error) => {
     console.error(error instanceof Error ? error.message : error);

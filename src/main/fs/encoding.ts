@@ -56,9 +56,13 @@ export function looksBinary(head: Uint8Array): boolean {
 }
 
 function decodeLegacy(buf: Uint8Array, encoding: TextEncoding): string {
-  return iconv.decode(Buffer.from(buf.buffer, buf.byteOffset, buf.byteLength), encodingInfo(encoding).iconv, {
-    stripBOM: false,
-  });
+  return iconv.decode(
+    Buffer.from(buf.buffer, buf.byteOffset, buf.byteLength),
+    encodingInfo(encoding).iconv,
+    {
+      stripBOM: false,
+    },
+  );
 }
 
 /**
@@ -116,6 +120,7 @@ export function detectEol(text: string): { eol: EndOfLine; mixed: boolean } {
   return { eol: crlf > lf ? 'crlf' : 'lf', mixed: crlf > 0 && lf > 0 };
 }
 
+// eslint-disable-next-line no-control-regex -- the ASCII range, NUL included, is the point
 const ASCII_ONLY = /^[\x00-\x7f]*$/;
 
 /**
@@ -136,7 +141,10 @@ export function encodeText(content: string, encoding: TextEncoding): Buffer {
       break;
     default:
       body = iconv.encode(content, info.iconv, { addBOM: false });
-      if (!ASCII_ONLY.test(content) && iconv.decode(body, info.iconv, { stripBOM: false }) !== content) {
+      if (
+        !ASCII_ONLY.test(content) &&
+        iconv.decode(body, info.iconv, { stripBOM: false }) !== content
+      ) {
         throw new IncError(
           'E_INVALID',
           `Some characters cannot be saved as ${info.label}. Save the file as UTF-8 instead.`,

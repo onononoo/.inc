@@ -48,7 +48,18 @@ function setup(options: { policy?: object; watch?: boolean; user?: string } = {}
     return root;
   };
   const wsFile = (root: string) => path.join(root, '.inc', 'settings.json');
-  return { userData, userFile, workspaces, policy, logger, notifications, events, service, folder, wsFile };
+  return {
+    userData,
+    userFile,
+    workspaces,
+    policy,
+    logger,
+    notifications,
+    events,
+    service,
+    folder,
+    wsFile,
+  };
 }
 
 describe('reading', () => {
@@ -134,7 +145,10 @@ describe('reading', () => {
     const { service, workspaces, folder, wsFile, notifications, events } = setup();
     const a = folder('a');
     const b = folder('b');
-    for (const [root, size] of [[a, 3], [b, 6]] as const) {
+    for (const [root, size] of [
+      [a, 3],
+      [b, 6],
+    ] as const) {
       mkdirSync(path.dirname(wsFile(root)), { recursive: true });
       writeFileSync(wsFile(root), `{ "editor.tabSize": ${size} }`);
     }
@@ -149,7 +163,11 @@ describe('reading', () => {
     expect(service.snapshot(WIN).files.workspace).toBeNull();
     // Every root change was announced to that window only.
     expect(events.every((e) => e.windowId === WIN)).toBe(true);
-    expect(events.map((e) => e.keys)).toEqual([['editor.tabSize'], ['editor.tabSize'], ['editor.tabSize']]);
+    expect(events.map((e) => e.keys)).toEqual([
+      ['editor.tabSize'],
+      ['editor.tabSize'],
+      ['editor.tabSize'],
+    ]);
   });
 
   it('keeps following the workspace host after the workspace slice replaces it', () => {
@@ -214,7 +232,11 @@ describe('policy', () => {
     // A change that only touches features still reaches the windows, but moves no setting.
     notifications.length = 0;
     events.length = 0;
-    policy.load({ version: 1, settings: { 'editor.minimap': false }, features: { terminal: false } });
+    policy.load({
+      version: 1,
+      settings: { 'editor.minimap': false },
+      features: { terminal: false },
+    });
     expect(notifications).toHaveLength(2);
     expect(events).toEqual([]);
   });
@@ -388,7 +410,13 @@ describe('writing', () => {
       service.set(WIN, 'files.autoSave', 'afterDelay', 'user'),
     ]);
     const text = readFileSync(userFile, 'utf8');
-    for (const key of ['editor.tabSize', 'editor.fontSize', 'editor.minimap', 'editor.wordWrap', 'files.autoSave']) {
+    for (const key of [
+      'editor.tabSize',
+      'editor.fontSize',
+      'editor.minimap',
+      'editor.wordWrap',
+      'files.autoSave',
+    ]) {
       expect(text).toContain(`"${key}"`);
     }
     expect(service.snapshot(WIN).issues).toEqual([]);
@@ -432,14 +460,18 @@ describe('writing', () => {
 
     it('requires an open folder', async () => {
       const { service } = setup();
-      expect(await codeOf(service.set(WIN, 'editor.tabSize', 4, 'workspace'))).toBe('E_NO_WORKSPACE');
+      expect(await codeOf(service.set(WIN, 'editor.tabSize', 4, 'workspace'))).toBe(
+        'E_NO_WORKSPACE',
+      );
       expect(await codeOf(service.ensureFile(WIN, 'workspace'))).toBe('E_NO_WORKSPACE');
     });
 
     it('refuses settings that can only be set by the user', async () => {
       const { service, workspaces, folder } = setup();
       workspaces.setRoot(WIN, folder());
-      expect(await codeOf(service.set(WIN, 'appearance.theme', 'dark', 'workspace'))).toBe('E_INVALID');
+      expect(await codeOf(service.set(WIN, 'appearance.theme', 'dark', 'workspace'))).toBe(
+        'E_INVALID',
+      );
     });
 
     it('refuses restricted settings while the workspace is not trusted', async () => {
@@ -447,7 +479,9 @@ describe('writing', () => {
       const root = folder();
       workspaces.setRoot(WIN, root);
       workspaces.setTrusted(WIN, false);
-      expect(await codeOf(service.set(WIN, 'search.followSymlinks', true, 'workspace'))).toBe('E_UNTRUSTED');
+      expect(await codeOf(service.set(WIN, 'search.followSymlinks', true, 'workspace'))).toBe(
+        'E_UNTRUSTED',
+      );
       expect(existsSync(wsFile(root))).toBe(false);
       // Ordinary settings and resets are fine in an untrusted workspace.
       await service.set(WIN, 'editor.tabSize', 4, 'workspace');
@@ -600,7 +634,11 @@ describe('live file watching', () => {
       // The .inc folder does not exist yet: it is created later by another program.
       mkdirSync(path.dirname(wsFile(root)));
       writeFileSync(wsFile(root), '{ "editor.tabSize": 6 }');
-      await waitFor(() => service.get(WIN, 'editor.tabSize') === 6, 'workspace file creation', 8000);
+      await waitFor(
+        () => service.get(WIN, 'editor.tabSize') === 6,
+        'workspace file creation',
+        8000,
+      );
       expect(notifications.map((n) => n.windowId)).toEqual([WIN]);
       expect(events).toEqual([{ windowId: WIN, keys: ['editor.tabSize'] }]);
       expect(service.get(OTHER, 'editor.tabSize')).toBe(2);

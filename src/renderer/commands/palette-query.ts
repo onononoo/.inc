@@ -53,7 +53,7 @@ export function parseFileQuery(input: string): FileQuery {
 
 /** True for "/usr/src/a.ts", "C:\\src\\a.ts" and "\\\\server\\share\\a.ts". */
 export function isAbsolutePathText(text: string): boolean {
-  return /^([a-zA-Z]:[\/]|\\|\/)/.test(text);
+  return /^([a-zA-Z]:[/\\]|\\|\/)/.test(text);
 }
 
 export type LineInput =

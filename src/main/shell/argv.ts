@@ -141,7 +141,8 @@ export function parseLaunchArgs(argv: readonly string[], options: ParseOptions):
       request.missing.push(arg);
       continue;
     }
-    const dedupe = key(found.target.path) + '|' + (found.target.line ?? '') + '|' + (found.target.column ?? '');
+    const dedupe =
+      key(found.target.path) + '|' + (found.target.line ?? '') + '|' + (found.target.column ?? '');
     if (seen.has(dedupe)) continue;
     seen.add(dedupe);
     if (found.kind === 'directory') request.folders.push(found.target.path);

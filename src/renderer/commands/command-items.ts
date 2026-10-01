@@ -64,7 +64,9 @@ export function buildCommandItems(
     const others = candidates.filter((def) => !recentRank.has(def.id)).sort(byLabel);
     const items = [
       ...recents.map((def) => toItem(def, undefined, RECENT_GROUP)),
-      ...others.map((def) => toItem(def, undefined, recents.length > 0 ? COMMANDS_GROUP : undefined)),
+      ...others.map((def) =>
+        toItem(def, undefined, recents.length > 0 ? COMMANDS_GROUP : undefined),
+      ),
     ];
     return { items, total: items.length };
   }

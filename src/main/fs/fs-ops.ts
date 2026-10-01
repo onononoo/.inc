@@ -136,9 +136,13 @@ export async function copyPath(
     throw fsError(error, 'copy', from);
   }
   if (!source.isFile() && !source.isDirectory()) {
-    throw new IncError('E_INVALID', `Could not copy "${nameOf(from)}": it is not a file or folder.`, {
-      path: from,
-    });
+    throw new IncError(
+      'E_INVALID',
+      `Could not copy "${nameOf(from)}": it is not a file or folder.`,
+      {
+        path: from,
+      },
+    );
   }
   await requireParentFolder(to, 'copy');
   let dest: BigIntStats | null;
@@ -149,12 +153,19 @@ export async function copyPath(
   }
   if (dest) {
     if (sameFileSystemObject(source, dest)) {
-      throw new IncError('E_INVALID', `Could not copy "${nameOf(from)}" onto itself.`, { from, to });
+      throw new IncError('E_INVALID', `Could not copy "${nameOf(from)}" onto itself.`, {
+        from,
+        to,
+      });
     }
     if (!overwrite) {
-      throw new IncError('E_EXISTS', `Could not copy "${nameOf(from)}": "${nameOf(to)}" already exists.`, {
-        path: to,
-      });
+      throw new IncError(
+        'E_EXISTS',
+        `Could not copy "${nameOf(from)}": "${nameOf(to)}" already exists.`,
+        {
+          path: to,
+        },
+      );
     }
     if (source.isDirectory() !== dest.isDirectory()) {
       throw new IncError(
@@ -215,9 +226,13 @@ export async function movePath(
   }
   if (dest && !sameFileSystemObject(source, dest)) {
     if (!overwrite) {
-      throw new IncError('E_EXISTS', `Could not move "${nameOf(from)}": "${nameOf(to)}" already exists.`, {
-        path: to,
-      });
+      throw new IncError(
+        'E_EXISTS',
+        `Could not move "${nameOf(from)}": "${nameOf(to)}" already exists.`,
+        {
+          path: to,
+        },
+      );
     }
     if (dest.isDirectory() || source.isDirectory()) {
       throw new IncError(
@@ -261,7 +276,9 @@ export async function trashPaths(targets: readonly string[], deps: TrashDeps): P
     try {
       await trashOne(target, guarded, deps);
     } catch (error) {
-      failures.push(error instanceof IncError ? error : fsError(error, 'move to the trash', target));
+      failures.push(
+        error instanceof IncError ? error : fsError(error, 'move to the trash', target),
+      );
     }
   }
   const [first] = failures;
@@ -272,7 +289,11 @@ export async function trashPaths(targets: readonly string[], deps: TrashDeps): P
   });
 }
 
-async function trashOne(target: string, guarded: readonly string[], deps: TrashDeps): Promise<void> {
+async function trashOne(
+  target: string,
+  guarded: readonly string[],
+  deps: TrashDeps,
+): Promise<void> {
   if (isFilesystemRoot(target)) {
     throw new IncError('E_INVALID', 'A drive or file system root cannot be moved to the trash.');
   }

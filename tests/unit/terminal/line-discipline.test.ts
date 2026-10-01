@@ -5,7 +5,11 @@ describe('LineDiscipline', () => {
   it('echoes typed characters and returns a line on Enter', () => {
     const d = new LineDiscipline();
     expect(d.input('ec')).toEqual({ echo: 'ec', lines: [], endOfInput: false });
-    expect(d.input('ho hi\r')).toEqual({ echo: 'ho hi\r\n', lines: ['echo hi'], endOfInput: false });
+    expect(d.input('ho hi\r')).toEqual({
+      echo: 'ho hi\r\n',
+      lines: ['echo hi'],
+      endOfInput: false,
+    });
   });
 
   it('treats CR LF as one Enter, even across chunks', () => {
@@ -28,7 +32,8 @@ describe('LineDiscipline', () => {
     const d = new LineDiscipline();
     const result = d.input('abc\u007f\bx\u007f\u007f\u007f\u007fz\r');
     expect(result.lines).toEqual(['z']);
-    expect(result.echo).toBe('abc\b \b\b \bx\b \b\b \b\b \bz\r\n');
+    // Four characters are erased (c, b, x, a); the two extra DELs at the line start do nothing.
+    expect(result.echo).toBe('abc\b \b\b \bx\b \b\b \bz\r\n');
   });
 
   it('clears the line on Ctrl+C and Ctrl+U', () => {

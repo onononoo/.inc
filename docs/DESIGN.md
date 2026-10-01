@@ -26,182 +26,180 @@ Themes: `light` (default), `dark`, `hc-light`, `hc-dark`. Set `document.document
 
 Values below are the light and dark themes. High-contrast values are in `tokens.css`.
 
-
 **Surfaces**
 
-| Token | Role | Light | Dark |
-|---|---|---|---|
-| `--surface-app` | Window backdrop, visible only between regions | `#dde2e8` | `#0e1114` |
-| `--surface-titlebar` | Title bar, tab strip background | `#e9ecf0` | `#121519` |
-| `--surface-activitybar` | Activity bar | `#e9ecf0` | `#121519` |
-| `--surface-sidebar` | Sidebar views | `#f1f3f6` | `#171b20` |
-| `--surface-editor` | Editor, welcome, settings | `#f8f9fb` | `#1b2026` |
-| `--surface-panel` | Bottom panel | `#f8f9fb` | `#1b2026` |
-| `--surface-statusbar` | Status bar | `#e9ecf0` | `#121519` |
-| `--surface-raised` | Menus, palette, dialogs, toasts | `#ffffff` | `#232a32` |
-| `--surface-input` | Text inputs, selects | `#ffffff` | `#12161a` |
-| `--surface-scrim` | Behind modal dialogs | `rgba(20, 28, 40, 0.38)` | `rgba(6, 8, 11, 0.62)` |
+| Token                   | Role                                          | Light                    | Dark                   |
+| ----------------------- | --------------------------------------------- | ------------------------ | ---------------------- |
+| `--surface-app`         | Window backdrop, visible only between regions | `#dde2e8`                | `#0e1114`              |
+| `--surface-titlebar`    | Title bar, tab strip background               | `#e9ecf0`                | `#121519`              |
+| `--surface-activitybar` | Activity bar                                  | `#e9ecf0`                | `#121519`              |
+| `--surface-sidebar`     | Sidebar views                                 | `#f1f3f6`                | `#171b20`              |
+| `--surface-editor`      | Editor, welcome, settings                     | `#f8f9fb`                | `#1b2026`              |
+| `--surface-panel`       | Bottom panel                                  | `#f8f9fb`                | `#1b2026`              |
+| `--surface-statusbar`   | Status bar                                    | `#e9ecf0`                | `#121519`              |
+| `--surface-raised`      | Menus, palette, dialogs, toasts               | `#ffffff`                | `#232a32`              |
+| `--surface-input`       | Text inputs, selects                          | `#ffffff`                | `#12161a`              |
+| `--surface-scrim`       | Behind modal dialogs                          | `rgba(20, 28, 40, 0.38)` | `rgba(6, 8, 11, 0.62)` |
 
 **States**
 
-| Token | Role | Light | Dark |
-|---|---|---|---|
-| `--state-hover` | Pointer over a row or control | `rgba(27, 35, 48, 0.055)` | `rgba(255, 255, 255, 0.05)` |
-| `--state-active` | Pressed | `rgba(27, 35, 48, 0.1)` | `rgba(255, 255, 255, 0.09)` |
-| `--state-selected` | Selected, container not focused | `rgba(27, 35, 48, 0.09)` | `rgba(148, 163, 184, 0.16)` |
-| `--state-selected-focus` | Selected, container focused | `rgba(31, 95, 209, 0.14)` | `rgba(76, 141, 255, 0.24)` |
+| Token                    | Role                            | Light                     | Dark                        |
+| ------------------------ | ------------------------------- | ------------------------- | --------------------------- |
+| `--state-hover`          | Pointer over a row or control   | `rgba(27, 35, 48, 0.055)` | `rgba(255, 255, 255, 0.05)` |
+| `--state-active`         | Pressed                         | `rgba(27, 35, 48, 0.1)`   | `rgba(255, 255, 255, 0.09)` |
+| `--state-selected`       | Selected, container not focused | `rgba(27, 35, 48, 0.09)`  | `rgba(148, 163, 184, 0.16)` |
+| `--state-selected-focus` | Selected, container focused     | `rgba(31, 95, 209, 0.14)` | `rgba(76, 141, 255, 0.24)`  |
 
 **Borders**
 
-| Token | Role | Light | Dark |
-|---|---|---|---|
-| `--border-subtle` | Structural hairlines (decorative) | `#dbe0e6` | `#272e36` |
+| Token              | Role                              | Light     | Dark      |
+| ------------------ | --------------------------------- | --------- | --------- |
+| `--border-subtle`  | Structural hairlines (decorative) | `#dbe0e6` | `#272e36` |
 | `--border-default` | Input, button, toggle edges (3:1) | `#788393` | `#6b7583` |
-| `--border-strong` | Hover edge, HC dividers, emphasis | `#525d6e` | `#8994a3` |
-| `--border-focus` | Focus ring (3:1) | `#1f5fd1` | `#6aa3ff` |
+| `--border-strong`  | Hover edge, HC dividers, emphasis | `#525d6e` | `#8994a3` |
+| `--border-focus`   | Focus ring (3:1)                  | `#1f5fd1` | `#6aa3ff` |
 
 **Text**
 
-| Token | Role | Light | Dark |
-|---|---|---|---|
-| `--text-primary` | Body, labels, values | `#1b2330` | `#e6eaf0` |
-| `--text-secondary` | Supporting text, inactive tabs, status bar | `#445062` | `#aab4c1` |
-| `--text-tertiary` | Hints, placeholders, group headers | `#5a6677` | `#8b96a5` |
-| `--text-inverse` | On toast-style inverse fills and danger fills | `#f8f9fb` | `#12161a` |
-| `--text-link` | Links and matched characters | `#1a56c0` | `#7fb0ff` |
-| `--text-on-accent` | Text on accent fills | `#ffffff` | `#0a111c` |
+| Token              | Role                                          | Light     | Dark      |
+| ------------------ | --------------------------------------------- | --------- | --------- |
+| `--text-primary`   | Body, labels, values                          | `#1b2330` | `#e6eaf0` |
+| `--text-secondary` | Supporting text, inactive tabs, status bar    | `#445062` | `#aab4c1` |
+| `--text-tertiary`  | Hints, placeholders, group headers            | `#5a6677` | `#8b96a5` |
+| `--text-inverse`   | On toast-style inverse fills and danger fills | `#f8f9fb` | `#12161a` |
+| `--text-link`      | Links and matched characters                  | `#1a56c0` | `#7fb0ff` |
+| `--text-on-accent` | Text on accent fills                          | `#ffffff` | `#0a111c` |
 
 **Accent**
 
-| Token | Role | Light | Dark |
-|---|---|---|---|
-| `--accent` | Primary fill, active indicators, toggle on | `#1f5fd1` | `#4c8dff` |
-| `--accent-hover` | Primary hover | `#184fb3` | `#6aa3ff` |
-| `--accent-active` | Primary pressed | `#124095` | `#3d7ae6` |
-| `--accent-subtle` | Tinted accent backgrounds | `#e2ebfb` | `#1b2e4f` |
+| Token             | Role                                       | Light     | Dark      |
+| ----------------- | ------------------------------------------ | --------- | --------- |
+| `--accent`        | Primary fill, active indicators, toggle on | `#1f5fd1` | `#4c8dff` |
+| `--accent-hover`  | Primary hover                              | `#184fb3` | `#6aa3ff` |
+| `--accent-active` | Primary pressed                            | `#124095` | `#3d7ae6` |
+| `--accent-subtle` | Tinted accent backgrounds                  | `#e2ebfb` | `#1b2e4f` |
 
 **Status**
 
-| Token | Role | Light | Dark |
-|---|---|---|---|
-| `--status-error` | Errors, destructive | `#b3261e` | `#f28083` |
-| `--status-warning` | Warnings, Restricted Mode | `#8a5a00` | `#e0b45a` |
-| `--status-info` | Information | `#1a5bb8` | `#7db4f2` |
-| `--status-success` | Success | `#1b7a43` | `#5ec08c` |
-| `--status-error-bg` | Error banner tint | `#fbe8e7` | `#3b2226` |
-| `--status-warning-bg` | Warning banner tint | `#fbf0d9` | `#392f1c` |
-| `--status-info-bg` | Info banner tint | `#e3edfb` | `#1b2d45` |
-| `--status-success-bg` | Success banner tint | `#e1f3e8` | `#1c3527` |
+| Token                 | Role                      | Light     | Dark      |
+| --------------------- | ------------------------- | --------- | --------- |
+| `--status-error`      | Errors, destructive       | `#b3261e` | `#f28083` |
+| `--status-warning`    | Warnings, Restricted Mode | `#8a5a00` | `#e0b45a` |
+| `--status-info`       | Information               | `#1a5bb8` | `#7db4f2` |
+| `--status-success`    | Success                   | `#1b7a43` | `#5ec08c` |
+| `--status-error-bg`   | Error banner tint         | `#fbe8e7` | `#3b2226` |
+| `--status-warning-bg` | Warning banner tint       | `#fbf0d9` | `#392f1c` |
+| `--status-info-bg`    | Info banner tint          | `#e3edfb` | `#1b2d45` |
+| `--status-success-bg` | Success banner tint       | `#e1f3e8` | `#1c3527` |
 
 **Git**
 
-| Token | Role | Light | Dark |
-|---|---|---|---|
-| `--git-added` | Added (A) | `#23703f` | `#74b98b` |
-| `--git-modified` | Modified (M), also gutter | `#7d5c0e` | `#cbaa6a` |
-| `--git-deleted` | Deleted (D) | `#ab3b3d` | `#d48586` |
-| `--git-untracked` | Untracked (U) | `#196d62` | `#62b5a5` |
-| `--git-conflict` | Merge conflict | `#9d491d` | `#dc8b5d` |
-| `--git-ignored` | Ignored files | `#59626f` | `#929ba8` |
+| Token             | Role                      | Light     | Dark      |
+| ----------------- | ------------------------- | --------- | --------- |
+| `--git-added`     | Added (A)                 | `#23703f` | `#74b98b` |
+| `--git-modified`  | Modified (M), also gutter | `#7d5c0e` | `#cbaa6a` |
+| `--git-deleted`   | Deleted (D)               | `#ab3b3d` | `#d48586` |
+| `--git-untracked` | Untracked (U)             | `#196d62` | `#62b5a5` |
+| `--git-conflict`  | Merge conflict            | `#9d491d` | `#dc8b5d` |
+| `--git-ignored`   | Ignored files             | `#59626f` | `#929ba8` |
 
 **Editor**
 
-| Token | Role | Light | Dark |
-|---|---|---|---|
-| `--editor-line-highlight` |  | `rgba(27, 35, 48, 0.045)` | `rgba(255, 255, 255, 0.04)` |
-| `--editor-selection` |  | `rgba(31, 95, 209, 0.2)` | `rgba(76, 141, 255, 0.2)` |
-| `--editor-selection-inactive` |  | `rgba(27, 35, 48, 0.1)` | `rgba(255, 255, 255, 0.1)` |
-| `--editor-cursor` |  | `#1b2330` | `#e6eaf0` |
-| `--editor-gutter-fg` |  | `#66727f` | `#7f8b9b` |
-| `--editor-gutter-fg-active` |  | `#1b2330` | `#d0d6de` |
-| `--editor-indent-guide` |  | `rgba(27, 35, 48, 0.1)` | `rgba(255, 255, 255, 0.08)` |
-| `--editor-indent-guide-active` |  | `rgba(27, 35, 48, 0.3)` | `rgba(255, 255, 255, 0.24)` |
-| `--editor-find-match` |  | `rgba(214, 150, 20, 0.34)` | `rgba(224, 176, 84, 0.36)` |
-| `--editor-bracket-match` |  | `rgba(31, 95, 209, 0.2)` | `rgba(76, 141, 255, 0.3)` |
+| Token                          | Role | Light                      | Dark                        |
+| ------------------------------ | ---- | -------------------------- | --------------------------- |
+| `--editor-line-highlight`      |      | `rgba(27, 35, 48, 0.045)`  | `rgba(255, 255, 255, 0.04)` |
+| `--editor-selection`           |      | `rgba(31, 95, 209, 0.2)`   | `rgba(76, 141, 255, 0.2)`   |
+| `--editor-selection-inactive`  |      | `rgba(27, 35, 48, 0.1)`    | `rgba(255, 255, 255, 0.1)`  |
+| `--editor-cursor`              |      | `#1b2330`                  | `#e6eaf0`                   |
+| `--editor-gutter-fg`           |      | `#66727f`                  | `#7f8b9b`                   |
+| `--editor-gutter-fg-active`    |      | `#1b2330`                  | `#d0d6de`                   |
+| `--editor-indent-guide`        |      | `rgba(27, 35, 48, 0.1)`    | `rgba(255, 255, 255, 0.08)` |
+| `--editor-indent-guide-active` |      | `rgba(27, 35, 48, 0.3)`    | `rgba(255, 255, 255, 0.24)` |
+| `--editor-find-match`          |      | `rgba(214, 150, 20, 0.34)` | `rgba(224, 176, 84, 0.36)`  |
+| `--editor-bracket-match`       |      | `rgba(31, 95, 209, 0.2)`   | `rgba(76, 141, 255, 0.3)`   |
 
 **Syntax**
 
-| Token | Role | Light | Dark |
-|---|---|---|---|
-| `--syntax-comment` |  | `#535f6d` | `#94a1b0` |
-| `--syntax-keyword` |  | `#1f4fc0` | `#8fb0f5` |
-| `--syntax-string` |  | `#1a6c3f` | `#8dc9a3` |
-| `--syntax-number` |  | `#8f4d0f` | `#d9a877` |
-| `--syntax-function` |  | `#0b667d` | `#7fc4d6` |
-| `--syntax-type` |  | `#6a44b0` | `#b8a4e3` |
-| `--syntax-variable` |  | `#263041` | `#d5dbe3` |
-| `--syntax-constant` |  | `#a0401d` | `#e3a98c` |
-| `--syntax-operator` |  | `#465264` | `#aab4c1` |
-| `--syntax-punctuation` |  | `#535f70` | `#9aa5b3` |
-| `--syntax-tag` |  | `#1a5bb8` | `#79b0f2` |
-| `--syntax-attribute` |  | `#81550a` | `#d8b878` |
+| Token                  | Role | Light     | Dark      |
+| ---------------------- | ---- | --------- | --------- |
+| `--syntax-comment`     |      | `#535f6d` | `#94a1b0` |
+| `--syntax-keyword`     |      | `#1f4fc0` | `#8fb0f5` |
+| `--syntax-string`      |      | `#1a6c3f` | `#8dc9a3` |
+| `--syntax-number`      |      | `#8f4d0f` | `#d9a877` |
+| `--syntax-function`    |      | `#0b667d` | `#7fc4d6` |
+| `--syntax-type`        |      | `#6a44b0` | `#b8a4e3` |
+| `--syntax-variable`    |      | `#263041` | `#d5dbe3` |
+| `--syntax-constant`    |      | `#a0401d` | `#e3a98c` |
+| `--syntax-operator`    |      | `#465264` | `#aab4c1` |
+| `--syntax-punctuation` |      | `#535f70` | `#9aa5b3` |
+| `--syntax-tag`         |      | `#1a5bb8` | `#79b0f2` |
+| `--syntax-attribute`   |      | `#81550a` | `#d8b878` |
 
 **Terminal**
 
-| Token | Role | Light | Dark |
-|---|---|---|---|
-| `--terminal-bg` |  | `#f8f9fb` | `#1b2026` |
-| `--terminal-fg` |  | `#263041` | `#d0d6de` |
-| `--terminal-cursor` |  | `#1b2330` | `#e6eaf0` |
-| `--terminal-selection` |  | `rgba(31, 95, 209, 0.2)` | `rgba(76, 141, 255, 0.2)` |
-| `--ansi-black` |  | `#263041` | `#38414b` |
-| `--ansi-red` |  | `#b3261e` | `#f0787c` |
-| `--ansi-green` |  | `#1b7042` | `#7fc79a` |
-| `--ansi-yellow` |  | `#85600a` | `#e0b865` |
-| `--ansi-blue` |  | `#1f55c4` | `#6fa5f5` |
-| `--ansi-magenta` |  | `#8a3fb0` | `#c39ae8` |
-| `--ansi-cyan` |  | `#0b6a82` | `#63c3d3` |
-| `--ansi-white` |  | `#5b6677` | `#c8cfd8` |
-| `--ansi-bright-black` |  | `#566173` | `#8792a1` |
-| `--ansi-bright-red` |  | `#c23a33` | `#ff9a9e` |
-| `--ansi-bright-green` |  | `#237a4b` | `#9bddb2` |
-| `--ansi-bright-yellow` |  | `#96690a` | `#f2ce85` |
-| `--ansi-bright-blue` |  | `#2f63d6` | `#92bdff` |
-| `--ansi-bright-magenta` |  | `#9a4cc2` | `#d9b8f5` |
-| `--ansi-bright-cyan` |  | `#14778f` | `#86d9e6` |
-| `--ansi-bright-white` |  | `#3d4858` | `#f0f3f7` |
+| Token                   | Role | Light                    | Dark                      |
+| ----------------------- | ---- | ------------------------ | ------------------------- |
+| `--terminal-bg`         |      | `#f8f9fb`                | `#1b2026`                 |
+| `--terminal-fg`         |      | `#263041`                | `#d0d6de`                 |
+| `--terminal-cursor`     |      | `#1b2330`                | `#e6eaf0`                 |
+| `--terminal-selection`  |      | `rgba(31, 95, 209, 0.2)` | `rgba(76, 141, 255, 0.2)` |
+| `--ansi-black`          |      | `#263041`                | `#38414b`                 |
+| `--ansi-red`            |      | `#b3261e`                | `#f0787c`                 |
+| `--ansi-green`          |      | `#1b7042`                | `#7fc79a`                 |
+| `--ansi-yellow`         |      | `#85600a`                | `#e0b865`                 |
+| `--ansi-blue`           |      | `#1f55c4`                | `#6fa5f5`                 |
+| `--ansi-magenta`        |      | `#8a3fb0`                | `#c39ae8`                 |
+| `--ansi-cyan`           |      | `#0b6a82`                | `#63c3d3`                 |
+| `--ansi-white`          |      | `#5b6677`                | `#c8cfd8`                 |
+| `--ansi-bright-black`   |      | `#566173`                | `#8792a1`                 |
+| `--ansi-bright-red`     |      | `#c23a33`                | `#ff9a9e`                 |
+| `--ansi-bright-green`   |      | `#237a4b`                | `#9bddb2`                 |
+| `--ansi-bright-yellow`  |      | `#96690a`                | `#f2ce85`                 |
+| `--ansi-bright-blue`    |      | `#2f63d6`                | `#92bdff`                 |
+| `--ansi-bright-magenta` |      | `#9a4cc2`                | `#d9b8f5`                 |
+| `--ansi-bright-cyan`    |      | `#14778f`                | `#86d9e6`                 |
+| `--ansi-bright-white`   |      | `#3d4858`                | `#f0f3f7`                 |
 
 **Extended**
 
-| Token | Role | Light | Dark |
-|---|---|---|---|
-| `--scrollbar-thumb` | Scrollbar thumb, rest | `rgba(27, 35, 48, 0.5)` | `rgba(255, 255, 255, 0.36)` |
-| `--scrollbar-thumb-hover` | Thumb hover | `rgba(27, 35, 48, 0.62)` | `rgba(255, 255, 255, 0.5)` |
-| `--scrollbar-thumb-active` | Thumb dragging | `rgba(27, 35, 48, 0.76)` | `rgba(255, 255, 255, 0.66)` |
-| `--scrollbar-track` | Track (transparent) | `transparent` | `transparent` |
-| `--diff-added-bg` | Diff inserted text | `rgba(35, 112, 63, 0.12)` | `rgba(116, 185, 139, 0.14)` |
-| `--diff-removed-bg` | Diff removed text | `rgba(171, 59, 61, 0.12)` | `rgba(212, 133, 134, 0.14)` |
-| `--minimap-slider` | Minimap viewport shade | `rgba(27, 35, 48, 0.1)` | `rgba(255, 255, 255, 0.1)` |
-| `--toggle-off` | Toggle track and knob, off | `#788393` | `#66717f` |
-| `--shadow-raised` | Menus, toasts, palette | `0 1px 2px rgba(20, 28, 40, 0.1), 0 2px 6px rgba(20, 28, 40, 0.08)` | `0 1px 2px rgba(0, 0, 0, 0.32), 0 2px 6px rgba(0, 0, 0, 0.24)` |
-| `--shadow-modal` | Dialogs | `0 4px 16px rgba(20, 28, 40, 0.16), 0 1px 3px rgba(20, 28, 40, 0.12)` | `0 4px 16px rgba(0, 0, 0, 0.44), 0 1px 3px rgba(0, 0, 0, 0.32)` |
-
+| Token                      | Role                       | Light                                                                 | Dark                                                            |
+| -------------------------- | -------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------- |
+| `--scrollbar-thumb`        | Scrollbar thumb, rest      | `rgba(27, 35, 48, 0.5)`                                               | `rgba(255, 255, 255, 0.36)`                                     |
+| `--scrollbar-thumb-hover`  | Thumb hover                | `rgba(27, 35, 48, 0.62)`                                              | `rgba(255, 255, 255, 0.5)`                                      |
+| `--scrollbar-thumb-active` | Thumb dragging             | `rgba(27, 35, 48, 0.76)`                                              | `rgba(255, 255, 255, 0.66)`                                     |
+| `--scrollbar-track`        | Track (transparent)        | `transparent`                                                         | `transparent`                                                   |
+| `--diff-added-bg`          | Diff inserted text         | `rgba(35, 112, 63, 0.12)`                                             | `rgba(116, 185, 139, 0.14)`                                     |
+| `--diff-removed-bg`        | Diff removed text          | `rgba(171, 59, 61, 0.12)`                                             | `rgba(212, 133, 134, 0.14)`                                     |
+| `--minimap-slider`         | Minimap viewport shade     | `rgba(27, 35, 48, 0.1)`                                               | `rgba(255, 255, 255, 0.1)`                                      |
+| `--toggle-off`             | Toggle track and knob, off | `#788393`                                                             | `#66717f`                                                       |
+| `--shadow-raised`          | Menus, toasts, palette     | `0 1px 2px rgba(20, 28, 40, 0.1), 0 2px 6px rgba(20, 28, 40, 0.08)`   | `0 1px 2px rgba(0, 0, 0, 0.32), 0 2px 6px rgba(0, 0, 0, 0.24)`  |
+| `--shadow-modal`           | Dialogs                    | `0 4px 16px rgba(20, 28, 40, 0.16), 0 1px 3px rgba(20, 28, 40, 0.12)` | `0 4px 16px rgba(0, 0, 0, 0.44), 0 1px 3px rgba(0, 0, 0, 0.32)` |
 
 ## 4. Metrics
 
-| Metric | Token | Value |
-|---|---|---|
-| Title bar | `--titlebar-height` | 36px |
-| Activity bar | `--activitybar-width` | 48px (button 48 x 44) |
-| Sidebar | `--sidebar-width` | 264px |
-| Tab strip | `--tab-height` | 36px |
-| Breadcrumb | `--breadcrumb-height` | 24px |
-| Panel header | `--panel-header-height` | 32px |
-| Status bar | `--statusbar-height` | 24px |
-| List, tree and menu row | `--row-height` | 24px |
-| Editor line | `--editor-line-height` | 20px |
-| Control height | none | 28px (24px compact) |
+| Metric                  | Token                   | Value                 |
+| ----------------------- | ----------------------- | --------------------- |
+| Title bar               | `--titlebar-height`     | 36px                  |
+| Activity bar            | `--activitybar-width`   | 48px (button 48 x 44) |
+| Sidebar                 | `--sidebar-width`       | 264px                 |
+| Tab strip               | `--tab-height`          | 36px                  |
+| Breadcrumb              | `--breadcrumb-height`   | 24px                  |
+| Panel header            | `--panel-header-height` | 32px                  |
+| Status bar              | `--statusbar-height`    | 24px                  |
+| List, tree and menu row | `--row-height`          | 24px                  |
+| Editor line             | `--editor-line-height`  | 20px                  |
+| Control height          | none                    | 28px (24px compact)   |
 
 ## 5. Type, space, shape, elevation, motion
 
 **Type.** UI font `--font-ui`: "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", sans-serif. Editor and terminal font `--font-mono`: "Cascadia Code", "SF Mono", Consolas, Menlo, monospace, 13px, line height 20px, ligatures off by default. Never load web fonts.
 
-| Token | Size | Use |
-|---|---|---|
+| Token            | Size | Use                                                  |
+| ---------------- | ---- | ---------------------------------------------------- |
 | `--font-size-xs` | 11px | Keybinding chips, group headers, counts, git letters |
-| `--font-size-sm` | 12px | Status bar, breadcrumb, descriptions, panel tabs |
-| `--font-size-md` | 13px | Default UI and editor |
-| `--font-size-lg` | 15px | Dialog titles only |
+| `--font-size-sm` | 12px | Status bar, breadcrumb, descriptions, panel tabs     |
+| `--font-size-md` | 13px | Default UI and editor                                |
+| `--font-size-lg` | 15px | Dialog titles only                                   |
 
 Weights: `--font-weight-regular` 400, `--font-weight-medium` 500 (buttons, active nav), `--font-weight-semibold` 600 (titles, matched characters, wordmark). `--line-height-ui` is 20px.
 
@@ -240,12 +238,12 @@ State colours are always the tokens named.
 
 Height 28px (compact 24px, 12px text), padding 0 `--space-3`, radius `--radius-sm`, 13px medium, icon 16px with `--space-2` gap. Sentence-case verb labels ("Open folder").
 
-| Variant | Rest | Hover | Pressed | Disabled |
-|---|---|---|---|---|
-| Primary | fill `--accent`, text `--text-on-accent` | `--accent-hover` | `--accent-active` | fill `--state-active`, text `--text-tertiary` |
-| Secondary | transparent, 1px `--border-default`, text `--text-primary` | `--state-hover`, border `--border-strong` | `--state-active` | border `--border-subtle`, text `--text-tertiary` |
-| Ghost | transparent, no border, `--text-primary` | `--state-hover` | `--state-active` | text `--text-tertiary` |
-| Danger | fill `--status-error`, text `--text-inverse` | overlay `--state-active` | overlay `--state-active` | as primary |
+| Variant   | Rest                                                       | Hover                                     | Pressed                  | Disabled                                         |
+| --------- | ---------------------------------------------------------- | ----------------------------------------- | ------------------------ | ------------------------------------------------ |
+| Primary   | fill `--accent`, text `--text-on-accent`                   | `--accent-hover`                          | `--accent-active`        | fill `--state-active`, text `--text-tertiary`    |
+| Secondary | transparent, 1px `--border-default`, text `--text-primary` | `--state-hover`, border `--border-strong` | `--state-active`         | border `--border-subtle`, text `--text-tertiary` |
+| Ghost     | transparent, no border, `--text-primary`                   | `--state-hover`                           | `--state-active`         | text `--text-tertiary`                           |
+| Danger    | fill `--status-error`, text `--text-inverse`               | overlay `--state-active`                  | overlay `--state-active` | as primary                                       |
 
 One primary button per view region. Danger appears only in a confirmation step. High contrast adds a 1px `--border-strong` to primary and danger.
 
@@ -337,19 +335,19 @@ Both HC themes use pure black or white surfaces, so tonal steps disappear: regio
 
 ## 11. Do and do not
 
-| Do | Do not |
-|---|---|
-| Use tokens for every colour, space and radius | Hard-code hex, rgb() or off-grid pixels |
-| Separate regions with a 1px hairline | Add card borders and shadows to everything |
-| Use the accent for fills, indicators and focus | Use the accent for body text; use `--text-link` |
-| Pair every status colour with an icon or text | Communicate state with colour alone |
-| Show both a fill and a position change on toggles | Use a pill toggle with a glowing knob |
-| Keep radii at 2, 4 or 6px | Round buttons fully or use 8px+ radii |
-| Test in all four themes and at 200% zoom | Ship only a dark-theme screenshot |
-| Give icon-only buttons a label and tooltip | Fill icons or mix icon libraries |
-| Write sentence-case, plain copy | Use title case, exclamation marks or emoji |
-| Respect `prefers-reduced-motion` via the motion tokens | Hard-code durations or add looping animation |
-| Keep locked settings visible and say who manages them | Hide managed settings silently |
+| Do                                                     | Do not                                          |
+| ------------------------------------------------------ | ----------------------------------------------- |
+| Use tokens for every colour, space and radius          | Hard-code hex, rgb() or off-grid pixels         |
+| Separate regions with a 1px hairline                   | Add card borders and shadows to everything      |
+| Use the accent for fills, indicators and focus         | Use the accent for body text; use `--text-link` |
+| Pair every status colour with an icon or text          | Communicate state with colour alone             |
+| Show both a fill and a position change on toggles      | Use a pill toggle with a glowing knob           |
+| Keep radii at 2, 4 or 6px                              | Round buttons fully or use 8px+ radii           |
+| Test in all four themes and at 200% zoom               | Ship only a dark-theme screenshot               |
+| Give icon-only buttons a label and tooltip             | Fill icons or mix icon libraries                |
+| Write sentence-case, plain copy                        | Use title case, exclamation marks or emoji      |
+| Respect `prefers-reduced-motion` via the motion tokens | Hard-code durations or add looping animation    |
+| Keep locked settings visible and say who manages them  | Hide managed settings silently                  |
 
 ## 12. Verification
 

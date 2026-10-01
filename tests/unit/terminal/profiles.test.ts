@@ -43,11 +43,15 @@ describe('Windows profile detection', () => {
   });
 
   it('locates Git Bash from git.exe and never uses the WSL bash.exe in System32', () => {
-    const machine = fakeMachine('win32', { ...WIN_ENV, Path: 'C:\\Windows\\System32;D:\\Dev\\Git\\cmd' }, [
-      'C:\\Windows\\System32\\bash.exe',
-      'D:\\Dev\\Git\\cmd\\git.exe',
-      'D:\\Dev\\Git\\bin\\bash.exe',
-    ]);
+    const machine = fakeMachine(
+      'win32',
+      { ...WIN_ENV, Path: 'C:\\Windows\\System32;D:\\Dev\\Git\\cmd' },
+      [
+        'C:\\Windows\\System32\\bash.exe',
+        'D:\\Dev\\Git\\cmd\\git.exe',
+        'D:\\Dev\\Git\\bin\\bash.exe',
+      ],
+    );
     const profiles = detectProfiles(machine);
     expect(profiles).toHaveLength(1);
     expect(profiles[0]).toMatchObject({ id: 'git-bash', path: 'D:\\Dev\\Git\\bin\\bash.exe' });

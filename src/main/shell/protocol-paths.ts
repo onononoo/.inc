@@ -5,8 +5,7 @@
 import path from 'node:path';
 
 export type AppFileResolution =
-  | { ok: true; file: string }
-  | { ok: false; status: 400 | 403 | 404; reason: string };
+  { ok: true; file: string } | { ok: false; status: 400 | 403 | 404; reason: string };
 
 export function resolveAppFile(
   root: string,

@@ -1,0 +1,355 @@
+/* Workbench chrome (docs/DESIGN.md sections 4 and 8). Tokens only. */
+
+.workbench {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--surface-app);
+}
+
+/* ---- Title bar --------------------------------------------------------------------------- */
+
+.wb-titlebar {
+  position: relative;
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-3);
+  height: var(--titlebar-height);
+  padding-left: var(--space-3);
+  background: var(--surface-titlebar);
+  border-bottom: 1px solid var(--divider);
+  -webkit-app-region: drag;
+}
+
+/* macOS traffic lights sit at the left edge. */
+.wb-titlebar[data-platform='mac'] {
+  padding-left: 80px;
+}
+
+.wb-titlebar button {
+  -webkit-app-region: no-drag;
+}
+
+.wb-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+.wb-brand-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.wb-menubar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  height: 100%;
+}
+.wb-menu-label {
+  height: 28px;
+  padding: 0 var(--space-2);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: var(--font-size-md);
+}
+.wb-menu-label:hover {
+  background: var(--state-hover);
+  color: var(--text-primary);
+}
+.wb-menu-label:active {
+  background: var(--state-active);
+}
+
+.wb-center {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  min-width: 0;
+}
+.wb-command-center {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  max-width: 480px;
+  height: 24px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--state-hover);
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+}
+.wb-command-center:hover {
+  border-color: var(--border-default);
+  color: var(--text-primary);
+}
+.wb-command-center-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Room for the window controls the operating system draws over the right edge. */
+.wb-titlebar-end {
+  flex: none;
+  width: calc(100vw - env(titlebar-area-x, 0px) - env(titlebar-area-width, 100vw) + var(--space-2));
+  min-width: var(--space-2);
+}
+.wb-titlebar[data-platform='mac'] .wb-titlebar-end {
+  width: var(--space-3);
+}
+
+/* ---- Banner ------------------------------------------------------------------------------ */
+
+.wb-banner {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-bottom: 1px solid var(--divider);
+}
+.wb-banner.is-warning {
+  background: var(--status-warning-bg);
+  border-bottom-color: var(--status-warning);
+}
+.wb-banner-icon {
+  color: var(--status-warning);
+}
+.wb-banner-text {
+  flex: 1;
+  min-width: 0;
+  color: var(--text-primary);
+}
+.wb-banner-text strong {
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ---- Body -------------------------------------------------------------------------------- */
+
+.wb-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ---- Activity bar ------------------------------------------------------------------------ */
+
+.wb-activitybar {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: var(--activitybar-width);
+  background: var(--surface-activitybar);
+  border-right: 1px solid var(--divider);
+}
+.wb-activity-group {
+  display: flex;
+  flex-direction: column;
+}
+.wb-activity-item {
+  position: relative;
+}
+.wb-activity-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  pointer-events: none;
+}
+
+/* ---- Sidebar ----------------------------------------------------------------------------- */
+
+.wb-sidebar-wrap {
+  flex: none;
+  min-width: 0;
+  background: var(--surface-sidebar);
+}
+.wb-sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+}
+.wb-view-title {
+  display: flex;
+  flex: none;
+  align-items: center;
+  height: var(--tab-height);
+  padding: 0 var(--space-3);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+}
+.wb-view {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+}
+
+/* ---- Main: editor and panel --------------------------------------------------------------- */
+
+.wb-main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--surface-editor);
+}
+.wb-editor {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+}
+.wb-panel-wrap {
+  flex: none;
+  min-height: 0;
+  background: var(--surface-panel);
+}
+.wb-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.wb-panel-header {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--panel-header-height);
+  padding-right: var(--space-2);
+  border-bottom: 1px solid var(--divider);
+}
+.wb-panel-actions {
+  display: flex;
+  gap: var(--space-1);
+}
+.wb-panel-body {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ---- Status bar -------------------------------------------------------------------------- */
+
+.wb-statusbar {
+  display: flex;
+  flex: none;
+  align-items: stretch;
+  justify-content: space-between;
+  height: var(--statusbar-height);
+  border-top: 1px solid var(--divider);
+  background: var(--surface-statusbar);
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+}
+.wb-status-side {
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+}
+.wb-status-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0 var(--space-2);
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: inherit;
+  white-space: nowrap;
+}
+button.wb-status-item:hover {
+  background: var(--state-hover);
+  color: var(--text-primary);
+}
+button.wb-status-item:active {
+  background: var(--state-active);
+}
+.wb-status-item.is-error .ui-icon {
+  color: var(--status-error);
+}
+.wb-status-item.is-warning .ui-icon {
+  color: var(--status-warning);
+}
+.wb-status-item.is-accent .ui-icon {
+  color: var(--text-link);
+}
+.wb-status-item.is-restricted {
+  background: var(--status-warning-bg);
+  border-right: 1px solid var(--status-warning);
+  color: var(--text-primary);
+  font-weight: var(--font-weight-medium);
+}
+.wb-status-item.is-restricted .ui-icon {
+  color: var(--status-warning);
+}
+.wb-status-item.is-managed .ui-icon {
+  color: var(--text-tertiary);
+}
+
+/* ---- Toasts ------------------------------------------------------------------------------ */
+
+.wb-toasts {
+  position: fixed;
+  right: var(--space-4);
+  bottom: calc(var(--statusbar-height) + var(--space-4));
+  z-index: 600;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* ---- About dialog ------------------------------------------------------------------------ */
+
+.about > p + p,
+.about > dl + p {
+  margin-top: var(--space-3);
+}
+.about-name {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+.about-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.about-list {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--space-1) var(--space-4);
+  margin: var(--space-3) 0 0;
+}
+.about-list dt {
+  color: var(--text-secondary);
+}
+.about-list dd {
+  margin: 0;
+  color: var(--text-primary);
+  -webkit-user-select: text;
+  user-select: text;
+}

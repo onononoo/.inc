@@ -8,7 +8,7 @@ import { randomBytes } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import type { TextEncoding } from '@shared/encodings';
-import { isWithin } from '@shared/paths';
+import { isWithin, type Platform } from '@shared/paths';
 import { compileReplacement } from './query';
 import { MAX_FILE_BYTES, type FileOutcome } from './protocol';
 import { replaceInText, type ScanHooks } from './scan';
@@ -18,15 +18,18 @@ export const SCRATCH_BYTES = 64 * 1024;
 
 export type ReadOutcome =
   /** `bytes` is only valid until the next read that uses the same scratch buffer. */
-  | { kind: 'text'; bytes: Buffer }
-  | { kind: 'binary' }
-  | { kind: 'large' }
-  | { kind: 'unreadable' };
+  { kind: 'text'; bytes: Buffer } | { kind: 'binary' } | { kind: 'large' } | { kind: 'unreadable' };
 
 function readFully(fd: number, target: Uint8Array, offset: number, position: number): number {
   let total = 0;
   while (offset + total < target.length) {
-    const n = fs.readSync(fd, target, offset + total, target.length - offset - total, position + total);
+    const n = fs.readSync(
+      fd,
+      target,
+      offset + total,
+      target.length - offset - total,
+      position + total,
+    );
     if (n === 0) break;
     total += n;
   }
@@ -177,12 +180,15 @@ export function replaceInFile(
   } catch (error) {
     return skipped(file, describeFsError(error));
   }
-  if (!isWithin(context.realRoot, real, process.platform)) {
+  if (!isWithin(context.realRoot, real, process.platform as Platform)) {
     return skipped(file, 'The file is outside the workspace folder.');
   }
   if (!before.isFile()) return skipped(file, 'This is not a regular file.');
   if (expectedMtimeMs !== undefined && Math.abs(before.mtimeMs - expectedMtimeMs) >= 1) {
-    return skipped(file, 'The file changed after the search. Search again to see its current matches.');
+    return skipped(
+      file,
+      'The file changed after the search. Search again to see its current matches.',
+    );
   }
   if (before.size > MAX_FILE_BYTES) return skipped(file, 'The file is larger than 10 MB.');
   try {

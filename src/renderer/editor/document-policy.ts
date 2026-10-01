@@ -65,7 +65,9 @@ export function platformEol(platform: Platform): EndOfLine {
 }
 
 function validSize(value: number | undefined): number | undefined {
-  return value !== undefined && Number.isInteger(value) && value >= 1 && value <= 16 ? value : undefined;
+  return value !== undefined && Number.isInteger(value) && value >= 1 && value <= 16
+    ? value
+    : undefined;
 }
 
 export function resolveDocumentPolicy(
@@ -93,7 +95,8 @@ export function resolveDocumentPolicy(
 
   const configuredEol = config?.endOfLine ?? null;
   const newFileEol =
-    configuredEol ?? (settings['files.eol'] === 'auto' ? platformEol(platform) : settings['files.eol']);
+    configuredEol ??
+    (settings['files.eol'] === 'auto' ? platformEol(platform) : settings['files.eol']);
 
   return {
     indent: {
@@ -105,10 +108,13 @@ export function resolveDocumentPolicy(
     eol: configuredEol,
     newFileEncoding: config?.charset ?? settings['files.encoding'],
     newFileEol,
-    trimTrailingWhitespace: config?.trimTrailingWhitespace ?? settings['files.trimTrailingWhitespace'],
+    trimTrailingWhitespace:
+      config?.trimTrailingWhitespace ?? settings['files.trimTrailingWhitespace'],
     insertFinalNewline: config?.insertFinalNewline ?? settings['files.insertFinalNewline'],
     maxLineLength:
-      config?.maxLineLength !== undefined && Number.isInteger(config.maxLineLength) && config.maxLineLength > 0
+      config?.maxLineLength !== undefined &&
+      Number.isInteger(config.maxLineLength) &&
+      config.maxLineLength > 0
         ? config.maxLineLength
         : null,
   };

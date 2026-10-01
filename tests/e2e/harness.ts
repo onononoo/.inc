@@ -100,7 +100,15 @@ export async function launchInc(options: LaunchOptions = {}): Promise<IncInstanc
       return env.value as never;
     },
     async close() {
-      await app.close().catch(() => undefined);
+      // A window that does not exit within a few seconds is killed, so one hung test cannot stall the run.
+      const exited = await Promise.race([
+        app.close().then(
+          () => true,
+          () => true,
+        ),
+        new Promise<boolean>((resolve) => setTimeout(() => resolve(false), 15_000)),
+      ]);
+      if (!exited) app.process().kill();
       if (!options.userDataDir) rmSync(userDataDir, { recursive: true, force: true });
     },
   };

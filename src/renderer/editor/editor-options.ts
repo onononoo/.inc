@@ -74,10 +74,15 @@ const largeFileOverrides: EditorOptionOverrides = {
   wordWrap: 'off',
   smoothScrolling: false,
   renderLineHighlight: 'none',
-  unicodeHighlight: { nonBasicASCII: false, ambiguousCharacters: false, invisibleCharacters: false },
+  unicodeHighlight: {
+    nonBasicASCII: false,
+    ambiguousCharacters: false,
+    invisibleCharacters: false,
+  },
 };
 
-export const LARGE_FILE_OVERRIDES: Readonly<EditorOptionOverrides> = Object.freeze(largeFileOverrides);
+export const LARGE_FILE_OVERRIDES: Readonly<EditorOptionOverrides> =
+  Object.freeze(largeFileOverrides);
 
 function sanitizeRulers(rulers: readonly number[]): number[] {
   return rulers.filter((n) => Number.isInteger(n) && n > 0 && n <= 1000);

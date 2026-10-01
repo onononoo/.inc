@@ -2,7 +2,7 @@ import { mkdirSync, mkdtempSync, rmSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { afterEach } from 'vitest';
-import type { PolicyState } from '@shared/policy';
+import { EMPTY_POLICY, type PolicyState } from '@shared/policy';
 import { Emitter, type Logger, type PolicyHost } from '../../../src/main/kernel';
 import { parsePolicy } from '../../../src/main/settings/policy-service';
 
@@ -63,9 +63,7 @@ export function fakePolicy(initial: object | null = null): PolicyHost & {
 } {
   const emitter = new Emitter<PolicyState>();
   const stateOf = (document: object | null): PolicyState =>
-    document === null
-      ? parsePolicy('{ "version": 1 }', 'policy.json').state
-      : parsePolicy(JSON.stringify(document), 'policy.json').state;
+    document === null ? EMPTY_POLICY : parsePolicy(JSON.stringify(document), 'policy.json').state;
   const host = {
     state: stateOf(initial),
     onDidChange: (cb: (state: PolicyState) => void) => emitter.on(cb),

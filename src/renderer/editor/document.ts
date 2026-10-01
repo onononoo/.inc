@@ -143,7 +143,9 @@ export class Document {
   /** True when the model has edits that are not on disk. Undoing back to the saved text is clean. */
   isDirty(): boolean {
     if (this.kind !== 'text' || !this.model) return false;
-    return this.cleanAltVersion === null || this.model.getAlternativeVersionId() !== this.cleanAltVersion;
+    return (
+      this.cleanAltVersion === null || this.model.getAlternativeVersionId() !== this.cleanAltVersion
+    );
   }
 
   /** Record the model's current content as the saved state. */
@@ -157,7 +159,7 @@ export class Document {
       path: this.path,
       untitledId: this.untitledId,
       name: this.name,
-      uri: this.model ? this.model.uri.toString() : this.path ?? this.key,
+      uri: this.model ? this.model.uri.toString() : (this.path ?? this.key),
       kind: this.kind,
       size: this.size,
       mtimeMs: this.mtimeMs,

@@ -45,7 +45,9 @@ export function Dialog({
   const bodyId = useId();
   const panel = useRef<HTMLDivElement>(null);
   const onCloseRef = useRef(onClose);
-  onCloseRef.current = onClose;
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  });
 
   useEffect(() => {
     const previous = document.activeElement;

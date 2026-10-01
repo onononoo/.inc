@@ -58,7 +58,10 @@ export function createCommandService(deps: CommandServiceDeps): CommandService {
       } catch (error) {
         if (isIncError(error, 'E_CANCELLED')) return undefined;
         const detail = describeError(error);
-        deps.log('error', `Command ${id} failed: ${error instanceof Error ? error.message : String(error)}`);
+        deps.log(
+          'error',
+          `Command ${id} failed: ${error instanceof Error ? error.message : String(error)}`,
+        );
         deps.notify('error', `Could not run ${titleOf(id)}.`, detail);
         return undefined;
       }

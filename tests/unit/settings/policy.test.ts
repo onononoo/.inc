@@ -220,7 +220,8 @@ describe('PolicyService', () => {
     return { dir, file, logger, service, states };
   }
 
-  const GOOD = '{ "version": 1, "settings": { "editor.fontSize": 14 }, "features": { "terminal": false } }';
+  const GOOD =
+    '{ "version": 1, "settings": { "editor.fontSize": 14 }, "features": { "terminal": false } }';
 
   it('behaves as if no policy exists when the file is missing', () => {
     const { service, file } = setup();

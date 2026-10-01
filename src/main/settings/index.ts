@@ -26,7 +26,9 @@ export function register(kernel: Kernel): Disposable {
   const policy = new PolicyService({ file: resolution.file, logger: kernel.logger });
   kernel.policy = policy;
   // Registered before the settings service subscribes, so a window hears about the policy first.
-  const stopPolicyBroadcast = policy.onDidChange((state) => kernel.broadcast('policy:changed', state));
+  const stopPolicyBroadcast = policy.onDidChange((state) =>
+    kernel.broadcast('policy:changed', state),
+  );
 
   const settings = new SettingsService({
     userDataDir: kernel.info.userDataDir,

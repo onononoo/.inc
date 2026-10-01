@@ -33,6 +33,8 @@ export interface AppInvoke {
   'app:openExternal': (url: string) => boolean;
   /** Reveal the log folder in the file manager. */
   'app:showLogs': () => void;
+  /** Absolute path of the bundled third-party notices file, or null when it is not shipped. */
+  'app:getNoticesPath': () => string | null;
   /** Renderer log sink; written to the log folder. */
   'app:log': (level: 'debug' | 'info' | 'warn' | 'error', message: string) => void;
   'app:quit': () => void;

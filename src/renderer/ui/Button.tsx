@@ -42,7 +42,9 @@ export function Button({
       onClick={busy ? undefined : onClick}
     >
       {busy ? <Spinner size={14} /> : icon ? <Icon name={icon} /> : null}
-      {children !== undefined && children !== null && <span className="ui-btn-label">{children}</span>}
+      {children !== undefined && children !== null && (
+        <span className="ui-btn-label">{children}</span>
+      )}
     </button>
   );
 }

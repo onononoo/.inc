@@ -12,7 +12,12 @@
  *  - registers the extra language ids and associations from `languages.ts`.
  */
 import * as monaco from 'monaco-editor';
-import { type KnownLanguage, languageDisplayName, registerExtraLanguages, workerFileFor } from './languages';
+import {
+  type KnownLanguage,
+  languageDisplayName,
+  registerExtraLanguages,
+  workerFileFor,
+} from './languages';
 import { incThemes, monacoThemeFor, type IncThemeName } from './themes';
 
 export { monaco };
@@ -56,7 +61,9 @@ export function themeFromEvent(event: Event): AppTheme {
   const detail = (event as CustomEvent<unknown>).detail;
   if (isAppTheme(detail)) return detail;
   if (detail && typeof detail === 'object') {
-    const nested = (detail as { theme?: unknown; resolved?: unknown }).resolved ?? (detail as { theme?: unknown }).theme;
+    const nested =
+      (detail as { theme?: unknown; resolved?: unknown }).resolved ??
+      (detail as { theme?: unknown }).theme;
     if (isAppTheme(nested)) return nested;
   }
   return currentAppTheme();
@@ -123,7 +130,11 @@ function configureWebLanguages(): void {
     enableSchemaRequest: false,
     schemas: [],
   });
-  for (const defaults of [monaco.css.cssDefaults, monaco.css.scssDefaults, monaco.css.lessDefaults]) {
+  for (const defaults of [
+    monaco.css.cssDefaults,
+    monaco.css.scssDefaults,
+    monaco.css.lessDefaults,
+  ]) {
     defaults.setOptions({ validate: true });
   }
   monaco.html.htmlDefaults.setOptions({ suggest: { html5: true } });

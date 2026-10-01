@@ -8,3 +8,6 @@ test-results
 playwright-report
 package-lock.json
 THIRD_PARTY_NOTICES.md
+docs/SETTINGS.md
+docs/KEYBINDINGS.md
+docs/contrast-report.md

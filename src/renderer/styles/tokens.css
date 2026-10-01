@@ -22,13 +22,14 @@
    Shared, theme-independent tokens
    ======================================================================== */
 :root,
-:root[data-theme="light"],
-:root[data-theme="dark"],
-:root[data-theme="hc-light"],
-:root[data-theme="hc-dark"] {
+:root[data-theme='light'],
+:root[data-theme='dark'],
+:root[data-theme='hc-light'],
+:root[data-theme='hc-dark'] {
   /* Type */
-  --font-ui: "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", sans-serif;
-  --font-mono: "Cascadia Code", "SF Mono", Consolas, Menlo, monospace;
+  --font-ui:
+    'Segoe UI Variable', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+  --font-mono: 'Cascadia Code', 'SF Mono', Consolas, Menlo, monospace;
   --font-size-xs: 11px;
   --font-size-sm: 12px;
   --font-size-md: 13px;
@@ -79,10 +80,10 @@
 
 @media (prefers-reduced-motion: reduce) {
   :root,
-  :root[data-theme="light"],
-  :root[data-theme="dark"],
-  :root[data-theme="hc-light"],
-  :root[data-theme="hc-dark"] {
+  :root[data-theme='light'],
+  :root[data-theme='dark'],
+  :root[data-theme='hc-light'],
+  :root[data-theme='hc-dark'] {
     --motion-fast: 0ms;
     --motion-base: 0ms;
   }
@@ -92,7 +93,7 @@
    Light
    ======================================================================== */
 :root,
-:root[data-theme="light"] {
+:root[data-theme='light'] {
   color-scheme: light;
 
   /* Surfaces: chrome < sidebar < editor, raised on top */
@@ -219,7 +220,7 @@
 /* ========================================================================
    Dark
    ======================================================================== */
-:root[data-theme="dark"] {
+:root[data-theme='dark'] {
   color-scheme: dark;
 
   --surface-app: #0e1114;
@@ -336,7 +337,7 @@
    High contrast light
    Pure white surfaces, solid 1px strong borders, text >= 7:1, 2px focus ring.
    ======================================================================== */
-:root[data-theme="hc-light"] {
+:root[data-theme='hc-light'] {
   color-scheme: light;
 
   --surface-app: #ffffff;
@@ -453,7 +454,7 @@
    High contrast dark
    Pure black surfaces, solid 1px strong borders, text >= 7:1, 2px focus ring.
    ======================================================================== */
-:root[data-theme="hc-dark"] {
+:root[data-theme='hc-dark'] {
   color-scheme: dark;
 
   --surface-app: #000000;
@@ -568,7 +569,7 @@
 
 /* Focus ring rule (shared): 2px solid var(--border-focus), offset 1px on
    surfaces, 2px offset in high contrast. Components apply it via :focus-visible. */
-:root[data-theme="hc-light"],
-:root[data-theme="hc-dark"] {
+:root[data-theme='hc-light'],
+:root[data-theme='hc-dark'] {
   --focus-ring-offset: 2px;
 }

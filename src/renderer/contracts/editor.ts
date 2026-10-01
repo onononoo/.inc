@@ -86,6 +86,8 @@ export interface EditorService {
   /** Update open tabs after a rename or move so unsaved work follows the file. */
   renamePath(from: string, to: string): void;
   getActivePath(): string | null;
+  /** Called when the file shown in the active editor changes (null when none is a file). */
+  onDidChangeActivePath(cb: (path: string | null) => void): Unsubscribe;
   getOpenPaths(): string[];
   getDirtyPaths(): string[];
   hasDirty(): boolean;

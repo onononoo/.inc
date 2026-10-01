@@ -312,6 +312,10 @@ export class SettingsService implements SettingsHost {
     if (!result.ok) {
       throw new IncError('E_INVALID', `${SETTINGS[target.key].title}: ${result.reason}`);
     }
+    // A value that is already too big can never fit; refuse before the (slow) JSONC formatting.
+    if (Buffer.byteLength(JSON.stringify(result.value) ?? '', 'utf8') > MAX_CONFIG_BYTES) {
+      throw new IncError('E_TOO_LARGE', 'The settings file would be larger than 1 MB.');
+    }
     await this.edit(windowId, target.scope, (text) => setTopLevel(text, target.key, result.value));
     return this.snapshotFor(windowId);
   }

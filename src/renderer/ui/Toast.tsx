@@ -32,7 +32,9 @@ export function Toast({ level, message, detail, actions = [], timeout, onDismiss
   const [paused, setPaused] = useState(false);
   const remaining = useRef(timeout);
   const dismiss = useRef(onDismiss);
-  dismiss.current = onDismiss;
+  useEffect(() => {
+    dismiss.current = onDismiss;
+  });
 
   useEffect(() => {
     if (timeout <= 0 || paused) return;

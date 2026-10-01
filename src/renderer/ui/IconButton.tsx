@@ -4,8 +4,10 @@ import { Tooltip } from './Tooltip';
 import type { Placement } from './geometry';
 import { cx } from './cx';
 
-export interface IconButtonProps
-  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'aria-label'> {
+export interface IconButtonProps extends Omit<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  'aria-label'
+> {
   icon: IconProps['name'];
   /** Required: the accessible name and the tooltip text. Sentence case, e.g. "Close panel". */
   label: string;

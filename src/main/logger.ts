@@ -79,7 +79,9 @@ export function createLogger(logDir: string, name = 'main', options: LoggerOptio
     if (LEVELS.indexOf(level) < minimum) return;
     const extra = meta.length
       ? ' ' +
-        meta.map((m) => oneLine(m instanceof Error ? (m.stack ?? m.message) : safeJson(m))).join(' ')
+        meta
+          .map((m) => oneLine(m instanceof Error ? (m.stack ?? m.message) : safeJson(m)))
+          .join(' ')
       : '';
     const line = `${new Date().toISOString()} ${level.toUpperCase().padEnd(5)} ${oneLine(message)}${extra}\n`;
     try {

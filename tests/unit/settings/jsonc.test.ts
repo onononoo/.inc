@@ -97,7 +97,10 @@ describe('setTopLevel', () => {
   it('writes lists and objects as JSON values', () => {
     let text = setTopLevel('{\n}\n', 'editor.rulers', [80, 100]);
     text = setTopLevel(text, 'files.exclude', { '**/dist': true });
-    expect(valueOf(text)).toEqual({ 'editor.rulers': [80, 100], 'files.exclude': { '**/dist': true } });
+    expect(valueOf(text)).toEqual({
+      'editor.rulers': [80, 100],
+      'files.exclude': { '**/dist': true },
+    });
   });
 
   it('collapses duplicate keys into one entry with the new value', () => {

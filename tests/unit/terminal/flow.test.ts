@@ -23,9 +23,9 @@ describe('FlowControl', () => {
     const flow = new FlowControl(100, 10);
     flow.sent(200);
     expect(flow.acknowledge(100)).toBeNull();
-    expect(flow.acknowledge(90)).toBeNull();
+    expect(flow.acknowledge(89)).toBeNull(); // 11 left: still above the low watermark
+    expect(flow.acknowledge(1)).toBe('resume'); // 10 left: at the low watermark
     expect(flow.unacknowledged).toBe(10);
-    expect(flow.acknowledge(0)).toBe('resume');
     expect(flow.paused).toBe(false);
   });
 

@@ -81,7 +81,11 @@ export function explainGitFailure(output: GitOutput): string {
     const files = filesAfter(all, /would be overwritten by (?:checkout|merge):?\r?\n/i);
     return `Untracked files (${listFiles(files)}) would be overwritten. Move or delete them, then try again.`;
   }
-  if (/you need to resolve your current index first|needs merge|unmerged files|unresolved conflict/i.test(all)) {
+  if (
+    /you need to resolve your current index first|needs merge|unmerged files|unresolved conflict/i.test(
+      all,
+    )
+  ) {
     return 'Resolve the merge conflicts and stage the resolved files first.';
   }
   if (/The following paths are ignored|are ignored by one of your \.gitignore/i.test(all)) {
@@ -103,13 +107,25 @@ export function explainGitFailure(output: GitOutput): string {
   ) {
     return 'Git could not sign in to the remote. Check your credentials or SSH key, then try again.';
   }
-  if (/Could not resolve host|Connection (timed out|refused|reset)|Network is unreachable|unable to access|Could not read from remote repository/i.test(all)) {
+  if (
+    /Could not resolve host|Connection (timed out|refused|reset)|Network is unreachable|unable to access|Could not read from remote repository/i.test(
+      all,
+    )
+  ) {
     return 'Git could not reach the remote. Check your network connection and the remote address, then try again.';
   }
-  if (/No configured push destination|No remote repository specified|does not appear to be a git repository|No such remote/i.test(all)) {
+  if (
+    /No configured push destination|No remote repository specified|does not appear to be a git repository|No such remote/i.test(
+      all,
+    )
+  ) {
     return 'This repository has no remote to use. Add one with "git remote add" in a terminal.';
   }
-  if (/invalid reference|did not match any (file|branch)|unknown revision|not a valid object name|not a commit|Needed a single revision|bad revision/i.test(all)) {
+  if (
+    /invalid reference|did not match any (file|branch)|unknown revision|not a valid object name|not a commit|Needed a single revision|bad revision/i.test(
+      all,
+    )
+  ) {
     return 'That branch, tag or commit was not found in this repository.';
   }
   if (/already exists/i.test(all) && /branch/i.test(all)) {

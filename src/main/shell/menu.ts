@@ -9,11 +9,12 @@
  *    service owns every key press, so a key can never fire twice.
  *  - Groups inside a menu are ordered by name and separated by a divider; items by `order`.
  */
-import type { MenuName } from '@shared/api/window';
+import { MENU_NAMES, type MenuName } from '@shared/api/window';
 import type { CommandDef } from '@shared/commands/types';
 import type { Platform } from '@shared/paths';
 
-export type MenuRole = 'services' | 'hide' | 'hideOthers' | 'unhide' | 'minimize' | 'zoom' | 'front';
+export type MenuRole =
+  'services' | 'hide' | 'hideOthers' | 'unhide' | 'minimize' | 'zoom' | 'front';
 
 export interface MenuTemplateItem {
   label?: string;
@@ -66,15 +67,7 @@ export const DEFAULT_MENU_LABELS: MenuLabels = {
 };
 
 /** Top-level order of the catalog menus. */
-export const MENU_ORDER: readonly MenuName[] = [
-  'File',
-  'Edit',
-  'Selection',
-  'View',
-  'Go',
-  'Terminal',
-  'Help',
-];
+export const MENU_ORDER: readonly MenuName[] = MENU_NAMES;
 
 /** Commands that live in the macOS application menu instead of File and Help. */
 const MAC_APP_MENU_COMMANDS: ReadonlySet<string> = new Set(['help.about', 'file.exit']);

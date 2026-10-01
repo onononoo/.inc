@@ -124,7 +124,7 @@ export function declaredLicense(manifest) {
 /** Normalise license text so identical licenses group together regardless of line endings. */
 export function normalizeText(text) {
   return text
-    .replace(/^﻿/, '')
+    .replace(/^\uFEFF/, '')
     .replace(/\r\n?/g, '\n')
     .split('\n')
     .map((line) => line.replace(/\s+$/, ''))

@@ -20,7 +20,17 @@
 import { spawn, execFile } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { createReadStream, existsSync, statSync } from 'node:fs';
-import { chmod, cp, mkdir, mkdtemp, readdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
+import {
+  chmod,
+  cp,
+  mkdir,
+  mkdtemp,
+  readdir,
+  readFile,
+  rm,
+  stat,
+  writeFile,
+} from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -64,10 +74,14 @@ export function parseArgs(argv, host = { platform: process.platform, arch: proce
     else throw new Error(`Unknown option: ${arg}`);
   }
   if (!PLATFORMS.includes(options.platform)) {
-    throw new Error(`Unsupported platform "${options.platform}". Use one of: ${PLATFORMS.join(', ')}`);
+    throw new Error(
+      `Unsupported platform "${options.platform}". Use one of: ${PLATFORMS.join(', ')}`,
+    );
   }
   if (!ARCHITECTURES.includes(options.arch)) {
-    throw new Error(`Unsupported architecture "${options.arch}". Use one of: ${ARCHITECTURES.join(', ')}`);
+    throw new Error(
+      `Unsupported architecture "${options.arch}". Use one of: ${ARCHITECTURES.join(', ')}`,
+    );
   }
   return options;
 }
@@ -76,7 +90,15 @@ export function parseArgs(argv, host = { platform: process.platform, arch: proce
 const GENERIC_FILE_DENY =
   /(\.(map|pdb|ilk|exp|lib|obj|o|a|tsbuildinfo|flow|ts|mts|cts|md|markdown|gyp|gypi)|\.test\.[cm]?js)$/i;
 const KEEP_DOCUMENTS = /^(licen[cs]e|notice|copying)/i;
-const GENERIC_DIR_DENY = new Set(['test', 'tests', '__tests__', 'docs', 'example', 'examples', '.github']);
+const GENERIC_DIR_DENY = new Set([
+  'test',
+  'tests',
+  '__tests__',
+  'docs',
+  'example',
+  'examples',
+  '.github',
+]);
 
 /**
  * Decide whether a file or directory inside an installed package is copied into the app.
@@ -135,7 +157,9 @@ function run(command, args, options = {}) {
     const child = spawn(command, args, { stdio: 'inherit', cwd: root, ...options });
     child.on('error', reject);
     child.on('exit', (code) =>
-      code === 0 ? resolve() : reject(new Error(`${path.basename(command)} ${args[0] ?? ''} exited with ${code}`)),
+      code === 0
+        ? resolve()
+        : reject(new Error(`${path.basename(command)} ${args[0] ?? ''} exited with ${code}`)),
     );
   });
 }
@@ -253,7 +277,10 @@ export async function createZip(folder, zipPath, hostPlatform = process.platform
 export async function sha256File(file) {
   const hash = createHash('sha256');
   await new Promise((resolve, reject) => {
-    createReadStream(file).on('data', (c) => hash.update(c)).on('end', resolve).on('error', reject);
+    createReadStream(file)
+      .on('data', (c) => hash.update(c))
+      .on('end', resolve)
+      .on('error', reject);
   });
   return hash.digest('hex');
 }
@@ -268,40 +295,61 @@ export async function verifyLayout({ resourcesDir, target, executable }) {
 
   if (existsSync(asarFile)) {
     const asar = await import('@electron/asar');
-    const listing = asar.listPackage(asarFile, { isPack: false }).map((f) => f.split('\\').join('/'));
+    const listing = asar
+      .listPackage(asarFile, { isPack: false })
+      .map((f) => f.split('\\').join('/'));
     const has = (f) => listing.includes(f);
-    for (const required of ['/package.json', '/main/index.js', '/preload/index.js', '/renderer/index.html']) {
+    for (const required of [
+      '/package.json',
+      '/main/index.js',
+      '/preload/index.js',
+      '/renderer/index.html',
+    ]) {
       if (!has(required)) problems.push(`app.asar is missing ${required}`);
     }
     const maps = listing.filter((f) => f.endsWith('.map'));
-    if (maps.length > 0) problems.push(`app.asar contains ${maps.length} source maps, for example ${maps[0]}`);
-    const tests = listing.filter((f) => /(^|\/)(tests?|__tests__)\//.test(f) || /\.test\.[cm]?js$/.test(f));
+    if (maps.length > 0)
+      problems.push(`app.asar contains ${maps.length} source maps, for example ${maps[0]}`);
+    const tests = listing.filter(
+      (f) => /(^|\/)(tests?|__tests__)\//.test(f) || /\.test\.[cm]?js$/.test(f),
+    );
     if (tests.length > 0) problems.push(`app.asar contains test files, for example ${tests[0]}`);
     const sources = listing.filter((f) => /\.tsx?$/.test(f) && !f.endsWith('.d.ts'));
-    if (sources.length > 0) problems.push(`app.asar contains TypeScript sources, for example ${sources[0]}`);
+    if (sources.length > 0)
+      problems.push(`app.asar contains TypeScript sources, for example ${sources[0]}`);
   }
 
   const natives = await findFiles(unpacked, (f) => f.endsWith('.node')).catch(() => []);
   const rel = (f) => path.relative(unpacked, f).split(path.sep).join('/');
-  if (!natives.some((f) => rel(f).startsWith('node_modules/node-pty/') && /(pty|conpty)\.node$/.test(f))) {
+  if (
+    !natives.some(
+      (f) => rel(f).startsWith('node_modules/node-pty/') && /(pty|conpty)\.node$/.test(f),
+    )
+  ) {
     problems.push('the node-pty native module is not unpacked from app.asar');
   }
-  if (!natives.some((f) => rel(f).startsWith('node_modules/@parcel/watcher-') && f.endsWith('watcher.node'))) {
+  if (
+    !natives.some(
+      (f) => rel(f).startsWith('node_modules/@parcel/watcher-') && f.endsWith('watcher.node'),
+    )
+  ) {
     problems.push('the @parcel/watcher native module is not unpacked from app.asar');
   }
   if (target.platform === 'win32') {
     for (const helper of ['winpty-agent.exe', 'winpty.dll']) {
-      const found = await findFiles(path.join(unpacked, 'node_modules', 'node-pty'), (f) => f.endsWith(helper)).catch(
-        () => [],
-      );
+      const found = await findFiles(path.join(unpacked, 'node_modules', 'node-pty'), (f) =>
+        f.endsWith(helper),
+      ).catch(() => []);
       if (found.length === 0) problems.push(`node-pty helper ${helper} is not unpacked`);
     }
   }
   if (target.platform !== 'win32') {
-    const helpers = await findFiles(path.join(unpacked, 'node_modules', 'node-pty'), (f) => path.basename(f) === 'spawn-helper').catch(
-      () => [],
-    );
-    if (target.platform === 'darwin' && helpers.length === 0) problems.push('node-pty spawn-helper is not unpacked');
+    const helpers = await findFiles(
+      path.join(unpacked, 'node_modules', 'node-pty'),
+      (f) => path.basename(f) === 'spawn-helper',
+    ).catch(() => []);
+    if (target.platform === 'darwin' && helpers.length === 0)
+      problems.push('node-pty spawn-helper is not unpacked');
     if (process.platform !== 'win32') {
       for (const helper of helpers) {
         const mode = (await stat(helper)).mode;
@@ -310,7 +358,8 @@ export async function verifyLayout({ resourcesDir, target, executable }) {
     }
   }
   for (const notice of ['THIRD_PARTY_NOTICES.md', 'LICENSE']) {
-    if (!existsSync(path.join(resourcesDir, notice))) problems.push(`resources/${notice} is missing`);
+    if (!existsSync(path.join(resourcesDir, notice)))
+      problems.push(`resources/${notice} is missing`);
   }
   return problems;
 }
@@ -344,73 +393,85 @@ export async function smokeTest({ executable, noSandbox, screenshotPath }) {
     await page.waitForLoadState('domcontentloaded');
     await page.waitForSelector('#root > *', { timeout: 30_000 });
 
+    // eslint-disable-next-line no-undef -- this function runs in the page, not in Node
     const envelope = await page.evaluate(() => window.inc.invokeRaw('app:getInfo'));
     if (!envelope.ok) throw new Error(`app:getInfo failed: ${envelope.error?.message}`);
     report.info = envelope.value;
-    if (report.info.name !== '.inc') throw new Error(`Unexpected product name "${report.info.name}"`);
-    if (report.info.isPackaged !== true) throw new Error('The app does not report itself as packaged');
+    if (report.info.name !== '.inc')
+      throw new Error(`Unexpected product name "${report.info.name}"`);
+    if (report.info.isPackaged !== true)
+      throw new Error('The app does not report itself as packaged');
     if (screenshotPath) await page.screenshot({ path: screenshotPath });
 
     // Native modules load from the packaged app exactly as the main process would load them.
-    report.native = await app.evaluate(async ({ app: electronApp }, { workDir: dir }) => {
-      const builtin = (name) => process.getBuiltinModule(name);
-      const fs = builtin('node:fs');
-      const nodePath = builtin('node:path');
-      const requireFromApp = builtin('node:module').createRequire(
-        nodePath.join(electronApp.getAppPath(), 'package.json'),
-      );
-      const result = { appPath: electronApp.getAppPath() };
+    report.native = await app.evaluate(
+      async ({ app: electronApp }, { workDir: dir }) => {
+        const builtin = (name) => process.getBuiltinModule(name);
+        const fs = builtin('node:fs');
+        const nodePath = builtin('node:path');
+        const requireFromApp = builtin('node:module').createRequire(
+          nodePath.join(electronApp.getAppPath(), 'package.json'),
+        );
+        const result = { appPath: electronApp.getAppPath() };
 
-      const pty = requireFromApp('node-pty');
-      const marker = `inc-smoke-${Date.now()}`;
-      const win = process.platform === 'win32';
-      const term = pty.spawn(
-        win ? (process.env.ComSpec ?? 'cmd.exe') : '/bin/sh',
-        win ? ['/d', '/c', `echo ${marker}`] : ['-c', `echo ${marker}`],
-        { name: 'xterm-256color', cols: 80, rows: 24, cwd: dir, env: process.env },
-      );
-      let output = '';
-      term.onData((data) => {
-        output += data;
-      });
-      const exit = await new Promise((resolve) => {
-        const timer = setTimeout(() => resolve({ exitCode: null, timedOut: true }), 20_000);
-        term.onExit((e) => {
-          clearTimeout(timer);
-          resolve(e);
+        const pty = requireFromApp('node-pty');
+        const marker = `inc-smoke-${Date.now()}`;
+        const win = process.platform === 'win32';
+        const term = pty.spawn(
+          win ? (process.env.ComSpec ?? 'cmd.exe') : '/bin/sh',
+          win ? ['/d', '/c', `echo ${marker}`] : ['-c', `echo ${marker}`],
+          { name: 'xterm-256color', cols: 80, rows: 24, cwd: dir, env: process.env },
+        );
+        let output = '';
+        term.onData((data) => {
+          output += data;
         });
-      });
-      result.pty = { marker, seen: output.includes(marker), exitCode: exit.exitCode, timedOut: Boolean(exit.timedOut) };
+        const exit = await new Promise((resolve) => {
+          const timer = setTimeout(() => resolve({ exitCode: null, timedOut: true }), 20_000);
+          term.onExit((e) => {
+            clearTimeout(timer);
+            resolve(e);
+          });
+        });
+        result.pty = {
+          marker,
+          seen: output.includes(marker),
+          exitCode: exit.exitCode,
+          timedOut: Boolean(exit.timedOut),
+        };
 
-      const watcher = requireFromApp('@parcel/watcher');
-      const watched = fs.mkdtempSync(nodePath.join(dir, 'watch-'));
-      let subscription;
-      const changed = new Promise((resolve, reject) => {
-        const timer = setTimeout(() => reject(new Error('no file event within 20 s')), 20_000);
-        watcher
-          .subscribe(watched, (error, events) => {
-            if (error) {
-              clearTimeout(timer);
-              reject(error);
-            } else if (events.some((e) => e.path.endsWith('smoke.txt'))) {
-              clearTimeout(timer);
-              resolve(events.map((e) => e.type));
-            }
-          })
-          .then((sub) => {
-            subscription = sub;
-            fs.writeFileSync(nodePath.join(watched, 'smoke.txt'), 'hello');
-          }, reject);
-      });
-      result.watcher = { events: await changed };
-      await subscription.unsubscribe();
-      return result;
-    }, { workDir });
+        const watcher = requireFromApp('@parcel/watcher');
+        const watched = fs.mkdtempSync(nodePath.join(dir, 'watch-'));
+        let subscription;
+        const changed = new Promise((resolve, reject) => {
+          const timer = setTimeout(() => reject(new Error('no file event within 20 s')), 20_000);
+          watcher
+            .subscribe(watched, (error, events) => {
+              if (error) {
+                clearTimeout(timer);
+                reject(error);
+              } else if (events.some((e) => e.path.endsWith('smoke.txt'))) {
+                clearTimeout(timer);
+                resolve(events.map((e) => e.type));
+              }
+            })
+            .then((sub) => {
+              subscription = sub;
+              fs.writeFileSync(nodePath.join(watched, 'smoke.txt'), 'hello');
+            }, reject);
+        });
+        result.watcher = { events: await changed };
+        await subscription.unsubscribe();
+        return result;
+      },
+      { workDir },
+    );
 
     if (!report.native.pty.seen || report.native.pty.exitCode !== 0) {
       throw new Error(`PTY smoke test failed: ${JSON.stringify(report.native.pty)}`);
     }
-    if (report.native.watcher.events.length === 0) throw new Error('The file watcher reported no events');
+    if (report.native.watcher.events.length === 0)
+      throw new Error('The file watcher reported no events');
     if (!report.native.appPath.endsWith('app.asar')) {
       throw new Error(`The app is not running from app.asar: ${report.native.appPath}`);
     }
@@ -425,7 +486,8 @@ export async function smokeTest({ executable, noSandbox, screenshotPath }) {
 
 function executablePathFor(packagedDir, platform) {
   if (platform === 'win32') return path.join(packagedDir, `${EXECUTABLE_NAME}.exe`);
-  if (platform === 'darwin') return path.join(packagedDir, `${EXECUTABLE_NAME}.app`, 'Contents', 'MacOS', EXECUTABLE_NAME);
+  if (platform === 'darwin')
+    return path.join(packagedDir, `${EXECUTABLE_NAME}.app`, 'Contents', 'MacOS', EXECUTABLE_NAME);
   return path.join(packagedDir, EXECUTABLE_NAME);
 }
 
@@ -449,7 +511,12 @@ async function main() {
   } else {
     await mkdir(outDir, { recursive: true });
     console.log('Building the application...');
-    await run(process.execPath, [path.join(root, 'scripts', 'build.mjs'), '--production', '--out', appDir]);
+    await run(process.execPath, [
+      path.join(root, 'scripts', 'build.mjs'),
+      '--production',
+      '--out',
+      appDir,
+    ]);
   }
 
   console.log(`Staging runtime dependencies for ${target.platform}-${target.arch}...`);
@@ -461,7 +528,8 @@ async function main() {
     throw new Error('Icons are missing. Run: node scripts/make-icons.mjs');
   }
   const notices = path.join(root, 'THIRD_PARTY_NOTICES.md');
-  if (!existsSync(notices)) throw new Error('THIRD_PARTY_NOTICES.md is missing. Run: npm run licenses');
+  if (!existsSync(notices))
+    throw new Error('THIRD_PARTY_NOTICES.md is missing. Run: npm run licenses');
 
   const { packager } = await import('@electron/packager');
   console.log('Packaging...');
@@ -517,7 +585,9 @@ async function main() {
         `PTY exit ${report.native.pty.exitCode}; watcher events: ${report.native.watcher.events.join(', ')}`,
     );
   } else if (options.smoke) {
-    console.log(`Smoke test skipped: ${target.platform}-${target.arch} cannot run on ${process.platform}-${process.arch}.`);
+    console.log(
+      `Smoke test skipped: ${target.platform}-${target.arch} cannot run on ${process.platform}-${process.arch}.`,
+    );
   }
 
   const asarSize = await stat(path.join(resourcesDir, 'app.asar')).then((s) => s.size);
@@ -529,15 +599,21 @@ async function main() {
   console.log(`Output: ${path.relative(root, packagedDir)}`);
 
   if (options.zip) {
-    const zipPath = path.join(outDir, `${EXECUTABLE_NAME}-${manifest.version}-${target.platform}-${target.arch}.zip`);
+    const zipPath = path.join(
+      outDir,
+      `${EXECUTABLE_NAME}-${manifest.version}-${target.platform}-${target.arch}.zip`,
+    );
     await createZip(packagedDir, zipPath);
     const digest = await sha256File(zipPath);
     await writeFile(`${zipPath}.sha256`, `${digest}  ${path.basename(zipPath)}\n`);
-    console.log(`Archive: ${path.relative(root, zipPath)} (${mib((await stat(zipPath)).size)}), sha256 ${digest}`);
+    console.log(
+      `Archive: ${path.relative(root, zipPath)} (${mib((await stat(zipPath)).size)}), sha256 ${digest}`,
+    );
   }
 }
 
-const isEntry = process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href;
+const isEntry =
+  process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href;
 if (isEntry) {
   main().catch((error) => {
     console.error(error instanceof Error ? error.message : error);

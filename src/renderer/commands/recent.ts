@@ -45,7 +45,7 @@ export function createRecentCommands(storage?: StorageLike | null): RecentComman
 
   const read = (): string[] => {
     if (cache) return cache;
-    let raw: string | null = null;
+    let raw: string | null;
     try {
       raw = store?.getItem(STORAGE_KEY) ?? null;
     } catch {

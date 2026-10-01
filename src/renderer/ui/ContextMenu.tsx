@@ -13,12 +13,7 @@ import type { MenuItem } from '../contracts/layout';
 import { Icon } from './Icon';
 import { cx } from './cx';
 import { placeAtPoint, placeSubmenu, type Box, type Point } from './geometry';
-import {
-  firstEnabledIndex,
-  lastEnabledIndex,
-  nextEnabledIndex,
-  typeaheadIndex,
-} from './menu-nav';
+import { firstEnabledIndex, lastEnabledIndex, nextEnabledIndex, typeaheadIndex } from './menu-nav';
 
 const TYPEAHEAD_RESET_MS = 700;
 const SUBMENU_OPEN_DELAY_MS = 140;
@@ -53,11 +48,16 @@ function MenuPanel({
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [position, setPosition] = useState<Point | null>(null);
   const [active, setActive] = useState(-1);
-  const [openSub, setOpenSub] = useState<{ index: number; anchor: Box; focusFirst: boolean } | null>(
-    null,
-  );
+  const [openSub, setOpenSub] = useState<{
+    index: number;
+    anchor: Box;
+    focusFirst: boolean;
+  } | null>(null);
   const hoverTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const typed = useRef({ buffer: '', timer: undefined as ReturnType<typeof setTimeout> | undefined });
+  const typed = useRef({
+    buffer: '',
+    timer: undefined as ReturnType<typeof setTimeout> | undefined,
+  });
 
   useLayoutEffect(() => {
     const el = ref.current;
@@ -229,7 +229,11 @@ function MenuPanel({
                 aria-expanded={item.submenu ? openSub?.index === index : undefined}
                 tabIndex={-1}
                 data-active={active === index ? '' : undefined}
-                className={cx('ui-menu-item', item.disabled && 'is-disabled', item.danger && 'is-danger')}
+                className={cx(
+                  'ui-menu-item',
+                  item.disabled && 'is-disabled',
+                  item.danger && 'is-danger',
+                )}
                 onPointerMove={() => hover(index)}
                 onClick={() => activate(index)}
               >
@@ -284,7 +288,13 @@ export interface ContextMenuProps {
  * close. It closes when focus leaves it, on an outside press, on resize and on window blur, and
  * puts focus back where it was. It is clamped inside the viewport.
  */
-export function ContextMenu({ items, position, onClose, focusFirst = false, label = 'Context menu' }: ContextMenuProps) {
+export function ContextMenu({
+  items,
+  position,
+  onClose,
+  focusFirst = false,
+  label = 'Context menu',
+}: ContextMenuProps) {
   const previousFocus = useRef<Element | null>(document.activeElement);
   const closed = useRef(false);
 
@@ -295,7 +305,8 @@ export function ContextMenu({ items, position, onClose, focusFirst = false, labe
       onClose();
       if (restore) {
         const target = previousFocus.current;
-        if (target instanceof HTMLElement && target.isConnected) target.focus({ preventScroll: true });
+        if (target instanceof HTMLElement && target.isConnected)
+          target.focus({ preventScroll: true });
       }
     },
     [onClose],

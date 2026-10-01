@@ -100,7 +100,8 @@ function absolute(root: string, relative: string): string {
 // --- Folder listing -----------------------------------------------------------------------
 
 function rulesFor(ctx: JobContext, source: IgnoreSource): IgnoreRules {
-  if (source.text !== undefined) ctx.sources.set(source.id, { base: source.base, text: source.text });
+  if (source.text !== undefined)
+    ctx.sources.set(source.id, { base: source.base, text: source.text });
   let rules = ctx.compiled.get(source.id);
   if (!rules) {
     const known = ctx.sources.get(source.id);

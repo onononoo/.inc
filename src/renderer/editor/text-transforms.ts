@@ -64,7 +64,12 @@ export function trailingWhitespaceEdits(source: LineSource): TextEdit[] {
     while (end > 0 && (text.charCodeAt(end - 1) === 32 || text.charCodeAt(end - 1) === 9)) end--;
     if (end !== text.length) {
       edits.push({
-        range: { startLineNumber: n, startColumn: end + 1, endLineNumber: n, endColumn: text.length + 1 },
+        range: {
+          startLineNumber: n,
+          startColumn: end + 1,
+          endLineNumber: n,
+          endColumn: text.length + 1,
+        },
         text: '',
       });
     }
@@ -102,7 +107,12 @@ function leadingWidth(text: string, tabSize: number): { width: number; end: numb
 
 function replaceLeading(lineNumber: number, end: number, text: string): TextEdit {
   return {
-    range: { startLineNumber: lineNumber, startColumn: 1, endLineNumber: lineNumber, endColumn: end + 1 },
+    range: {
+      startLineNumber: lineNumber,
+      startColumn: 1,
+      endLineNumber: lineNumber,
+      endColumn: end + 1,
+    },
     text,
   };
 }
@@ -123,7 +133,9 @@ export function convertIndentationEdits(
     const { width, end } = leadingWidth(text, size);
     if (end === 0) continue;
     const replacement =
-      to === 'spaces' ? ' '.repeat(width) : '\t'.repeat(Math.floor(width / size)) + ' '.repeat(width % size);
+      to === 'spaces'
+        ? ' '.repeat(width)
+        : '\t'.repeat(Math.floor(width / size)) + ' '.repeat(width % size);
     if (replacement !== text.slice(0, end)) edits.push(replaceLeading(n, end, replacement));
   }
   return edits;
@@ -263,13 +275,23 @@ export function replacementToEdit(
   if (removeCount === 0) {
     if (startLine <= lineCount) {
       return {
-        range: { startLineNumber: startLine, startColumn: 1, endLineNumber: startLine, endColumn: 1 },
+        range: {
+          startLineNumber: startLine,
+          startColumn: 1,
+          endLineNumber: startLine,
+          endColumn: 1,
+        },
         text: text + sequence,
       };
     }
     const column = maxColumn(lineCount);
     return {
-      range: { startLineNumber: lineCount, startColumn: column, endLineNumber: lineCount, endColumn: column },
+      range: {
+        startLineNumber: lineCount,
+        startColumn: column,
+        endLineNumber: lineCount,
+        endColumn: column,
+      },
       text: sequence + text,
     };
   }
@@ -288,7 +310,12 @@ export function replacementToEdit(
   }
   if (endLine < lineCount) {
     return {
-      range: { startLineNumber: startLine, startColumn: 1, endLineNumber: endLine + 1, endColumn: 1 },
+      range: {
+        startLineNumber: startLine,
+        startColumn: 1,
+        endLineNumber: endLine + 1,
+        endColumn: 1,
+      },
       text: '',
     };
   }
@@ -304,7 +331,12 @@ export function replacementToEdit(
     };
   }
   return {
-    range: { startLineNumber: 1, startColumn: 1, endLineNumber: endLine, endColumn: maxColumn(endLine) },
+    range: {
+      startLineNumber: 1,
+      startColumn: 1,
+      endLineNumber: endLine,
+      endColumn: maxColumn(endLine),
+    },
     text: '',
   };
 }

@@ -48,9 +48,7 @@ export interface IconsModule {
   };
   encodeIco(images: { size: number; data: Buffer }[]): Buffer;
   encodeIcns(images: { size: number; data: Buffer }[]): Buffer;
-  decodeIco(
-    data: Buffer,
-  ): { width: number; height: number; bitsPerPixel: number; image: Buffer }[];
+  decodeIco(data: Buffer): { width: number; height: number; bitsPerPixel: number; image: Buffer }[];
   decodeIcns(data: Buffer): { type: string; image: Buffer }[];
 }
 

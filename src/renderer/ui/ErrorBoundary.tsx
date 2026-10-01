@@ -28,7 +28,11 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   override componentDidCatch(error: unknown, info: ErrorInfo): void {
     const message = error instanceof Error ? (error.stack ?? error.message) : String(error);
     void ipc
-      .invoke('app:log', 'error', `${this.props.region} failed to render: ${message}${info.componentStack ?? ''}`)
+      .invoke(
+        'app:log',
+        'error',
+        `${this.props.region} failed to render: ${message}${info.componentStack ?? ''}`,
+      )
       .catch(() => undefined);
   }
 

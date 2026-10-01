@@ -102,6 +102,7 @@ export function decodeText(buf: Uint8Array, encoding: TextEncoding): string {
   }
 }
 
+// eslint-disable-next-line no-control-regex -- the ASCII range, NUL included, is the point
 const ASCII_ONLY = /^[\x00-\x7f]*$/;
 
 /**
@@ -122,10 +123,7 @@ export function encodeText(text: string, encoding: TextEncoding): Buffer {
       break;
     default:
       body = iconv.encode(text, info.iconv, { addBOM: false });
-      if (
-        !ASCII_ONLY.test(text) &&
-        iconv.decode(body, info.iconv, { stripBOM: false }) !== text
-      ) {
+      if (!ASCII_ONLY.test(text) && iconv.decode(body, info.iconv, { stripBOM: false }) !== text) {
         throw new Error(`Some characters cannot be saved as ${info.label}.`);
       }
   }

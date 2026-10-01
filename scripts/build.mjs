@@ -143,6 +143,13 @@ async function prepare() {
     path.join(root, 'src/renderer/index.html'),
     path.join(outDir, 'renderer/index.html'),
   );
+  // The EditorConfig parser loads its WebAssembly module from beside the script that requires it,
+  // which after bundling is the main bundle's folder.
+  await mkdir(path.join(outDir, 'main'), { recursive: true });
+  await copyFile(
+    path.join(root, 'node_modules/@one-ini/wasm/one_ini_bg.wasm'),
+    path.join(outDir, 'main/one_ini_bg.wasm'),
+  );
   // A runnable app root: `electron <outDir>` reads this manifest.
   await writeFile(
     path.join(outDir, 'package.json'),

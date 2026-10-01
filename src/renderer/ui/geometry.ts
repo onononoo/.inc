@@ -68,7 +68,10 @@ function candidate(anchor: Box, size: Size, placement: Placement, gap: number): 
     case 'left':
       return { x: anchor.x - size.width - gap, y: anchor.y + anchor.height / 2 - size.height / 2 };
     case 'right':
-      return { x: anchor.x + anchor.width + gap, y: anchor.y + anchor.height / 2 - size.height / 2 };
+      return {
+        x: anchor.x + anchor.width + gap,
+        y: anchor.y + anchor.height / 2 - size.height / 2,
+      };
   }
 }
 

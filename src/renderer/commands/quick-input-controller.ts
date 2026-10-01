@@ -50,6 +50,8 @@ export interface SessionSpec {
   query?(value: string, token: QueryToken): QueryResult | Promise<QueryResult>;
   /** Input sessions: an error message to block submission, or undefined when the value is fine. */
   validate?(value: string, token: QueryToken): string | undefined | Promise<string | undefined>;
+  /** Pick sessions: called when the highlighted row changes (arrow keys, filtering). */
+  onActive?(item: QuickItem | undefined): void;
   /** Called after the surface has closed and focus has been handed back. */
   accept(item: QuickItem | undefined, value: string): void | Promise<void>;
   cancel?(): void;
@@ -87,9 +89,7 @@ export interface ControllerDeps {
   reportError?(error: unknown): void;
 }
 
-type Move =
-  | { by: number; wrap?: boolean }
-  | { to: 'first' | 'last' };
+type Move = { by: number; wrap?: boolean } | { to: 'first' | 'last' };
 
 interface Running {
   id: number;
@@ -254,7 +254,16 @@ export class QuickInputController {
       if (move.wrap === false) next = Math.min(count - 1, Math.max(0, next));
       else next = ((next % count) + count) % count;
     }
-    if (next !== view.activeIndex) this.patch({ activeIndex: next });
+    if (next !== view.activeIndex) {
+      this.patch({ activeIndex: next });
+      this.notifyActive();
+    }
+  }
+
+  private notifyActive(): void {
+    const view = this.store.get();
+    const item = view.items[view.activeIndex];
+    this.safely(() => this.running?.spec.onActive?.(item));
   }
 
   /** Pointer or keyboard: choose the row at `index`, or the active row. */
@@ -326,7 +335,9 @@ export class QuickInputController {
     if (!spec.query) return;
     running.seq++;
     const token = this.token(running);
-    const previousId = preserveActive ? this.store.get().items[this.store.get().activeIndex]?.id : undefined;
+    const previousId = preserveActive
+      ? this.store.get().items[this.store.get().activeIndex]?.id
+      : undefined;
     if (running.loadingTimer !== undefined) clearTimeout(running.loadingTimer);
     running.loadingTimer = undefined;
 
@@ -371,7 +382,8 @@ export class QuickInputController {
   }
 
   private applyResult(running: Running, result: QueryResult, previousId: string | undefined): void {
-    const items = result.items.length > MAX_RESULTS ? result.items.slice(0, MAX_RESULTS) : result.items;
+    const items =
+      result.items.length > MAX_RESULTS ? result.items.slice(0, MAX_RESULTS) : result.items;
     const wanted = previousId ?? result.activeId;
     let activeIndex = items.length === 0 ? -1 : 0;
     if (wanted !== undefined) {
@@ -389,6 +401,7 @@ export class QuickInputController {
       placeholder: result.placeholder ?? running.spec.placeholder,
       ariaLabel: result.ariaLabel ?? running.spec.ariaLabel,
     });
+    this.notifyActive();
     if (running.pendingAccept && items.length > 0) {
       running.pendingAccept = false;
       this.accept();

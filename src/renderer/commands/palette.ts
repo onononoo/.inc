@@ -17,7 +17,12 @@ import {
   parseLineInput,
   routePaletteInput,
 } from './palette-query';
-import type { QuickInputController, QueryResult, QueryToken, QuickItem } from './quick-input-controller';
+import type {
+  QuickInputController,
+  QueryResult,
+  QueryToken,
+  QuickItem,
+} from './quick-input-controller';
 import type { RecentCommands } from './recent';
 
 export const FILE_SEARCH_DEBOUNCE_MS = 40;
@@ -84,13 +89,20 @@ export function createPalette(deps: PaletteDeps, controller: QuickInputControlle
   let resultsIndexing = false;
 
   const commandsResult = (text: string): QueryResult => {
-    const { items, total } = buildCommandItems(text, {
-      catalog: deps.catalog,
-      isEnabled: (id) => deps.commands.isEnabled(id),
-      labelFor: (id) => deps.keybindings.labelFor(id),
-    }, deps.recent.get());
+    const { items, total } = buildCommandItems(
+      text,
+      {
+        catalog: deps.catalog,
+        isEnabled: (id) => deps.commands.isEnabled(id),
+        labelFor: (id) => deps.keybindings.labelFor(id),
+      },
+      deps.recent.get(),
+    );
     return {
-      items: items.map((item) => ({ ...item, value: { kind: 'command', id: item.id } satisfies PaletteTarget })),
+      items: items.map((item) => ({
+        ...item,
+        value: { kind: 'command', id: item.id } satisfies PaletteTarget,
+      })),
       total,
       emptyText: EMPTY_COMMANDS,
       placeholder: 'Type a command',
@@ -105,7 +117,8 @@ export function createPalette(deps: PaletteDeps, controller: QuickInputControlle
       return { ...base, items: [], emptyText: 'Open a file to go to a line.' };
     }
     const parsed = parseLineInput(text);
-    const range = info.lineCount === 1 ? 'line 1' : `lines 1 to ${info.lineCount.toLocaleString('en-US')}`;
+    const range =
+      info.lineCount === 1 ? 'line 1' : `lines 1 to ${info.lineCount.toLocaleString('en-US')}`;
     if (parsed.kind === 'empty') {
       return {
         ...base,
@@ -120,7 +133,10 @@ export function createPalette(deps: PaletteDeps, controller: QuickInputControlle
         emptyText: '',
         message: {
           tone: 'error',
-          text: parsed.reason === 'zero' ? 'Line numbers start at 1.' : 'Enter a line number, such as 42 or 42:8.',
+          text:
+            parsed.reason === 'zero'
+              ? 'Line numbers start at 1.'
+              : 'Enter a line number, such as 42 or 42:8.',
         },
       };
     }
@@ -187,7 +203,11 @@ export function createPalette(deps: PaletteDeps, controller: QuickInputControlle
           message: { tone: 'info', text: 'No folder is open. Open a folder to search for files.' },
         };
       }
-      return { ...base, items, emptyText: 'No files are open. Type a name to search the workspace.' };
+      return {
+        ...base,
+        items,
+        emptyText: 'No files are open. Type a name to search the workspace.',
+      };
     }
 
     const found: QuickItem<PaletteTarget>[] = [];
@@ -205,7 +225,12 @@ export function createPalette(deps: PaletteDeps, controller: QuickInputControlle
         items: found.length > 0 ? found : [openFolder],
         emptyText: '',
         ...(found.length === 0
-          ? { message: { tone: 'info' as const, text: 'No folder is open. Open a folder to search for files.' } }
+          ? {
+              message: {
+                tone: 'info' as const,
+                text: 'No folder is open. Open a folder to search for files.',
+              },
+            }
           : { message: info }),
       };
     }

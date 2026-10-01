@@ -24,7 +24,8 @@ import {
   type Chord,
   type KeyEventLike,
   type Stroke,
-} from './keys';
+} from '@shared/keys';
+import { runsInTerminal } from './terminal-keys';
 
 export const CHORD_TIMEOUT_MS = 1500;
 
@@ -164,7 +165,15 @@ export function applyOverrides(
     );
     list = [
       ...list,
-      { commandId: entry.command, chord, canonical, when, source: 'user', args: entry.args, order: order++ },
+      {
+        commandId: entry.command,
+        chord,
+        canonical,
+        when,
+        source: 'user',
+        args: entry.args,
+        order: order++,
+      },
     ];
   }
   return list;
@@ -200,6 +209,7 @@ export function createKeybindingService(deps: KeybindingServiceDeps): Keybinding
   /** A binding applies when its command can run, its when clause holds and no modal input owns the keys. */
   const isActive = (b: Binding): boolean => {
     if (contexts.get('quickInputVisible') && !b.commandId.startsWith('palette.')) return false;
+    if (contexts.get('terminalFocus') && !runsInTerminal(b.commandId)) return false;
     return commands.isEnabled(b.commandId) && contexts.evaluate(b.when);
   };
 
@@ -339,9 +349,7 @@ export function createKeybindingService(deps: KeybindingServiceDeps): Keybinding
   };
 
   const orderedFor = (commandId: string): Binding[] =>
-    bindings
-      .filter((b) => b.commandId === commandId)
-      .sort((a, b) => rank(b) - rank(a));
+    bindings.filter((b) => b.commandId === commandId).sort((a, b) => rank(b) - rank(a));
 
   return {
     start() {

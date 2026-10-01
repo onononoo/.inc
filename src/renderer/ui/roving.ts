@@ -85,7 +85,9 @@ export function useRovingTabindex<T extends HTMLElement = HTMLElement>(options: 
       const container = containerRef.current;
       if (!container) return;
       const items = itemsOf(container, selector);
-      const current = items.findIndex((el) => el === event.target || el.contains(event.target as Node));
+      const current = items.findIndex(
+        (el) => el === event.target || el.contains(event.target as Node),
+      );
       if (current < 0) return;
       const next = nextRovingIndex(current, items.length, event.key, orientation, loop);
       if (next === null) return;

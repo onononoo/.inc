@@ -131,7 +131,10 @@ export class WindowWatcher {
   async watchExtra(target: string, recursive: boolean): Promise<number> {
     if (this.disposed) throw new IncError('E_CANCELLED', 'The window is closing.');
     if (this.extras.size >= MAX_EXTRA_WATCHES) {
-      throw new IncError('E_INVALID', 'Too many paths are being watched. Stop watching some first.');
+      throw new IncError(
+        'E_INVALID',
+        'Too many paths are being watched. Stop watching some first.',
+      );
     }
     let info;
     try {
@@ -152,9 +155,13 @@ export class WindowWatcher {
       if (created) this.extras.set(handle, created);
     });
     if (!created) {
-      throw new IncError('E_IO', `Could not watch "${path.basename(target) || target}" for changes.`, {
-        path: target,
-      });
+      throw new IncError(
+        'E_IO',
+        `Could not watch "${path.basename(target) || target}" for changes.`,
+        {
+          path: target,
+        },
+      );
     }
     return handle;
   }
@@ -353,7 +360,11 @@ export class WindowWatcher {
         const sameName = samePath(path.basename(eventPath), spec.onlyName, this.options.platform);
         if (!sameName) continue;
       }
-      if (rootGeneration !== null && event.type === 'delete' && samePath(eventPath, spec.dir, this.options.platform)) {
+      if (
+        rootGeneration !== null &&
+        event.type === 'delete' &&
+        samePath(eventPath, spec.dir, this.options.platform)
+      ) {
         rootGone = true;
       }
       changes.push({ type: event.type, path: eventPath });

@@ -28,7 +28,14 @@ const VANISHED = new Set(['ENOENT', 'ENOTDIR']);
 async function describeFile(full: string, name: string): Promise<FileEntry | null> {
   try {
     const info = await fsp.stat(full);
-    return { name, path: full, kind: 'file', isSymlink: false, size: info.size, mtimeMs: info.mtimeMs };
+    return {
+      name,
+      path: full,
+      kind: 'file',
+      isSymlink: false,
+      size: info.size,
+      mtimeMs: info.mtimeMs,
+    };
   } catch (error) {
     const code = errnoOf(error);
     if (code && VANISHED.has(code)) return null;
@@ -44,7 +51,14 @@ async function describeSymlink(full: string, name: string): Promise<FileEntry | 
       return { name, path: full, kind: 'directory', isSymlink: true, size: 0, mtimeMs: 0 };
     }
     if (info.isFile()) {
-      return { name, path: full, kind: 'file', isSymlink: true, size: info.size, mtimeMs: info.mtimeMs };
+      return {
+        name,
+        path: full,
+        kind: 'file',
+        isSymlink: true,
+        size: info.size,
+        mtimeMs: info.mtimeMs,
+      };
     }
     return null; // a link to a socket, pipe or device cannot be opened in an editor
   } catch (error) {
