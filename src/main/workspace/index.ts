@@ -1,8 +1,7 @@
 import { app } from 'electron';
 import type { Disposable, Kernel } from '../kernel';
 import { WorkspaceService, type WorkspaceEnv } from './service';
-
-const TRUST_SETTING = 'security.workspaceTrust';
+import { TRUST_SETTING, isTrustEnabled } from './trust-mode';
 
 /** Windows and macOS keep their own "recent documents" list (jump list, Dock menu). */
 function operatingSystemRecents(): WorkspaceEnv['osRecents'] {
@@ -22,16 +21,7 @@ export function register(kernel: Kernel): Disposable {
     userDataDir: kernel.info.userDataDir,
     platform: kernel.info.platform,
     logger: kernel.logger,
-    isTrustEnabled() {
-      // Read at call time: the settings slice and policy can change underneath us. The
-      // app-wide value is used on purpose, so a workspace can never switch its own trust off.
-      const policy = kernel.policy.state;
-      const enforced = policy.values[TRUST_SETTING];
-      if (policy.lockedKeys.includes(TRUST_SETTING) && typeof enforced === 'boolean') {
-        return enforced;
-      }
-      return kernel.settings.get(null, TRUST_SETTING) !== false;
-    },
+    isTrustEnabled: () => isTrustEnabled(kernel),
     notify: (windowId, info) => kernel.send(windowId, 'workspace:changed', info),
     hasWindow: (windowId) => kernel.getWindow(windowId) !== undefined,
     osRecents: operatingSystemRecents(),

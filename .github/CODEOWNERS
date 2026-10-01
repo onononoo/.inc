@@ -1,0 +1,27 @@
+# Code owners are requested for review automatically, and can be required by branch protection.
+#
+# The repository host, organisation and team names are not known yet, so no owner handle is invented
+# here. Before publishing: replace @OWNER with a real user or team (for example @your-org/platform)
+# in every rule below and remove the leading "# " from the rules. The last matching pattern wins.
+#
+# Default owner for everything
+# *                                    @OWNER
+#
+# Security-sensitive surfaces: IPC contract, kernel, policy, trust, protocol and window hardening
+# /src/shared/                         @OWNER
+# /src/main/kernel.ts                  @OWNER
+# /src/main/protocol.ts                @OWNER
+# /src/main/window.ts                  @OWNER
+# /src/main/workspace/                 @OWNER
+# /src/main/settings/                  @OWNER
+# /src/preload/                        @OWNER
+#
+# Release engineering, legal and CI
+# /scripts/                            @OWNER
+# /resources/                          @OWNER
+# /.github/                            @OWNER
+# /LICENSE                             @OWNER
+# /SECURITY.md                         @OWNER
+# /THIRD_PARTY_NOTICES.md              @OWNER
+# /docs/PACKAGING.md                   @OWNER
+# /docs/RELEASING.md                   @OWNER

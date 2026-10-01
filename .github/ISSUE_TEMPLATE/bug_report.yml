@@ -1,0 +1,63 @@
+name: Bug report
+description: Report something that does not work as documented
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a problem. Please do not report security issues here; follow SECURITY.md instead.
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened
+      description: Describe the problem and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: The smallest set of steps that shows the problem. Include the size of the repository or file if it matters.
+      placeholder: |
+        1. Open a folder ...
+        2. ...
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: .inc version
+      description: Shown under Help, About.
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - Windows
+        - macOS
+        - Linux
+    validations:
+      required: true
+  - type: input
+    id: os-version
+    attributes:
+      label: Operating system version and architecture
+      placeholder: Windows 11 23H2 x64
+  - type: dropdown
+    id: trust
+    attributes:
+      label: Workspace trust
+      description: Does the problem happen in a trusted workspace, in Restricted Mode, or both?
+      options:
+        - Trusted workspace
+        - Restricted Mode
+        - Both
+        - Not related to a workspace
+  - type: textarea
+    id: logs
+    attributes:
+      label: Diagnostics
+      description: Paste relevant lines from Help, Copy diagnostics. Remove anything confidential first.
+      render: text

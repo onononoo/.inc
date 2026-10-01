@@ -135,7 +135,8 @@ export function parseKeybindings(text: string | null, file: string): ParsedKeybi
     issues.push({
       file,
       line: 1,
-      message: 'The file must contain a list, for example [ { "key": "Mod+Shift+L", "command": "..." } ].',
+      message:
+        'The file must contain a list, for example [ { "key": "Mod+Shift+L", "command": "..." } ].',
     });
     return { entries, issues, syntaxError: true };
   }
@@ -163,7 +164,10 @@ export function parseKeybindings(text: string | null, file: string): ParsedKeybi
     }
     const chord = normalizeChord(item.key);
     if (!chord.ok) {
-      problem(`Invalid key "${item.key}" for "${command}": ${chord.reason} It was ignored.`, command);
+      problem(
+        `Invalid key "${item.key}" for "${command}": ${chord.reason} It was ignored.`,
+        command,
+      );
       continue;
     }
     if (item.when !== undefined) {

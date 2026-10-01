@@ -133,7 +133,7 @@ export const WORKBENCH_COMMANDS: CommandDef[] = [
     id: 'view.showGit',
     title: 'Show source control',
     category: 'View',
-    keybinding: { key: 'Mod+Shift+G' },
+    keybinding: { key: 'Mod+Shift+G', mac: 'Ctrl+Shift+G' },
     menu: { menu: 'View', group: '2_views', order: 3 },
   }),
   def({

@@ -110,8 +110,8 @@
   /* Interaction fills (translucent, valid on any surface) */
   --state-hover: rgba(27, 35, 48, 0.055);
   --state-active: rgba(27, 35, 48, 0.1);
-  --state-selected: rgba(27, 35, 48, 0.09);
-  --state-selected-focus: rgba(31, 95, 209, 0.14);
+  --state-selected: rgba(27, 35, 48, 0.12);
+  --state-selected-focus: rgba(31, 95, 209, 0.18);
 
   /* Borders: subtle = structure (decorative), default/strong = component edges (3:1+) */
   --border-subtle: #dbe0e6;
@@ -144,12 +144,12 @@
   --status-success-bg: #e1f3e8;
 
   /* Git decorations (muted) */
-  --git-added: #23703f;
-  --git-modified: #7d5c0e;
-  --git-deleted: #ab3b3d;
-  --git-untracked: #196d62;
-  --git-conflict: #9d491d;
-  --git-ignored: #59626f;
+  --git-added: #1f6a3a;
+  --git-modified: #775709;
+  --git-deleted: #a3373a;
+  --git-untracked: #106480;
+  --git-conflict: #964419;
+  --git-ignored: #545d6a;
 
   /* Editor */
   --editor-line-highlight: rgba(27, 35, 48, 0.045);
@@ -158,18 +158,18 @@
   --editor-cursor: #1b2330;
   --editor-gutter-fg: #66727f;
   --editor-gutter-fg-active: #1b2330;
-  --editor-indent-guide: rgba(27, 35, 48, 0.1);
-  --editor-indent-guide-active: rgba(27, 35, 48, 0.3);
+  --editor-indent-guide: rgba(27, 35, 48, 0.12);
+  --editor-indent-guide-active: rgba(27, 35, 48, 0.32);
   --editor-find-match: rgba(214, 150, 20, 0.34);
   --editor-bracket-match: rgba(31, 95, 209, 0.2);
 
   /* Syntax */
   --syntax-comment: #535f6d;
-  --syntax-keyword: #1f4fc0;
-  --syntax-string: #1a6c3f;
+  --syntax-keyword: #4f3fc2;
+  --syntax-string: #3d6b17;
   --syntax-number: #8f4d0f;
-  --syntax-function: #0b667d;
-  --syntax-type: #6a44b0;
+  --syntax-function: #09666e;
+  --syntax-type: #9a3475;
   --syntax-variable: #263041;
   --syntax-constant: #a0401d;
   --syntax-operator: #465264;
@@ -210,8 +210,10 @@
   --scrollbar-track: transparent;
   --diff-added-bg: rgba(35, 112, 63, 0.12);
   --diff-removed-bg: rgba(171, 59, 61, 0.12);
-  --minimap-slider: rgba(27, 35, 48, 0.1);
+  --minimap-slider: rgba(27, 35, 48, 0.07);
   --toggle-off: #788393;
+  --outline-selected: none;
+  --outline-hover: none;
 }
 
 /* ========================================================================
@@ -228,30 +230,30 @@
   --surface-panel: #1b2026;
   --surface-statusbar: #121519;
   --surface-raised: #232a32;
-  --surface-input: #12161a;
+  --surface-input: #1f252c;
   --surface-scrim: rgba(6, 8, 11, 0.62);
 
   --state-hover: rgba(255, 255, 255, 0.05);
   --state-active: rgba(255, 255, 255, 0.09);
-  --state-selected: rgba(148, 163, 184, 0.16);
-  --state-selected-focus: rgba(76, 141, 255, 0.24);
+  --state-selected: rgba(148, 163, 184, 0.2);
+  --state-selected-focus: rgba(80, 125, 205, 0.3);
 
   --border-subtle: #272e36;
   --border-default: #6b7583;
   --border-strong: #8994a3;
-  --border-focus: #6aa3ff;
+  --border-focus: #7ba5ee;
 
   --text-primary: #e6eaf0;
   --text-secondary: #aab4c1;
   --text-tertiary: #8b96a5;
   --text-inverse: #12161a;
-  --text-link: #7fb0ff;
-  --text-on-accent: #0a111c;
+  --text-link: #93b4ee;
+  --text-on-accent: #ffffff;
 
-  --accent: #4c8dff;
-  --accent-hover: #6aa3ff;
-  --accent-active: #3d7ae6;
-  --accent-subtle: #1b2e4f;
+  --accent: #4170cd;
+  --accent-hover: #3563b8;
+  --accent-active: #2d56a3;
+  --accent-subtle: #1c2c47;
 
   --status-error: #f28083;
   --status-warning: #e0b45a;
@@ -262,41 +264,41 @@
   --status-info-bg: #1b2d45;
   --status-success-bg: #1c3527;
 
-  --git-added: #74b98b;
+  --git-added: #86bd7a;
   --git-modified: #cbaa6a;
-  --git-deleted: #d48586;
-  --git-untracked: #62b5a5;
+  --git-deleted: #dc9293;
+  --git-untracked: #54b4c8;
   --git-conflict: #dc8b5d;
-  --git-ignored: #929ba8;
+  --git-ignored: #9ba4b0;
 
   --editor-line-highlight: rgba(255, 255, 255, 0.04);
-  --editor-selection: rgba(76, 141, 255, 0.2);
+  --editor-selection: rgba(80, 125, 205, 0.27);
   --editor-selection-inactive: rgba(255, 255, 255, 0.1);
   --editor-cursor: #e6eaf0;
   --editor-gutter-fg: #7f8b9b;
   --editor-gutter-fg-active: #d0d6de;
-  --editor-indent-guide: rgba(255, 255, 255, 0.08);
-  --editor-indent-guide-active: rgba(255, 255, 255, 0.24);
+  --editor-indent-guide: rgba(255, 255, 255, 0.12);
+  --editor-indent-guide-active: rgba(255, 255, 255, 0.22);
   --editor-find-match: rgba(224, 176, 84, 0.36);
-  --editor-bracket-match: rgba(76, 141, 255, 0.3);
+  --editor-bracket-match: rgba(80, 125, 205, 0.36);
 
-  --syntax-comment: #94a1b0;
-  --syntax-keyword: #8fb0f5;
-  --syntax-string: #8dc9a3;
-  --syntax-number: #d9a877;
-  --syntax-function: #7fc4d6;
-  --syntax-type: #b8a4e3;
+  --syntax-comment: #9aa7b6;
+  --syntax-keyword: #a9a3f5;
+  --syntax-string: #a6cb86;
+  --syntax-number: #e0a46c;
+  --syntax-function: #5cc8c8;
+  --syntax-type: #e6a0c4;
   --syntax-variable: #d5dbe3;
-  --syntax-constant: #e3a98c;
+  --syntax-constant: #ee9a8a;
   --syntax-operator: #aab4c1;
-  --syntax-punctuation: #9aa5b3;
+  --syntax-punctuation: #a0abb9;
   --syntax-tag: #79b0f2;
   --syntax-attribute: #d8b878;
 
   --terminal-bg: #1b2026;
   --terminal-fg: #d0d6de;
   --terminal-cursor: #e6eaf0;
-  --terminal-selection: rgba(76, 141, 255, 0.2);
+  --terminal-selection: rgba(80, 125, 205, 0.27);
   --ansi-black: #38414b;
   --ansi-red: #f0787c;
   --ansi-green: #7fc79a;
@@ -322,10 +324,12 @@
   --scrollbar-thumb-hover: rgba(255, 255, 255, 0.5);
   --scrollbar-thumb-active: rgba(255, 255, 255, 0.66);
   --scrollbar-track: transparent;
-  --diff-added-bg: rgba(116, 185, 139, 0.14);
+  --diff-added-bg: rgba(134, 189, 122, 0.14);
   --diff-removed-bg: rgba(212, 133, 134, 0.14);
-  --minimap-slider: rgba(255, 255, 255, 0.1);
+  --minimap-slider: rgba(255, 255, 255, 0.07);
   --toggle-off: #66717f;
+  --outline-selected: none;
+  --outline-hover: none;
 }
 
 /* ========================================================================
@@ -380,7 +384,7 @@
   --git-added: #13562e;
   --git-modified: #634600;
   --git-deleted: #911d20;
-  --git-untracked: #0c554b;
+  --git-untracked: #09506a;
   --git-conflict: #7e350f;
   --git-ignored: #434c58;
 
@@ -396,11 +400,11 @@
   --editor-bracket-match: rgba(11, 63, 168, 0.24);
 
   --syntax-comment: #46505e;
-  --syntax-keyword: #0a3694;
-  --syntax-string: #0d5c2e;
+  --syntax-keyword: #3c2ea6;
+  --syntax-string: #2f5a0e;
   --syntax-number: #7a3a00;
-  --syntax-function: #005669;
-  --syntax-type: #55309a;
+  --syntax-function: #00545c;
+  --syntax-type: #8a2a66;
   --syntax-variable: #0b0f16;
   --syntax-constant: #8a2e0d;
   --syntax-operator: #2a323e;
@@ -441,6 +445,8 @@
   --diff-removed-bg: rgba(156, 31, 34, 0.16);
   --minimap-slider: rgba(0, 0, 0, 0.14);
   --toggle-off: #3d4652;
+  --outline-selected: 1px solid var(--border-strong);
+  --outline-hover: 1px dashed var(--border-default);
 }
 
 /* ========================================================================
@@ -495,7 +501,7 @@
   --git-added: #8fd6a5;
   --git-modified: #e6c27a;
   --git-deleted: #f1a9aa;
-  --git-untracked: #7fd2c2;
+  --git-untracked: #7fcfe6;
   --git-conflict: #f3ab80;
   --git-ignored: #b4bdc9;
 
@@ -511,11 +517,11 @@
   --editor-bracket-match: rgba(111, 168, 255, 0.4);
 
   --syntax-comment: #b4bdc9;
-  --syntax-keyword: #a9c6ff;
-  --syntax-string: #a5e0b8;
+  --syntax-keyword: #c2bdff;
+  --syntax-string: #bddc9f;
   --syntax-number: #f0c090;
-  --syntax-function: #90d8ea;
-  --syntax-type: #d2c2f5;
+  --syntax-function: #86dede;
+  --syntax-type: #f2b6d3;
   --syntax-variable: #f0f3f7;
   --syntax-constant: #f5b89c;
   --syntax-operator: #d0d6de;
@@ -556,6 +562,8 @@
   --diff-removed-bg: rgba(240, 160, 162, 0.2);
   --minimap-slider: rgba(255, 255, 255, 0.2);
   --toggle-off: #b4bcc8;
+  --outline-selected: 1px solid var(--border-strong);
+  --outline-hover: 1px dashed var(--border-default);
 }
 
 /* Focus ring rule (shared): 2px solid var(--border-focus), offset 1px on

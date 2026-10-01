@@ -1,7 +1,7 @@
 import { BrowserWindow, app, ipcMain } from 'electron';
 import type { AppInfo } from '@shared/api/app';
 import { toIncError, IncError } from '@shared/errors';
-import { APP_ORIGIN, type EventChannel, type EventMap, type IpcEnvelope } from '@shared/ipc';
+import type { EventChannel, EventMap, IpcEnvelope } from '@shared/ipc';
 import type { Platform } from '@shared/paths';
 import {
   Emitter,
@@ -12,6 +12,7 @@ import {
   type Kernel,
   type Logger,
 } from './kernel';
+import { isTrustedSenderFrame } from './shell/trusted-sender';
 
 export function buildAppInfo(): AppInfo {
   return {
@@ -30,11 +31,6 @@ export function buildAppInfo(): AppInfo {
   };
 }
 
-/** IPC is only accepted from frames served by the app's own origin. */
-function isTrustedSender(url: string | undefined): boolean {
-  return typeof url === 'string' && (url === APP_ORIGIN || url.startsWith(APP_ORIGIN + '/'));
-}
-
 export function createKernel(info: AppInfo, logger: Logger): Kernel {
   const created = new Emitter<number>();
   const closed = new Emitter<number>();
@@ -49,7 +45,8 @@ export function createKernel(info: AppInfo, logger: Logger): Kernel {
 
     handle(channel, handler: Handler<typeof channel>) {
       ipcMain.handle(channel, async (event, ...args): Promise<IpcEnvelope> => {
-        if (!isTrustedSender(event.senderFrame?.url)) {
+        // Only the top-level document of the app origin may call a handler.
+        if (!isTrustedSenderFrame(event.senderFrame)) {
           logger.warn(`Rejected IPC ${channel} from untrusted frame: ${event.senderFrame?.url}`);
           return {
             ok: false,
@@ -65,7 +62,9 @@ export function createKernel(info: AppInfo, logger: Logger): Kernel {
           return { ok: true, value };
         } catch (e) {
           const err = toIncError(e);
-          logger.debug(`IPC ${channel} failed: ${err.code} ${err.message}`);
+          // Expected failures (not found, policy, cancelled) are routine; an unclassified one is a bug.
+          if (err.code === 'E_UNKNOWN') logger.error(`IPC ${channel} failed unexpectedly`, e);
+          else logger.debug(`IPC ${channel} failed: ${err.code} ${err.message}`);
           return { ok: false, error: err.toJSON() };
         }
       });

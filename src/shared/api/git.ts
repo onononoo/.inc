@@ -25,6 +25,7 @@ export type GitChangeCode = 'M' | 'A' | 'D' | 'R' | 'C' | 'T' | '?' | '!';
 export interface GitFileStatus {
   /** Absolute path. */
   path: string;
+  /** Path relative to the repository root (not the workspace folder), with forward slashes. */
   relativePath: string;
   /** Original path for renames and copies (absolute). */
   origPath?: string;
@@ -34,8 +35,14 @@ export interface GitFileStatus {
   workingTree: GitChangeCode | null;
   conflicted: boolean;
   /**
+   * Git's two-letter unmerged code (for example 'UU' both modified, 'AA' both added, 'DU' deleted
+   * by us) when `conflicted` is true. `index` and `workingTree` then describe each side as added,
+   * deleted or modified.
+   */
+  conflictCode?: string;
+  /**
    * True for an untracked folder that Git reports as a whole (its files are not listed one by
-   * one).  and  have no trailing separator.
+   * one). `path` and `relativePath` have no trailing separator.
    */
   isDirectory?: boolean;
 }
@@ -73,15 +80,25 @@ export interface GitBlob {
   binary: boolean;
   /** Decoded text with the line endings the working tree would have. Empty for binary or oversized content. */
   content: string;
-  /** Size in bytes of the stored content, when . */
+  /** Size in bytes of the stored content, when it is known. */
   size?: number;
-  /** True when the content exceeds  and was not returned. */
+  /** True when the content is larger than `GIT_BLOB_LIMIT_BYTES` and was not returned. */
   tooLarge?: boolean;
 }
 
+/** Largest blob `git:show` returns as text (8 MiB). */
+export const GIT_BLOB_LIMIT_BYTES = 8 * 1024 * 1024;
+
+/** Most changed files a status result lists; `totalChanged` still counts every one. */
+export const GIT_STATUS_FILE_LIMIT = 5000;
+
 export interface GitInvoke {
+  /** Whether Git can be used: setting `git.enabled`, then `git.path`, then PATH, then common install folders. */
   'git:detect': () => GitAvailability;
-  /** Cached status; null when the workspace is not inside a Git repository. */
+  /**
+   * Cached status; null when the workspace is not inside a Git repository (or Git is turned off).
+   * Rejects with E_GIT_MISSING when Git cannot be found.
+   */
   'git:status': () => GitStatus | null;
   /** Force a refresh now. */
   'git:refresh': () => GitStatus | null;
@@ -96,8 +113,13 @@ export interface GitInvoke {
   'git:show': (path: string, ref: 'HEAD' | 'INDEX') => GitBlob;
   'git:branches': () => GitBranch[];
   'git:checkout': (ref: string) => void;
+  /** `checkout` defaults to true: the new branch is switched to, as with `git checkout -b`. */
   'git:createBranch': (name: string, checkout?: boolean) => void;
-  /** Network operations; blocked by policy `gitRemoteOperations: false`. */
+  /**
+   * Network operations; blocked by policy `gitRemoteOperations: false` (E_POLICY). Every write
+   * operation (everything except detect, status, refresh, show, branches and log) rejects with
+   * E_UNTRUSTED in an untrusted workspace.
+   */
   'git:fetch': () => void;
   'git:pull': () => void;
   'git:push': () => void;

@@ -108,6 +108,27 @@ export function sanitizeNotice(value: string): string {
     : chars.slice(0, NOTICE_MAX_LENGTH - 1).join('') + '…';
 }
 
+/** The state when no policy applies. A fresh object, so freezing it never touches shared constants. */
+function inactivePolicy(file: string | null = null, warnings: string[] = []): PolicyState {
+  return {
+    ...EMPTY_POLICY,
+    file,
+    features: { ...DEFAULT_POLICY_FEATURES },
+    lockedKeys: [],
+    values: {},
+    warnings,
+  };
+}
+
+/** Policy is read-only for everyone who receives it: a slice cannot weaken it by accident. */
+function freezeDeep<T>(value: T): T {
+  if (typeof value === 'object' && value !== null && !Object.isFrozen(value)) {
+    for (const inner of Object.values(value)) freezeDeep(inner);
+    Object.freeze(value);
+  }
+  return value;
+}
+
 export interface PolicyParseResult {
   /** False when the document could not be parsed at all. */
   usable: boolean;
@@ -157,14 +178,9 @@ export function parsePolicy(text: string, file: string): PolicyParseResult {
   if (raw.version !== POLICY_VERSION) {
     return {
       usable: true,
-      state: {
-        ...EMPTY_POLICY,
-        features: { ...DEFAULT_POLICY_FEATURES },
-        file,
-        warnings: [
-          `The policy file ${file} has version ${JSON.stringify(raw.version ?? null)} but this version of .inc supports version ${POLICY_VERSION}. The policy is inactive.`,
-        ],
-      },
+      state: inactivePolicy(file, [
+        `The policy file ${file} has version ${JSON.stringify(raw.version ?? null)} but this version of .inc supports version ${POLICY_VERSION}. The policy is inactive.`,
+      ]),
     };
   }
 
@@ -218,7 +234,9 @@ export function parsePolicy(text: string, file: string): PolicyParseResult {
           if (typeof value === 'string' && EXTERNAL_LINK_MODES.includes(value)) {
             features.externalLinks = value as PolicyFeatures['externalLinks'];
           } else {
-            warnings.push('Feature "externalLinks" must be "allow", "prompt" or "deny", so it was ignored.');
+            warnings.push(
+              'Feature "externalLinks" must be "allow", "prompt" or "deny", so it was ignored.',
+            );
           }
         } else {
           warnings.push(`Unknown feature "${name}" was ignored.`);
@@ -259,7 +277,7 @@ export interface PolicyServiceOptions {
 }
 
 export class PolicyService implements PolicyHost {
-  private current: PolicyState = { ...EMPTY_POLICY, features: { ...DEFAULT_POLICY_FEATURES } };
+  private current: PolicyState = freezeDeep(inactivePolicy());
   private lastGood: PolicyState | null = null;
   private signature = '';
   private readonly emitter = new Emitter<PolicyState>();
@@ -311,20 +329,20 @@ export class PolicyService implements PolicyHost {
     const read = readConfigText(file);
     if (read.kind === 'missing') {
       this.lastGood = null;
-      this.current = { ...EMPTY_POLICY, features: { ...DEFAULT_POLICY_FEATURES } };
+      this.current = freezeDeep(inactivePolicy());
       return;
     }
     if (read.kind === 'error') {
-      this.current = this.fallback(read.message);
+      this.current = freezeDeep(this.fallback(read.message));
       return;
     }
     const parsed = parsePolicy(read.text, file);
     if (!parsed.usable) {
-      this.current = this.fallback(parsed.reason ?? 'Unknown error.');
+      this.current = freezeDeep(this.fallback(parsed.reason ?? 'Unknown error.'));
       return;
     }
-    this.lastGood = parsed.state;
-    this.current = parsed.state;
+    this.lastGood = freezeDeep(parsed.state);
+    this.current = this.lastGood;
   }
 
   private fallback(reason: string): PolicyState {

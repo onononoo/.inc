@@ -7,7 +7,7 @@ const cache = new Map<string, GlobTest>();
 const CACHE_LIMIT = 16;
 
 function normalisePattern(pattern: string): string {
-  let p = pattern.trim().replace(/\/g, '/');
+  let p = pattern.trim().replace(/\\/g, '/');
   while (p.startsWith('./')) p = p.slice(2);
   while (p.length > 1 && p.endsWith('/')) p = p.slice(0, -1);
   return p;
@@ -84,4 +84,9 @@ export class ExcludeFilter {
     if (slash !== -1 && this.isDirExcluded(rel.slice(0, slash))) return true;
     return this.test(rel);
   }
+}
+
+/** Whether a single entry (not the folders above it) matches the exclude globs. */
+export function isEntryExcluded(test: GlobTest, rel: string, isDirectory: boolean): boolean {
+  return test(rel) || (isDirectory && test(rel + '/'));
 }

@@ -1,4 +1,5 @@
 import { EDITOR_COMMANDS } from './editor';
+import { PALETTE_COMMANDS } from './palette';
 import { PLATFORM_COMMANDS } from './platform';
 import { SIDEBAR_COMMANDS } from './sidebar';
 import type { CommandDef } from './types';
@@ -14,6 +15,7 @@ export type { CommandDef, KeybindingDef, MenuPlacement } from './types';
  */
 export const COMMANDS: readonly CommandDef[] = [
   ...WORKBENCH_COMMANDS,
+  ...PALETTE_COMMANDS,
   ...EDITOR_COMMANDS,
   ...SIDEBAR_COMMANDS,
   ...PLATFORM_COMMANDS,

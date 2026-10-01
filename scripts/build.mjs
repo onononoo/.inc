@@ -29,6 +29,10 @@ const pkg = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'));
 // Modules with native binaries stay external and are resolved from node_modules at runtime.
 const nativeExternals = ['electron', 'node-pty', '@parcel/watcher'];
 
+// esbuild prefers a package's CommonJS `main` on the node platform. Some packages (jsonc-parser) ship a UMD
+// `main` whose internal requires cannot be bundled and fail at runtime, so prefer the ES module build.
+const nodeMainFields = ['module', 'main'];
+
 const common = {
   bundle: true,
   sourcemap: production ? false : 'linked',
@@ -67,6 +71,7 @@ const configs = [
     entryPoints: { 'main/index': 'src/main/index.ts' },
     outdir: outDir,
     platform: 'node',
+    mainFields: nodeMainFields,
     format: 'cjs',
     target: 'node24',
     external: nativeExternals,
@@ -81,6 +86,7 @@ const configs = [
           ),
           outdir: outDir,
           platform: 'node',
+          mainFields: nodeMainFields,
           format: 'cjs',
           target: 'node24',
           external: nativeExternals,
@@ -93,6 +99,7 @@ const configs = [
     entryPoints: { 'preload/index': 'src/preload/index.ts' },
     outdir: outDir,
     platform: 'node',
+    mainFields: nodeMainFields,
     format: 'cjs',
     target: 'node24',
     external: ['electron'],

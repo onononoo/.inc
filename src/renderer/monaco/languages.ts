@@ -410,6 +410,60 @@ export const MAKEFILE_TOKENIZER: Monaco.languages.IMonarchLanguage = {
   },
 };
 
+/**
+ * JSON with comments. Token names carry the `.json` postfix so the themes' JSON rules
+ * (`string.key.json`, `string.value.json`, ...) colour it exactly like strict JSON.
+ */
+export const JSONC_TOKENIZER: Monaco.languages.IMonarchLanguage = {
+  defaultToken: '',
+  tokenPostfix: '.json',
+  escapes: /\\(?:["\\/bfnrt]|u[0-9A-Fa-f]{4})/,
+  tokenizer: {
+    root: [
+      [/"(?:[^"\\]|\\.)*"(?=\s*:)/, 'string.key'],
+      [/"/, { token: 'string.value', next: '@string' }],
+      [/-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?/, 'number'],
+      [/\b(?:true|false|null)\b/, 'keyword'],
+      [/\/\/.*$/, 'comment'],
+      [/\/\*/, { token: 'comment', next: '@comment' }],
+      [/[{}]/, 'delimiter.bracket'],
+      [/[[\]]/, 'delimiter.array'],
+      [/:/, 'delimiter.colon'],
+      [/,/, 'delimiter.comma'],
+    ],
+    string: [
+      [/[^\\"]+/, 'string.value'],
+      [/@escapes/, 'string.escape'],
+      [/\\./, 'string.escape.invalid'],
+      [/"/, { token: 'string.value', next: '@pop' }],
+    ],
+    comment: [
+      [/[^/*]+/, 'comment'],
+      [/\*\//, { token: 'comment', next: '@pop' }],
+      [/[/*]/, 'comment'],
+    ],
+  },
+};
+
+const JSONC_CONFIGURATION: Monaco.languages.LanguageConfiguration = {
+  comments: { lineComment: '//', blockComment: ['/*', '*/'] },
+  brackets: [
+    ['{', '}'],
+    ['[', ']'],
+  ],
+  autoClosingPairs: [
+    { open: '{', close: '}', notIn: ['string'] },
+    { open: '[', close: ']', notIn: ['string'] },
+    { open: '"', close: '"', notIn: ['string'] },
+  ],
+  surroundingPairs: [
+    { open: '{', close: '}' },
+    { open: '[', close: ']' },
+    { open: '"', close: '"' },
+  ],
+  folding: { offSide: false },
+};
+
 const HASH_COMMENT_CONFIGURATION: Monaco.languages.LanguageConfiguration = {
   comments: { lineComment: '#' },
   brackets: [
@@ -435,7 +489,8 @@ const HASH_COMMENT_CONFIGURATION: Monaco.languages.LanguageConfiguration = {
 
 /**
  * Register the language ids Monaco does not ship, with their tokenizers and editing
- * configuration. `jsonc` gets its language service in `monaco/setup.ts`.
+ * configuration. `jsonc` has no language service; its syntax errors are reported by
+ * `editor/jsonc-markers.ts`.
  */
 export function registerExtraLanguages(api: typeof Monaco.languages): void {
   const registered = new Set(api.getLanguages().map((l) => l.id));
@@ -451,6 +506,10 @@ export function registerExtraLanguages(api: typeof Monaco.languages): void {
       filenamePatterns: assoc.filenamePatterns ? [...assoc.filenamePatterns] : [],
       ...(assoc.firstLine ? { firstLine: assoc.firstLine } : {}),
     });
+  }
+  if (missing.includes('jsonc')) {
+    api.setMonarchTokensProvider('jsonc', JSONC_TOKENIZER);
+    api.setLanguageConfiguration('jsonc', JSONC_CONFIGURATION);
   }
   if (missing.includes('toml')) {
     api.setMonarchTokensProvider('toml', TOML_TOKENIZER);

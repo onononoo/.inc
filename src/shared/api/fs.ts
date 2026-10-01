@@ -64,6 +64,12 @@ export interface WriteFileResult {
 export interface FsChange {
   type: 'create' | 'update' | 'delete';
   path: string;
+  /**
+   * Set on a single change (always `type: 'update'`, `path` = the workspace root) that replaces a
+   * batch too large to list, or that follows a watcher restart. Everything below `path` may have
+   * changed: refresh instead of patching.
+   */
+  resync?: boolean;
 }
 
 export interface FileSearchItem {
@@ -100,7 +106,16 @@ export interface FsInvoke {
   'fs:stat': (path: string) => FileStat;
   'fs:exists': (path: string) => boolean;
   'fs:readFile': (path: string, options?: ReadFileOptions) => ReadFileResult;
+  /**
+   * Raw bytes of a file, for previews and binary viewers. Fails with E_TOO_LARGE (without reading
+   * the file) when it is bigger than `maxBytes` (default 32 MiB, never more than 256 MiB).
+   */
   'fs:readBytes': (path: string, maxBytes?: number) => Uint8Array;
+  /**
+   * Atomic save (temporary file in the same folder, then rename). Writes through symbolic links and
+   * keeps the file mode. Without `options.encoding` an existing file keeps its byte order mark and
+   * a new file is UTF-8.
+   */
   'fs:writeFile': (path: string, content: string, options?: WriteFileOptions) => WriteFileResult;
   'fs:createFile': (path: string) => FileStat;
   'fs:createDir': (path: string) => FileStat;

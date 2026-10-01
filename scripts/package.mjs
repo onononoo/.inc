@@ -120,6 +120,16 @@ export function watcherBinaryName(target, libc = 'glibc') {
   return target.platform === 'linux' ? `${base}-${libc}` : base;
 }
 
+/**
+ * C library family of the target. Linux builds of @parcel/watcher exist for glibc and musl; a build
+ * for this very machine uses what this machine runs, anything else assumes glibc.
+ */
+export function targetLibc(target, hostPlatform = process.platform) {
+  if (target.platform !== 'linux') return undefined;
+  if (hostPlatform !== 'linux' || target.arch !== process.arch) return 'glibc';
+  return process.report?.getReport().header.glibcVersionRuntime ? 'glibc' : 'musl';
+}
+
 function run(command, args, options = {}) {
   return new Promise((resolve, reject) => {
     const child = spawn(command, args, { stdio: 'inherit', cwd: root, ...options });
@@ -153,8 +163,9 @@ const mib = (bytes) => `${(bytes / 1024 / 1024).toFixed(1)} MiB`;
 
 /** Copy the production runtime dependencies into the built app and declare them in its manifest. */
 async function stageRuntimeDependencies(appDir, target, rootDependencies) {
-  const packages = await resolveRuntimePackages(root, target);
-  const wanted = watcherBinaryName(target);
+  const libc = targetLibc(target);
+  const packages = await resolveRuntimePackages(root, { ...target, libc });
+  const wanted = watcherBinaryName(target, libc);
   const missing = packages.filter((p) => p.platformBinary && p.name === wanted && !p.dir);
   if (missing.length > 0) {
     throw new Error(

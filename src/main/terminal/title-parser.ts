@@ -8,6 +8,7 @@ const MAX_TITLE = 256;
 /** Longest unterminated sequence that is kept while waiting for the rest. */
 const MAX_PENDING = 1_024;
 
+// eslint-disable-next-line no-control-regex
 const OSC = /\u001b\](?:0|2);([^\u0007\u001b]*)(?:\u0007|\u001b\\)/g;
 const OSC_START = '\u001b]';
 // eslint-disable-next-line no-control-regex

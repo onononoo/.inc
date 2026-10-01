@@ -110,7 +110,10 @@ function validateLayer(
     const def = SETTINGS[key];
     const result = validateSetting(key, entry.value);
     if (!result.ok) {
-      issues.push({ ...at, message: `Invalid value for "${key}": ${result.reason} It was ignored.` });
+      issues.push({
+        ...at,
+        message: `Invalid value for "${key}": ${result.reason} It was ignored.`,
+      });
       continue;
     }
     if (kind === 'workspace') {

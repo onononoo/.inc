@@ -32,6 +32,7 @@ export interface DiagnosticsInput {
   settingSources: Record<'default' | 'user' | 'workspace' | 'policy', number> | null;
   settingIssueCount: number | null;
   blockedNetworkRequests: number;
+  blockedNavigations: number;
   userDataDir: string;
   logDir: string;
   windowCount: number;
@@ -46,7 +47,7 @@ function escapeRegExp(text: string): string {
 /**
  * Replace the home directory with "~" in every spelling it can appear in (native, forward
  * slashes, JSON-escaped backslashes), case-insensitively so Windows drive letters and folder
- * case do not matter. Only whole path segments match, so "/home/al" does not mask "/home/alice".
+ * case do not matter. Only whole path segments match, so "/home/al" does not mask "/home/alice" and "/mnt/home/al" is left alone.
  */
 export function maskHomeDirectory(text: string, homeDir: string): string {
   const trimmed = homeDir.replace(/[\\/]+$/, '');
@@ -61,7 +62,10 @@ export function maskHomeDirectory(text: string, homeDir: string): string {
     .sort((a, b) => b.length - a.length)
     .map(escapeRegExp)
     .join('|');
-  const pattern = new RegExp(`(?:${alternatives})(?![\\p{L}\\p{N}_.-])`, 'giu');
+  const pattern = new RegExp(
+    `(?<![\\p{L}\\p{N}_.-])(?:${alternatives})(?![\\p{L}\\p{N}_.-])`,
+    'giu',
+  );
   return text.replace(pattern, '~');
 }
 
@@ -121,6 +125,7 @@ export function buildDiagnostics(input: DiagnosticsInput): string {
   add();
   add('Network');
   add(`  Blocked requests: ${input.blockedNetworkRequests}`);
+  add(`  Blocked navigations: ${input.blockedNavigations}`);
   add();
   add('Storage');
   add(`  User data: ${input.userDataDir}`);

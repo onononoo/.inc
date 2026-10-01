@@ -1,0 +1,39 @@
+name: Feature request
+description: Suggest an improvement
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What are you trying to do, and what gets in the way? Describe the situation, not the solution.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behaviour
+      description: How should .inc behave? Mention keyboard access, settings and administrator policy if they apply.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Constraints
+      description: .inc does not send data off the device and does not make network requests.
+      options:
+        - label: This proposal works without network access and without telemetry.
+          required: true
+  - type: dropdown
+    id: scale
+    attributes:
+      label: Scale
+      description: Does the feature need to work in very large repositories?
+      options:
+        - Not relevant
+        - Repositories with 100,000 files or more
+        - Repositories with 1,000,000 files or more
